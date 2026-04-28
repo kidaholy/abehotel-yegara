@@ -1,9 +1,7 @@
 import { NextResponse } from "next/server"
-import { connectDB } from "@/lib/db"
-import Order from "@/lib/models/order"
-import MenuItem from "@/lib/models/menu-item"
-import Stock from "@/lib/models/stock"
+import { connectDB, prisma } from "@/lib/db"
 import { validateSession } from "@/lib/auth"
+import { calculateStockConsumption, applyStockAdjustment } from "@/lib/stock-logic"
 
 // POST process order with real-time stock validation and deduction
 export async function POST(request: Request) {
@@ -19,39 +17,60 @@ export async function POST(request: Request) {
 
         // Step 1: Validate all menu items and check stock availability
         const validationResults: any[] = []
-        const menuItemsData: any[] = []
+
+        const menuIds = orderItems.map((i: any) => i.menuId)
+        const menuItems = await prisma.menuItem.findMany({
+            where: { menuId: { in: menuIds } },
+            include: { recipe: true },
+        })
+        const menuByMenuId = new Map(menuItems.map((m) => [m.menuId, m]))
 
         for (const orderItem of orderItems) {
-            const menuItem = await MenuItem.findOne({ menuId: orderItem.menuId }).populate('recipe.stockItemId')
-
+            const menuItem: any = menuByMenuId.get(orderItem.menuId)
             if (!menuItem) {
-                return NextResponse.json({
-                    message: `Menu item ${orderItem.menuId} not found`,
-                    type: "validation_error"
-                }, { status: 400 })
+                return NextResponse.json({ message: `Menu item ${orderItem.menuId} not found`, type: "validation_error" }, { status: 400 })
             }
 
-            // Check if menu item can be prepared with current stock
-            const availability = await menuItem.canBePrepared(orderItem.quantity)
+            const missingIngredients: string[] = []
 
-            if (!availability.available) {
+            if (menuItem.recipe && menuItem.recipe.length > 0) {
+                const stockIds = menuItem.recipe.map((r: any) => r.stockItemId)
+                const stocks = await prisma.stock.findMany({
+                    where: { id: { in: stockIds } },
+                    select: { id: true, name: true, quantity: true, unit: true, trackQuantity: true, status: true },
+                })
+                const stockMap = new Map(stocks.map((s) => [s.id, s]))
+
+                for (const ing of menuItem.recipe) {
+                    const s = stockMap.get(ing.stockItemId)
+                    const required = (ing.quantityRequired || 0) * (orderItem.quantity || 0)
+                    if (s && s.trackQuantity) {
+                        if ((s.quantity || 0) < required || s.status !== "active") {
+                            missingIngredients.push(`${s.name} (need ${required} ${s.unit})`)
+                        }
+                    }
+                }
+            } else if (menuItem.stockItemId && (menuItem.reportQuantity || 0) > 0) {
+                const s = await prisma.stock.findUnique({
+                    where: { id: menuItem.stockItemId },
+                    select: { name: true, quantity: true, unit: true, trackQuantity: true, status: true },
+                })
+                const required = (menuItem.reportQuantity || 0) * (orderItem.quantity || 0)
+                if (s && s.trackQuantity) {
+                    if ((s.quantity || 0) < required || s.status !== "active") {
+                        missingIngredients.push(`${s.name} (need ${required} ${s.unit})`)
+                    }
+                }
+            }
+
+            if (missingIngredients.length > 0) {
                 return NextResponse.json({
                     message: `Cannot prepare ${menuItem.name}`,
-                    details: availability.missingIngredients,
+                    details: missingIngredients,
                     type: "stock_unavailable",
-                    unavailableItem: {
-                        menuId: orderItem.menuId,
-                        name: menuItem.name,
-                        missingIngredients: availability.missingIngredients
-                    }
-                }, { status: 409 }) // 409 Conflict for stock issues
+                    unavailableItem: { menuId: orderItem.menuId, name: menuItem.name, missingIngredients }
+                }, { status: 409 })
             }
-
-            menuItemsData.push({
-                orderItem,
-                menuItem,
-                availability
-            })
 
             validationResults.push({
                 menuId: orderItem.menuId,
@@ -66,83 +85,67 @@ export async function POST(request: Request) {
         // Step 2: Generate order number
         const today = new Date()
         const dateStr = today.toISOString().split('T')[0].replace(/-/g, '')
-        const orderCount = await Order.countDocuments({
-            createdAt: {
-                $gte: new Date(today.getFullYear(), today.getMonth(), today.getDate()),
-                $lt: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1)
+        const orderCount = await prisma.order.count({
+            where: {
+                createdAt: {
+                    gte: new Date(today.getFullYear(), today.getMonth(), today.getDate()),
+                    lt: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1),
+                }
             }
         })
         const orderNumber = `ORD-${dateStr}-${String(orderCount + 1).padStart(3, '0')}`
 
         // Step 3: Create order object
-        const orderData = {
+        const orderData: any = {
             orderNumber,
-            items: orderItems.map((item: any, index: number) => ({
-                menuItemId: menuItemsData[index].menuItem._id.toString(),
-                menuId: item.menuId,
-                name: menuItemsData[index].menuItem.name,
-                quantity: item.quantity,
-                price: menuItemsData[index].menuItem.price,
-                status: "pending",
-                modifiers: item.modifiers || [],
-                notes: item.notes || ""
-            })),
-            totalAmount: orderItems.reduce((sum: number, item: any, index: number) =>
-                sum + (menuItemsData[index].menuItem.price * item.quantity), 0
-            ),
+            items: {
+                create: orderItems.map((item: any) => {
+                    const m: any = menuByMenuId.get(item.menuId)
+                    return {
+                        menuItemId: m?.id,
+                        menuId: item.menuId,
+                        name: m?.name || item.menuId,
+                        quantity: item.quantity,
+                        price: m?.price || 0,
+                        status: "pending",
+                        modifiers: item.modifiers || [],
+                        notes: item.notes || "",
+                        category: m?.category,
+                        mainCategory: m?.mainCategory,
+                        menuTier: m?.tier,
+                    }
+                })
+            },
+            totalAmount: orderItems.reduce((sum: number, item: any) => {
+                const m: any = menuByMenuId.get(item.menuId)
+                return sum + ((m?.price || 0) * item.quantity)
+            }, 0),
             status: "pending",
             paymentMethod: paymentMethod || "cash",
             customerName: customerName || "",
             tableNumber: tableNumber.toString(),
-            createdBy: decoded.id
+            createdById: decoded.id
         }
 
         // Step 4: Create the order first
-        const newOrder = new Order(orderData)
-        await newOrder.save()
+        const newOrder = await prisma.order.create({
+            data: orderData,
+            include: { items: true }
+        })
 
         console.log(`📝 Order ${orderNumber} created successfully`)
 
-        // Step 5: Consume stock for each menu item
-        const stockConsumptionLog: any[] = []
-
-        for (const { orderItem, menuItem } of menuItemsData) {
-            const consumptionResult = await menuItem.consumeIngredients(orderItem.quantity)
-
-            if (!consumptionResult.success) {
-                // If stock consumption fails, we need to rollback the order
-                await Order.findByIdAndDelete(newOrder._id)
-
-                console.error(`❌ Stock consumption failed for ${menuItem.name}:`, consumptionResult.errors)
-
-                return NextResponse.json({
-                    message: `Stock consumption failed for ${menuItem.name}`,
-                    details: consumptionResult.errors,
-                    type: "stock_consumption_error"
-                }, { status: 500 })
-            }
-
-            stockConsumptionLog.push({
-                menuItem: menuItem.name,
-                quantity: orderItem.quantity,
-                ingredientsConsumed: menuItem.recipe.map((ingredient: any) => ({
-                    name: ingredient.stockItemName,
-                    consumed: ingredient.quantityRequired * orderItem.quantity,
-                    unit: ingredient.unit
-                }))
-            })
-        }
-
-        console.log(`🔄 Stock consumed successfully for order ${orderNumber}:`, stockConsumptionLog)
+        // Step 5: Deduct stock using shared logic
+        const stockConsumptionMap = await calculateStockConsumption(newOrder.items)
+        await applyStockAdjustment(stockConsumptionMap, -1)
 
         // Step 6: Return success response with order details and stock consumption log
         const response = {
             success: true,
             order: {
-                ...newOrder.toObject(),
-                _id: newOrder._id.toString()
+                ...newOrder,
+                _id: newOrder.id
             },
-            stockConsumption: stockConsumptionLog,
             validation: validationResults,
             message: `Order ${orderNumber} processed successfully. Stock has been deducted.`
         }
@@ -175,7 +178,10 @@ export async function GET(request: Request) {
             const menuId = menuIds[i]
             const quantity = quantities[i] || 1
 
-            const menuItem = await MenuItem.findOne({ menuId })
+            const menuItem: any = await prisma.menuItem.findUnique({
+                where: { menuId },
+                include: { recipe: true },
+            })
             if (!menuItem) {
                 availabilityCheck.push({
                     menuId,
@@ -185,12 +191,30 @@ export async function GET(request: Request) {
                 continue
             }
 
-            const availability = await menuItem.canBePrepared(quantity)
+            const missingIngredients: string[] = []
+            if (menuItem.recipe && menuItem.recipe.length > 0) {
+                const stockIds = menuItem.recipe.map((r: any) => r.stockItemId)
+                const stocks = await prisma.stock.findMany({
+                    where: { id: { in: stockIds } },
+                    select: { id: true, name: true, quantity: true, unit: true, trackQuantity: true, status: true },
+                })
+                const stockMap = new Map(stocks.map((s) => [s.id, s]))
+                for (const ing of menuItem.recipe) {
+                    const s = stockMap.get(ing.stockItemId)
+                    const required = (ing.quantityRequired || 0) * quantity
+                    if (s && s.trackQuantity) {
+                        if ((s.quantity || 0) < required || s.status !== "active") {
+                            missingIngredients.push(`${s.name} (need ${required} ${s.unit})`)
+                        }
+                    }
+                }
+            }
+
             availabilityCheck.push({
                 menuId,
                 name: menuItem.name,
-                available: availability.available,
-                missingIngredients: availability.missingIngredients,
+                available: missingIngredients.length === 0,
+                missingIngredients,
                 requestedQuantity: quantity
             })
         }

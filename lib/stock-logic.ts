@@ -1,8 +1,4 @@
-import MenuItem from "./models/menu-item"
-import Vip1MenuItem from "./models/vip1-menu-item"
-import Vip2MenuItem from "./models/vip2-menu-item"
-import Stock from "./models/stock"
-import mongoose from "mongoose"
+import { prisma } from "@/lib/db"
 
 /**
  * Calculates the total stock consumption for a list of order items.
@@ -12,34 +8,38 @@ export async function calculateStockConsumption(items: any[]) {
     const stockConsumptionMap = new Map<string, number>()
     const menuItemIds = items.map(i => i.menuItemId)
     
-    // Fetch from all collections
-    const [standardItems, vip1Items, vip2Items] = await Promise.all([
-        MenuItem.find({ _id: { $in: menuItemIds } }).populate('stockItemId').lean(),
-        (Vip1MenuItem as any).find({ _id: { $in: menuItemIds } }).lean(),
-        (Vip2MenuItem as any).find({ _id: { $in: menuItemIds } }).lean()
-    ])
-
-    const linkedMenuItems = [...standardItems, ...vip1Items, ...vip2Items]
+    const linkedMenuItems = await prisma.menuItem.findMany({
+        where: { id: { in: menuItemIds } },
+        select: {
+            id: true,
+            stockItemId: true,
+            reportQuantity: true,
+            recipe: {
+                select: {
+                    stockItemId: true,
+                    quantityRequired: true,
+                }
+            },
+            stockItem: { select: { id: true } }
+        }
+    })
 
     for (const orderItem of items) {
-        const menuData = linkedMenuItems.find(m => m._id.toString() === orderItem.menuItemId)
+        const menuData = linkedMenuItems.find(m => m.id === orderItem.menuItemId)
         if (!menuData) continue
 
         // 1. Check Recipe System (Priority)
         if (menuData.recipe && menuData.recipe.length > 0) {
             for (const ingredient of menuData.recipe) {
-                if (ingredient.stockItemId) {
-                    const stockId = ingredient.stockItemId.toString()
-                    // Handle both field names: 'quantityRequired' (MenuItem) and 'quantity' (VIP items)
-                    const perItemQuantity = ingredient.quantityRequired ?? (ingredient as any).quantity ?? 0
-                    const consumptionAmount = perItemQuantity * orderItem.quantity
-                    stockConsumptionMap.set(stockId, (stockConsumptionMap.get(stockId) || 0) + consumptionAmount)
-                }
+                const stockId = ingredient.stockItemId
+                const perItemQuantity = ingredient.quantityRequired ?? 0
+                const consumptionAmount = perItemQuantity * orderItem.quantity
+                stockConsumptionMap.set(stockId, (stockConsumptionMap.get(stockId) || 0) + consumptionAmount)
             }
         }
         // 2. Fallback to Legacy System
-        else if (menuData.stockItemId && menuData.reportQuantity > 0) {
-            const stockId = (menuData.stockItemId as any)._id.toString()
+        else if (menuData.stockItemId && (menuData.reportQuantity || 0) > 0) {
+            const stockId = menuData.stockItemId
             const consumptionAmount = menuData.reportQuantity * orderItem.quantity
             stockConsumptionMap.set(stockId, (stockConsumptionMap.get(stockId) || 0) + consumptionAmount)
         }
@@ -57,16 +57,25 @@ export async function applyStockAdjustment(consumptionMap: Map<string, number>, 
     if (consumptionMap.size === 0) return []
 
     const stockIds = Array.from(consumptionMap.keys())
-    const stockItems = await Stock.find({ _id: { $in: stockIds } })
+    const stockItems = await prisma.stock.findMany({
+        where: { id: { in: stockIds } },
+        select: {
+            id: true,
+            name: true,
+            quantity: true,
+            totalConsumed: true,
+            status: true,
+            trackQuantity: true,
+        }
+    })
 
-    const bulkOps = []
-    const results = []
+    const updates: any[] = []
+    const results: any[] = []
 
     for (const stockItem of stockItems) {
         if (!stockItem.trackQuantity) continue
 
-        const stockId = stockItem._id.toString()
-        const amount = consumptionMap.get(stockId) || 0
+        const amount = consumptionMap.get(stockItem.id) || 0
         const change = amount * direction
 
         const oldQuantity = stockItem.quantity || 0
@@ -75,25 +84,23 @@ export async function applyStockAdjustment(consumptionMap: Map<string, number>, 
         const totalConsumedChange = direction === -1 ? amount : -amount
         const newTotalConsumed = Math.max(0, (stockItem.totalConsumed || 0) + totalConsumedChange)
 
-        let newStatus = stockItem.status
-        if (newQuantity > 0 && (stockItem.status === 'finished' || stockItem.status === 'out_of_stock')) {
-            newStatus = 'active'
-        } else if (newQuantity === 0 && stockItem.status !== 'out_of_stock' && stockItem.status !== 'finished') {
-            newStatus = 'out_of_stock'
+        let newStatus: any = stockItem.status
+        if (newQuantity > 0 && (stockItem.status === "finished" || stockItem.status === "out_of_stock")) {
+            newStatus = "active"
+        } else if (newQuantity === 0 && stockItem.status !== "out_of_stock" && stockItem.status !== "finished") {
+            newStatus = "out_of_stock"
         }
 
-        bulkOps.push({
-            updateOne: {
-                filter: { _id: stockItem._id },
-                update: {
-                    $set: {
-                        quantity: newQuantity,
-                        totalConsumed: newTotalConsumed,
-                        status: newStatus
-                    }
-                }
-            }
-        })
+        updates.push(
+            prisma.stock.update({
+                where: { id: stockItem.id },
+                data: {
+                    quantity: newQuantity,
+                    totalConsumed: newTotalConsumed,
+                    status: newStatus,
+                },
+            }),
+        )
 
         results.push({
             name: stockItem.name,
@@ -103,8 +110,8 @@ export async function applyStockAdjustment(consumptionMap: Map<string, number>, 
         })
     }
 
-    if (bulkOps.length > 0) {
-        await Stock.bulkWrite(bulkOps)
+    if (updates.length > 0) {
+        await prisma.$transaction(updates)
     }
 
     return results

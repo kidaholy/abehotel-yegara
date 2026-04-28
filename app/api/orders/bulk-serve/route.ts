@@ -1,8 +1,5 @@
 import { NextResponse } from "next/server"
-import { connectDB } from "@/lib/db"
-import Order from "@/lib/models/order"
-import MenuItem from "@/lib/models/menu-item"
-import Settings from "@/lib/models/settings"
+import { connectDB, prisma } from "@/lib/db"
 import { addNotification } from "@/lib/notifications"
 import { validateSession } from "@/lib/auth"
 
@@ -19,13 +16,16 @@ export async function POST(request: Request) {
         const now = new Date()
 
         // Get the global threshold setting
-        const thresholdSetting = await (Settings as any).findOne({ key: "PREPARATION_TIME_THRESHOLD" })
+        const thresholdSetting = await prisma.settings.findUnique({ where: { key: "PREPARATION_TIME_THRESHOLD" } })
         const globalFallback = thresholdSetting ? parseInt(thresholdSetting.value) : 20
 
         // Find all active (non-deleted, non-served, non-cancelled) orders
-        const activeOrders = await (Order as any).find({
-            isDeleted: { $ne: true },
-            status: { $nin: ["served", "completed", "cancelled"] }
+        const activeOrders = await prisma.order.findMany({
+            where: {
+                isDeleted: false,
+                status: { notIn: ["served", "completed", "cancelled"] },
+            },
+            include: { items: true },
         })
 
         if (activeOrders.length === 0) {
@@ -34,42 +34,48 @@ export async function POST(request: Request) {
 
         let servedCount = 0
 
+        const updates: any[] = []
+
         for (const order of activeOrders) {
-            const previousStatus = order.status
-
-            order.status = "served"
-            order.items.forEach((item: any) => {
-                item.status = "served"
-            })
-
-            // Set timestamps
-            order.servedAt = now
             const createdAt = new Date(order.createdAt)
             const durationMs = now.getTime() - createdAt.getTime()
             const totalMinutes = Math.floor(durationMs / 60000)
-            order.totalPreparationTime = totalMinutes
 
-            // Calculate threshold
             let dynamicThreshold = order.thresholdMinutes
             if (!dynamicThreshold) {
-                const isValidObjectId = (id: any) =>
-                    id && typeof id === 'string' && /^[a-fA-F0-9]{24}$/.test(id)
-                const menuItemIds = order.items
-                    .map((item: any) => item.menuItemId)
-                    .filter(isValidObjectId)
-                const menuItems = menuItemIds.length > 0
-                    ? await (MenuItem as any).find({ _id: { $in: menuItemIds } }).lean()
+                const menuItemIds = order.items.map((i: any) => i.menuItemId).filter(Boolean)
+                const menuItems = menuItemIds.length
+                    ? await prisma.menuItem.findMany({
+                        where: { id: { in: menuItemIds } },
+                        select: { preparationTime: true },
+                    })
                     : []
-                const itemPrepTimes = menuItems.map((mi: any) => (mi as any).preparationTime || 0)
+                const itemPrepTimes = menuItems.map((mi) => mi.preparationTime || 0)
                 const maxPrepTime = itemPrepTimes.length > 0 ? Math.max(...itemPrepTimes) : 0
                 dynamicThreshold = maxPrepTime > 0 ? maxPrepTime : globalFallback
-                order.thresholdMinutes = dynamicThreshold
             }
 
-            const excessDelay = Math.max(0, totalMinutes - dynamicThreshold)
-            order.delayMinutes = excessDelay
+            const excessDelay = Math.max(0, totalMinutes - (dynamicThreshold || globalFallback))
 
-            await order.save()
+            updates.push(
+                prisma.order.update({
+                    where: { id: order.id },
+                    data: {
+                        status: "served",
+                        servedAt: now,
+                        totalPreparationTime: totalMinutes,
+                        thresholdMinutes: dynamicThreshold,
+                        delayMinutes: excessDelay,
+                        items: {
+                            updateMany: {
+                                where: { orderId: order.id },
+                                data: { status: "served" },
+                            },
+                        },
+                    },
+                }),
+            )
+
             servedCount++
 
             addNotification(
@@ -78,6 +84,8 @@ export async function POST(request: Request) {
                 "admin"
             )
         }
+
+        await prisma.$transaction(updates)
 
         addNotification(
             "info",

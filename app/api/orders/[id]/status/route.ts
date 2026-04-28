@@ -1,9 +1,5 @@
 import { NextResponse } from "next/server"
-import { connectDB } from "@/lib/db"
-import Order from "@/lib/models/order"
-import User from "@/lib/models/user"
-import MenuItem from "@/lib/models/menu-item"
-import Settings from "@/lib/models/settings"
+import { connectDB, prisma } from "@/lib/db"
 import { addNotification } from "@/lib/notifications"
 import { calculateStockConsumption, applyStockAdjustment } from "@/lib/stock-logic"
 import { validateSession } from "@/lib/auth"
@@ -31,29 +27,40 @@ async function handleStatusUpdate(request: Request, context: any) {
       return NextResponse.json({ message: "Forbidden - Admin access required" }, { status: 403 })
     }
 
-    const orderToUpdate = await Order.findById(params.id)
+    const orderToUpdate = await prisma.order.findUnique({
+      where: { id: params.id },
+      include: { items: true },
+    })
     if (!orderToUpdate) {
       return NextResponse.json({ message: "Order not found" }, { status: 404 })
     }
 
     const previousStatus = orderToUpdate.status
 
+    let updatedItems = orderToUpdate.items
+    let updatedOrderStatus: any = status
+
     if (decoded.role === 'chef' || decoded.role === 'bar') {
-      const user = await User.findById(decoded.id).lean() as any
+      const user = await prisma.user.findUnique({
+        where: { id: decoded.id },
+        select: { assignedCategories: true },
+      })
       const assignedCategories = user?.assignedCategories || []
 
       let allItemsReady = true
       let anyItemPreparing = false
 
       const normalizedAssigned = assignedCategories.map((c: string) => c.trim().normalize("NFC").toLowerCase())
+      const itemUpdates: { id: string; status: any }[] = []
 
-      orderToUpdate.items.forEach((item: any) => {
+      updatedItems.forEach((item: any) => {
         const itemCat = (item.category || "").trim().normalize("NFC").toLowerCase()
         const isAssigned = normalizedAssigned.includes(itemCat)
         const isDrinksForBar = decoded.role === 'bar' && item.mainCategory === 'Drinks'
 
         if (isAssigned || isDrinksForBar) {
           item.status = status
+          itemUpdates.push({ id: item.id, status })
         }
         const isItemDone = ['ready', 'served', 'completed', 'cancelled'].includes(item.status)
         if (!isItemDone) allItemsReady = false
@@ -62,8 +69,11 @@ async function handleStatusUpdate(request: Request, context: any) {
 
       if (status === 'cancelled') {
         // Chef cancelling the whole order — mark everything cancelled
-        orderToUpdate.status = 'cancelled'
-        orderToUpdate.items.forEach((item: any) => { item.status = 'cancelled' })
+        updatedOrderStatus = 'cancelled'
+        updatedItems.forEach((item: any) => {
+          item.status = 'cancelled'
+          itemUpdates.push({ id: item.id, status: 'cancelled' })
+        })
       } else {
         let newOverallStatus = orderToUpdate.status
         if (allItemsReady) {
@@ -71,60 +81,82 @@ async function handleStatusUpdate(request: Request, context: any) {
         } else if (anyItemPreparing || status === 'preparing') {
           newOverallStatus = 'preparing'
         }
-        orderToUpdate.status = newOverallStatus
+        updatedOrderStatus = newOverallStatus
+      }
+
+      if (itemUpdates.length > 0) {
+        await prisma.$transaction(
+          itemUpdates.map((u) =>
+            prisma.orderItem.update({
+              where: { id: u.id },
+              data: { status: u.status },
+            }),
+          ),
+        )
       }
     } else {
-      orderToUpdate.status = status
-      orderToUpdate.items.forEach((item: any) => {
-        item.status = status
+      updatedOrderStatus = status
+      await prisma.orderItem.updateMany({
+        where: { orderId: orderToUpdate.id },
+        data: { status },
       })
     }
 
     if (status === "cancelled" && previousStatus !== "cancelled") {
-      const stockConsumptionMap = await calculateStockConsumption(orderToUpdate.items)
+      const stockConsumptionMap = await calculateStockConsumption(updatedItems)
       await applyStockAdjustment(stockConsumptionMap, 1)
     }
 
     const now = new Date()
+    const orderUpdateData: any = { status: updatedOrderStatus }
 
     if (status === "preparing" && previousStatus !== "preparing") {
-      orderToUpdate.kitchenAcceptedAt = now
+      orderUpdateData.kitchenAcceptedAt = now
     }
 
     if (status === "ready" && previousStatus !== "ready") {
-      orderToUpdate.readyAt = now
+      orderUpdateData.readyAt = now
     }
 
     if ((status === "served" || status === "completed") &&
       (previousStatus !== "served" && previousStatus !== "completed")) {
 
-      orderToUpdate.servedAt = now
+      orderUpdateData.servedAt = now
       const createdAt = new Date(orderToUpdate.createdAt)
       const durationMs = now.getTime() - createdAt.getTime()
       const totalMinutes = Math.floor(durationMs / 60000)
 
-      orderToUpdate.totalPreparationTime = totalMinutes
+      orderUpdateData.totalPreparationTime = totalMinutes
 
       let dynamicThreshold = orderToUpdate.thresholdMinutes
 
       if (!dynamicThreshold) {
-        const menuItemIds = orderToUpdate.items.map((item: any) => item.menuItemId)
-        const menuItems = await (MenuItem as any).find({ _id: { $in: menuItemIds } }).lean()
-        const itemPrepTimes = menuItems.map((mi: any) => (mi as any).preparationTime || 0)
+        const menuItemIds = updatedItems.map((item: any) => item.menuItemId).filter(Boolean)
+        const menuItems = menuItemIds.length
+          ? await prisma.menuItem.findMany({
+            where: { id: { in: menuItemIds } },
+            select: { preparationTime: true },
+          })
+          : []
+        const itemPrepTimes = menuItems.map((mi) => mi.preparationTime || 0)
         const maxPrepTime = itemPrepTimes.length > 0 ? Math.max(...itemPrepTimes) : 0
-        const thresholdSetting = await (Settings as any).findOne({ key: "PREPARATION_TIME_THRESHOLD" })
+        const thresholdSetting = await prisma.settings.findUnique({ where: { key: "PREPARATION_TIME_THRESHOLD" } })
         const globalFallback = thresholdSetting ? parseInt(thresholdSetting.value) : 20
         dynamicThreshold = maxPrepTime > 0 ? maxPrepTime : globalFallback
-        orderToUpdate.thresholdMinutes = dynamicThreshold
+        orderUpdateData.thresholdMinutes = dynamicThreshold
       }
 
       const excessDelay = Math.max(0, totalMinutes - dynamicThreshold)
-      orderToUpdate.delayMinutes = excessDelay
+      orderUpdateData.delayMinutes = excessDelay
     }
 
-    await orderToUpdate.save()
+    const saved = await prisma.order.update({
+      where: { id: orderToUpdate.id },
+      data: orderUpdateData,
+      select: { id: true, orderNumber: true, status: true },
+    })
 
-    const orderNumber = orderToUpdate.orderNumber
+    const orderNumber = saved.orderNumber
       ; (async () => {
         try {
           const statusMessages: Record<string, string> = {
@@ -142,7 +174,7 @@ async function handleStatusUpdate(request: Request, context: any) {
         } catch { /* silent */ }
       })()
 
-    return NextResponse.json({ ok: true, status: orderToUpdate.status })
+    return NextResponse.json({ ok: true, status: saved.status })
   } catch (error: any) {
     console.error("Update order status error:", error)
     return NextResponse.json({ message: "Failed to update order status" }, { status: 500 })

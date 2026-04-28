@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server"
-import { connectDB } from "@/lib/db"
-import Order from "@/lib/models/order"
-import User from "@/lib/models/user"
+import { connectDB, prisma } from "@/lib/db"
 import { validateSession } from "@/lib/auth"
 
 export async function PATCH(request: Request, context: any) {
@@ -23,18 +21,26 @@ export async function PATCH(request: Request, context: any) {
       return NextResponse.json({ message: "Missing required fields" }, { status: 400 })
     }
 
-    const orderToUpdate = await Order.findById(params.id)
+    const orderToUpdate = await prisma.order.findUnique({
+      where: { id: params.id },
+      include: { items: true },
+    })
     if (!orderToUpdate) {
       return NextResponse.json({ message: "Order not found" }, { status: 404 })
     }
 
     // Role-based filtering for assigned categories
-    const user = await User.findById(decoded.id).lean() as any
+    const user = await prisma.user.findUnique({
+      where: { id: decoded.id },
+      select: { assignedCategories: true },
+    })
     const assignedCategories = (user?.assignedCategories || []).map((c: string) => c.trim().normalize("NFC").toLowerCase())
 
     let itemUpdated = false
     let allItemsReady = true
     let anyItemPreparing = false
+
+    const itemUpdates: any[] = []
 
     orderToUpdate.items.forEach((item: any) => {
       // Logic for specific item update
@@ -45,6 +51,12 @@ export async function PATCH(request: Request, context: any) {
 
         if (decoded.role === 'admin' || isAssigned || isDrinksForBar) {
           item.status = status
+          itemUpdates.push(
+            prisma.orderItem.update({
+              where: { id: item.id },
+              data: { status },
+            }),
+          )
           itemUpdated = true
         }
       }
@@ -60,15 +72,22 @@ export async function PATCH(request: Request, context: any) {
     }
 
     // Update overall order status based on item progress
+    let nextOrderStatus: any = orderToUpdate.status
     if (allItemsReady) {
-       orderToUpdate.status = orderToUpdate.status === 'completed' ? 'completed' : 'ready'
+      nextOrderStatus = orderToUpdate.status === 'completed' ? 'completed' : 'ready'
     } else if (anyItemPreparing) {
-       orderToUpdate.status = 'preparing'
+      nextOrderStatus = 'preparing'
     }
 
-    await orderToUpdate.save()
+    await prisma.$transaction([
+      ...itemUpdates,
+      prisma.order.update({
+        where: { id: orderToUpdate.id },
+        data: { status: nextOrderStatus },
+      }),
+    ])
 
-    return NextResponse.json({ ok: true, orderStatus: orderToUpdate.status })
+    return NextResponse.json({ ok: true, orderStatus: nextOrderStatus })
   } catch (error: any) {
     console.error("Update item status error:", error)
     return NextResponse.json({ message: "Failed to update item status" }, { status: 500 })

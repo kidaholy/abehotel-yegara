@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server"
-import { connectDB } from "@/lib/db"
-import Order from "@/lib/models/order"
+import { connectDB, prisma } from "@/lib/db"
 import { addNotification } from "@/lib/notifications"
 import { validateSession } from "@/lib/auth"
 import { calculateStockConsumption, applyStockAdjustment } from "@/lib/stock-logic"
@@ -23,37 +22,40 @@ export async function DELETE(request: Request) {
 
     if (isPermanent) {
       // PERMANENT DELETE (Emptying Trash)
-      const deletedOrders = await (Order as any).find({ isDeleted: true }).lean()
+      const deletedOrders = await prisma.order.findMany({
+        where: { isDeleted: true },
+        select: { id: true },
+      })
       
       if (deletedOrders.length === 0) {
         return NextResponse.json({ message: "No deleted orders to permanently remove" }, { status: 400 })
       }
 
-      const result = await (Order as any).deleteMany({ isDeleted: true })
+      const result = await prisma.order.deleteMany({ where: { isDeleted: true } })
 
       try {
         addNotification(
           "warning",
-          `💥 Admin permanently deleted all records in the Trash (${result.deletedCount} orders).`,
+          `💥 Admin permanently deleted all records in the Trash (${result.count} orders).`,
           "admin"
         )
       } catch (e) {}
 
       return NextResponse.json({
-        message: `Successfully permanently deleted ${result.deletedCount} orders`,
-        deletedCount: result.deletedCount
+        message: `Successfully permanently deleted ${result.count} orders`,
+        deletedCount: result.count
       })
     }
 
     // SOFT DELETE (Moving to History)
     // 🔗 BUSINESS LOGIC: To restore stock correctly, we find all orders that are NOT already cancelled
     // and NOT already deleted
-    const activeOrders = await (Order as any).find({ 
-      status: { $ne: "cancelled" },
-      isDeleted: { $ne: true }
-    }).lean()
+    const activeOrders = await prisma.order.findMany({
+      where: { status: { not: "cancelled" }, isDeleted: false },
+      include: { items: true },
+    })
 
-    const orderCount = await (Order as any).countDocuments({ isDeleted: { $ne: true } })
+    const orderCount = await prisma.order.count({ where: { isDeleted: false } })
 
     if (orderCount === 0 && activeOrders.length === 0) {
       return NextResponse.json({ message: "No active orders to delete" }, { status: 400 })
@@ -74,24 +76,27 @@ export async function DELETE(request: Request) {
     }
 
     // Soft delete all orders
-    const result = await (Order as any).updateMany({ isDeleted: { $ne: true } }, { isDeleted: true, status: "cancelled" })
+    const result = await prisma.order.updateMany({
+      where: { isDeleted: false },
+      data: { isDeleted: true, status: "cancelled" },
+    })
 
     // Send notification about bulk deletion
     try {
       addNotification(
         "warning",
-        `🗑️ All active orders (${result.modifiedCount} moved) have been moved to deleted history by admin. Stock has been restored.`,
+        `🗑️ All active orders (${result.count} moved) have been moved to deleted history by admin. Stock has been restored.`,
         "admin"
       )
-      console.log(`Bulk deletion notification sent: ${result.modifiedCount} orders deleted`)
+      console.log(`Bulk deletion notification sent: ${result.count} orders deleted`)
     } catch (error) {
       console.error("Failed to send bulk deletion notification:", error)
     }
 
-    console.log(`✅ Bulk deletion completed: ${result.modifiedCount} orders moved to history`)
+    console.log(`✅ Bulk deletion completed: ${result.count} orders moved to history`)
     return NextResponse.json({
-      message: `Successfully moved ${result.modifiedCount} orders to history and restored stock`,
-      deletedCount: result.modifiedCount
+      message: `Successfully moved ${result.count} orders to history and restored stock`,
+      deletedCount: result.count
     })
   } catch (error: any) {
     console.error("Bulk delete orders error:", error)
