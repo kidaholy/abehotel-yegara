@@ -1,0 +1,58 @@
+import mongoose, { Schema } from "mongoose"
+
+interface IRecipeIngredient {
+  stockItemId: mongoose.Types.ObjectId
+  stockItemName: string
+  quantity: number
+  unit: string
+}
+
+interface IVip1MenuItem {
+  menuId: string
+  name: string
+  mainCategory: 'Food' | 'Drinks'
+  category: string
+  price: number
+  available: boolean
+  description?: string
+  image?: string
+  preparationTime?: number
+  recipe: IRecipeIngredient[]
+  reportUnit?: 'kg' | 'liter' | 'piece'
+  reportQuantity?: number
+  distributions?: string[]
+  stockItemId?: mongoose.Types.ObjectId | null
+}
+
+const RecipeIngredientSchema = new Schema<IRecipeIngredient>({
+  stockItemId: { type: Schema.Types.ObjectId, ref: "Stock", required: true },
+  stockItemName: { type: String, required: true },
+  quantity: { type: Number, required: true, min: 0 },
+  unit: { type: String, required: true }
+})
+
+const vip1MenuItemSchema = new Schema<IVip1MenuItem>(
+  {
+    menuId: { type: String, required: true, unique: true, index: true },
+    name: { type: String, required: true },
+    mainCategory: { type: String, enum: ['Food', 'Drinks'], default: 'Food' },
+    category: { type: String, default: 'VIP 1 Special' },
+    price: { type: Number, required: true },
+    available: { type: Boolean, default: true },
+    description: { type: String },
+    image: { type: String },
+    preparationTime: { type: Number, default: 10 },
+    recipe: [RecipeIngredientSchema],
+    reportUnit: { type: String, enum: ['kg', 'liter', 'piece'], default: 'piece' },
+    reportQuantity: { type: Number, default: 0 },
+    distributions: [{ type: String }],
+    stockItemId: { type: Schema.Types.ObjectId, ref: "Stock", default: null }
+  },
+  // Explicitly bind to the vip1menuitems collection in MongoDB Atlas
+  { timestamps: true, collection: 'vip1menuitems' }
+)
+
+// Never delete this model in development — it causes collection mapping to reset
+const Vip1MenuItem = mongoose.models.Vip1MenuItem || mongoose.model<IVip1MenuItem>("Vip1MenuItem", vip1MenuItemSchema)
+
+export default Vip1MenuItem

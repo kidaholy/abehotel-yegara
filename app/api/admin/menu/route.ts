@@ -1,0 +1,157 @@
+import { NextResponse } from "next/server"
+import { connectDB } from "@/lib/db"
+import MenuItem from "@/lib/models/menu-item"
+import Stock from "@/lib/models/stock"
+import { validateSession } from "@/lib/auth"
+
+// Get all menu items (admin only)
+export async function GET(request: Request) {
+  try {
+    const decoded = await validateSession(request)
+    console.log("📋 Admin fetching menu items:", decoded.email || decoded.id)
+
+    if (decoded.role !== "admin" && decoded.role !== "super-admin") {
+      return NextResponse.json({ message: "Forbidden" }, { status: 403 })
+    }
+
+    await connectDB()
+    console.log("📊 Database connected for menu retrieval")
+
+    // Fetch all items without expensive DB-side regex
+    const allItems = await (MenuItem as any).find({}).populate("stockItemId", "name unit status").lean()
+    
+    // STRICT SEPARATION: Filter out VIP items in memory
+    const menuItems = allItems.filter((item: any) => {
+        const isVipCat = item.category && item.category.toLowerCase().includes('vip');
+        const isVipName = item.name && item.name.toLowerCase().includes('vip');
+        return !isVipCat && !isVipName && item.isVIP !== true;
+    });
+
+    console.log(`🍽️ Found ${menuItems.length} standard menu items`)
+
+    // Convert ObjectId to string for frontend compatibility
+    const serializedItems = menuItems.map((item: any) => ({
+      ...item,
+      _id: item._id.toString()
+    })).sort((a: any, b: any) => {
+      const idA = a.menuId || ""
+      const idB = b.menuId || ""
+      return idA.localeCompare(idB, undefined, { numeric: true, sensitivity: 'base' })
+    })
+
+    return NextResponse.json(serializedItems)
+  } catch (error: any) {
+    console.error("❌ Get menu items error:", error)
+    const status = error.message?.includes("Unauthorized") ? 401 : 500
+    return NextResponse.json({ message: "Failed to get menu items" }, { status })
+  }
+}
+
+// Create new menu item (admin only)
+export async function POST(request: Request) {
+  try {
+    const decoded = await validateSession(request)
+    console.log("🔐 Admin creating menu item:", decoded.email || decoded.id)
+
+    if (decoded.role !== "admin" && decoded.role !== "super-admin") {
+      return NextResponse.json({ message: "Forbidden" }, { status: 403 })
+    }
+
+    await connectDB()
+    console.log("📊 Database connected for menu item creation")
+
+    const { menuId, name, mainCategory, category, price, description, image, preparationTime, available, stockItemId, stockConsumption, isVIP } = await request.json()
+    console.log("📝 Menu item data received:", { menuId, name, mainCategory, category, price, stockItemId, isVIP })
+
+    if (!name || !price) {
+      return NextResponse.json({ message: "Name and price are required" }, { status: 400 })
+    }
+
+    // Check if menuId is provided, if not auto-generate
+    let finalMenuId = menuId ? menuId.toString().trim() : ""
+    if (!finalMenuId) {
+      // Find the items and extract the highest number
+      const allItems = await (MenuItem as any).find({}, { menuId: 1 }).lean()
+      let maxId = 0
+
+      allItems.forEach((item: any) => {
+        if (item.menuId) {
+          const match = item.menuId.match(/\d+/)
+          if (match) {
+            const num = parseInt(match[0], 10)
+            if (num > maxId) maxId = num
+          }
+        }
+      })
+
+      finalMenuId = (maxId + 1).toString()
+    }
+
+    // Logic for shifting IDs: When an ID is specified (or auto-gen), 
+    // any existing items with numeric ID >= finalMenuId will be incremented.
+    const numericId = parseInt(finalMenuId, 10)
+    if (!isNaN(numericId)) {
+      // Find all menu items, sort them by numeric menuId
+      const allItems = await (MenuItem as any).find({}).lean()
+
+      // Get all items that need to be shifted (>= numericId)
+      // Sort in DESCENDING order so we process higher IDs first (safest)
+      const itemsToShift = allItems.filter(item => {
+        const itemNumericId = parseInt(item.menuId, 10)
+        return !isNaN(itemNumericId) && itemNumericId >= numericId
+      }).sort((a, b) => parseInt(b.menuId, 10) - parseInt(a.menuId, 10))
+
+      // Multi-step shift process to avoid duplicate key errors (index: menuId_1)
+      // Step 1: Shift everything to unique temporary IDs
+      for (const item of itemsToShift) {
+        await (MenuItem as any).updateOne(
+          { _id: item._id },
+          { $set: { menuId: `TEMP_POST_${item._id}_${Date.now()}` } }
+        )
+      }
+
+      // Step 2: Assign new numeric IDs (original + 1)
+      // We use the original numeric ID collected before the temporary rename
+      for (const item of itemsToShift) {
+        const originalNumericId = parseInt(item.menuId, 10)
+        await (MenuItem as any).updateOne(
+          { _id: item._id },
+          { $set: { menuId: (originalNumericId + 1).toString() } }
+        )
+      }
+    }
+
+    // STRICT SEPARATION: Ensure new standard items don't have VIP flags
+    if (category?.toUpperCase().includes("VIP") || name?.toUpperCase().includes("VIP") || isVIP) {
+        return NextResponse.json({ message: "Cannot create VIP items in Standard Menu. Please use the VIP tabs." }, { status: 400 })
+    }
+
+    // Create menu item
+    const menuItem = new MenuItem({
+      menuId: finalMenuId,
+      name: name.trim(),
+      mainCategory: mainCategory || 'Food',
+      category: category ? category.trim().normalize("NFC") : undefined,
+      price: Number(price),
+      description,
+      image,
+      preparationTime: preparationTime ? Number(preparationTime) : 10,
+      available: available !== false,
+      stockItemId: stockItemId || null,
+      stockConsumption: stockConsumption ? Number(stockConsumption) : 0,
+      isVIP: isVIP || false,
+    })
+    await menuItem.save()
+
+    console.log("✅ Menu item created successfully:", menuItem._id)
+
+    return NextResponse.json({
+      message: "Menu item created successfully",
+      menuItem
+    })
+  } catch (error: any) {
+    console.error("❌ Create menu item error:", error)
+    const status = error.message?.includes("Unauthorized") ? 401 : 500
+    return NextResponse.json({ message: "Failed to create menu item" }, { status })
+  }
+}
