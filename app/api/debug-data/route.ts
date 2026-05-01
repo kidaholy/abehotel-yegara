@@ -1,33 +1,28 @@
 import { NextResponse } from "next/server"
-import { connectDB } from "@/lib/db"
-import Floor from "@/lib/models/floor"
-import Table from "@/lib/models/table"
-import User from "@/lib/models/user"
+import { prisma } from "@/lib/prisma"
 
 export async function GET(request: Request) {
     try {
-        await connectDB()
-
-        const floors = await Floor.find({}).lean()
-        const tables = await Table.find({}).lean()
-        const users = await User.find({ role: "cashier" }).lean()
+        const floors = await prisma.floor.findMany()
+        const tables = await prisma.table.findMany()
+        const users = await prisma.user.findMany({ where: { role: "cashier" } })
 
         return NextResponse.json({
             floors: floors.map(b => ({
-                _id: b._id.toString(),
+                _id: b.id,
                 floorNumber: b.floorNumber,
                 isActive: b.isActive,
-                idType: typeof b._id
+                idType: typeof b.id
             })),
             tables: tables.map(t => ({
-                _id: t._id.toString(),
+                _id: t.id,
                 tableNumber: t.tableNumber,
                 floorId: t.floorId,
                 floorIdType: typeof t.floorId,
                 status: t.status
             })),
             cashiers: users.map(u => ({
-                _id: u._id.toString(),
+                _id: u.id,
                 name: u.name,
                 email: u.email,
                 floorId: u.floorId,

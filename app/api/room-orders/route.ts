@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server"
-import { connectDB } from "@/lib/db"
-import Order from "@/lib/models/order"
-import Floor from "@/lib/models/floor"
+import { prisma } from "@/lib/db"
 import { validateSession } from "@/lib/auth"
 
 export const dynamic = 'force-dynamic'
@@ -13,30 +11,32 @@ export async function GET(request: Request) {
       return NextResponse.json({ message: "Forbidden" }, { status: 403 })
     }
 
-    await connectDB()
-    
-    let query: any = { status: "unconfirmed", isDeleted: { $ne: true } }
+    let where: any = { status: "unconfirmed", isDeleted: false }
     
     // If cashier, only fetch orders where floor.roomServiceCashierId matches their ID
     if (decoded.role === 'cashier') {
-      const assignedFloors = await (Floor as any).find({ roomServiceCashierId: decoded.id }, { _id: 1 }).lean()
-      const floorIds = assignedFloors.map((f: any) => f._id)
-      query = { ...query, floorId: { $in: floorIds } }
+      const assignedFloors = await prisma.floor.findMany({
+        where: { roomServiceCashierId: decoded.id },
+        select: { id: true }
+      })
+      const floorIds = assignedFloors.map((f) => f.id)
+      where = { ...where, floorId: { in: floorIds } }
     }
 
-    const orders = await (Order as any).find(query)
-      .sort({ createdAt: -1 })
-      .lean()
-
-    const floorMap = new Map()
-    const floors = await Floor.find({}).lean() as any[]
-    floors.forEach(f => floorMap.set(f._id.toString(), f.floorNumber))
+    const orders = await prisma.order.findMany({
+      where,
+      include: {
+        items: true,
+        floor: { select: { floorNumber: true } }
+      },
+      orderBy: { createdAt: "desc" }
+    })
 
     const serialized = orders.map((o: any) => {
-      let floorNumber = o.floorNumber || floorMap.get(o.floorId?.toString()) || ""
+      const floorNumber = o.floorNumber || o.floor?.floorNumber || ""
       return { 
         ...o, 
-        _id: o._id.toString(),
+        _id: o.id,
         floorNumber
       }
     })

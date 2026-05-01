@@ -1,9 +1,7 @@
 import { NextResponse } from "next/server"
-import { connectDB } from "@/lib/db"
-import Stock from "@/lib/models/stock"
+import { prisma } from "@/lib/prisma"
 import { validateSession } from "@/lib/auth"
 
-// GET all stock items with enhanced filtering and availability checking
 export async function GET(request: Request) {
     try {
         const { searchParams } = new URL(request.url)
@@ -14,56 +12,45 @@ export async function GET(request: Request) {
         const isVIP = searchParams.get("isVIP") === "true"
 
         const decoded = await validateSession(request)
-        console.log("📦 Admin fetching stock items:", decoded.email || decoded.id)
 
         if (decoded.role !== "admin" && decoded.role !== "super-admin" && decoded.role !== "store_keeper" && !(decoded.role === "custom" && decoded.permissions?.includes("stock:view"))) {
             return NextResponse.json({ message: "Forbidden" }, { status: 403 })
         }
 
-        await connectDB()
-        console.log("📊 Database connected for stock retrieval")
-
-        // Build query
-        let query: any = {}
+        let where: any = {}
         if (availableOnly) {
-            query.status = 'active'
-            query.quantity = { $gt: 0 }
+            where.status = 'active'
+            where.quantity = { gt: 0 }
         }
         if (category) {
-            query.category = category
+            where.category = category
         }
         if (searchParams.has('isVIP')) {
-            query.isVIP = isVIP
+            where.isVIP = isVIP
         }
         if (vipLevel) {
-            query.vipLevel = Number(vipLevel)
+            where.vipLevel = Number(vipLevel)
         }
 
-        let stockQuery = (Stock as any).find(query).sort({ name: 1 })
+        const stockItems = await prisma.stock.findMany({
+            where,
+            orderBy: { name: 'asc' },
+            include: includeHistory ? { restockHistory: true } : undefined
+        })
 
-        // Conditionally include restock history
-        if (!includeHistory) {
-            stockQuery = stockQuery.select('-restockHistory')
-        }
-
-        const stockItems = await stockQuery.lean()
-        console.log(`📦 Found ${stockItems.length} stock items in database`)
-
-        // Convert ObjectId to string for frontend compatibility and add computed fields
         const serializedItems = stockItems.map(item => {
-            // Handle migration from old purchasePrice to averagePurchasePrice
-            const avgPurchasePrice = item.averagePurchasePrice || item.purchasePrice || 0
+            const avgPurchasePrice = item.averagePurchasePrice || (item as any).purchasePrice || 0
 
             return {
                 ...item,
-                _id: item._id.toString(),
-                averagePurchasePrice: avgPurchasePrice, // Ensure this field exists
-                storeQuantity: item.storeQuantity || 0, // Expose Store Quantity
-                totalValue: (item.quantity || 0) * avgPurchasePrice, // Current Stock Value
-                storeValue: (item.storeQuantity || 0) * avgPurchasePrice, // Current Store Value
+                _id: item.id,
+                averagePurchasePrice: avgPurchasePrice,
+                storeQuantity: item.storeQuantity || 0,
+                totalValue: (item.quantity || 0) * avgPurchasePrice,
+                storeValue: (item.storeQuantity || 0) * avgPurchasePrice,
                 totalLifetimeInvestment: item.totalInvestment || 0,
                 totalLifetimePurchased: item.totalPurchased || 0,
-                sellingValue: (item.quantity || 0) * (item.unitCost || 0), // Potential revenue
+                sellingValue: (item.quantity || 0) * (item.unitCost || 0),
                 profitMargin: (item.unitCost || 0) > 0 ? (((item.unitCost - avgPurchasePrice) / item.unitCost) * 100).toFixed(1) : 0,
                 isLowStock: item.trackQuantity && (item.quantity || 0) <= (item.minLimit || 0),
                 isLowStoreStock: item.trackQuantity && (item.storeQuantity || 0) <= (item.storeMinLimit || 0),
@@ -81,24 +68,17 @@ export async function GET(request: Request) {
     }
 }
 
-// POST create new stock item with initial restock
 export async function POST(request: Request) {
     try {
         const decoded = await validateSession(request)
-        console.log("🔐 Admin creating stock item:", decoded.email || decoded.id)
 
         if (decoded.role !== "admin" && decoded.role !== "super-admin") {
             return NextResponse.json({ message: "Forbidden" }, { status: 403 })
         }
 
-        await connectDB()
-        console.log("📊 Database connected for stock creation")
-
         const body = await request.json()
-        console.log("📝 Stock data received:", body)
 
-        // Validate unit type based on unit
-        let unitType = 'count' // default
+        let unitType = 'count'
         const unit = body.unit?.toLowerCase()
         if (['kg', 'g', 'gram', 'kilogram'].includes(unit)) {
             unitType = 'weight'
@@ -106,56 +86,63 @@ export async function POST(request: Request) {
             unitType = 'volume'
         }
 
-        const stockData = {
-            ...body,
-            unitType,
-            quantity: 0, // Initial stock is ALWAYS 0, everything goes to store
-            storeQuantity: Number(body.storeQuantity || body.quantity) || 0,
-            minLimit: body.minLimit || 0,
-            storeMinLimit: body.storeMinLimit || 0,
-            averagePurchasePrice: Number(body.averagePurchasePrice) || Number(body.unitPurchasedPrice) || 0,
-            unitCost: body.unitCost || 0,
-            totalPurchased: Number(body.storeQuantity || body.quantity) || 0,
-            totalConsumed: 0,
-            totalInvestment: body.totalPurchaseCost || 0,
-            sellUnitEquivalent: 1, // Fixed to 1 since portions are removed
-            isVIP: body.isVIP || false,
-            vipLevel: body.vipLevel || 1
-        }
+        const storeQuantity = Number(body.storeQuantity || body.quantity) || 0
+        const totalInvestment = body.totalPurchaseCost || 0
+        const averagePurchasePrice = Number(body.averagePurchasePrice) || Number(body.unitPurchasedPrice) || 0
 
-        const newStock = new Stock(stockData)
+        const newStock = await prisma.stock.create({
+            data: {
+                name: body.name,
+                category: body.category,
+                unit: body.unit,
+                unitType: unitType as any,
+                quantity: 0,
+                storeQuantity,
+                minLimit: Number(body.minLimit) || 0,
+                storeMinLimit: Number(body.storeMinLimit) || 0,
+                averagePurchasePrice,
+                unitCost: Number(body.unitCost) || 0,
+                totalPurchased: storeQuantity,
+                totalConsumed: 0,
+                totalInvestment,
+                sellUnitEquivalent: 1,
+                isVIP: body.isVIP || false,
+                vipLevel: Number(body.vipLevel) || 1,
+                status: 'active' as any,
+                trackQuantity: body.trackQuantity ?? true,
+                showStatus: body.showStatus ?? true
+            }
+        })
 
-        // If initial quantity > 0, log it in StoreLog
-        if (stockData.storeQuantity > 0) {
-            const StoreLog = (await import("@/lib/models/store-log")).default
-            await (StoreLog as any).create({
-                stockId: newStock._id,
-                type: 'PURCHASE',
-                quantity: stockData.storeQuantity,
-                unit: stockData.unit,
-                pricePerUnit: stockData.averagePurchasePrice,
-                totalPrice: stockData.totalInvestment,
-                user: decoded.id,
-                notes: "Initial inventory entry (Store)"
+        if (storeQuantity > 0) {
+            await prisma.storeLog.create({
+                data: {
+                    stockId: newStock.id,
+                    type: 'PURCHASE' as any,
+                    quantity: storeQuantity,
+                    unit: body.unit || '',
+                    pricePerUnit: averagePurchasePrice,
+                    totalPrice: totalInvestment,
+                    userId: decoded.id,
+                    notes: "Initial inventory entry (Store)"
+                }
             })
 
-            // Also add to restock history for compatibility/legacy reporting
-            newStock.restockHistory.push({
-                date: new Date(),
-                quantityAdded: stockData.storeQuantity,
-                totalPurchaseCost: Number(body.totalPurchaseCost) || 0,
-                unitCostAtTime: stockData.unitCost,
-                notes: "Initial store entry",
-                restockedBy: decoded.id
+            await prisma.stockRestockEntry.create({
+                data: {
+                    stockId: newStock.id,
+                    quantityAdded: storeQuantity,
+                    totalPurchaseCost: Number(body.totalPurchaseCost) || 0,
+                    unitCostAtTime: newStock.unitCost,
+                    notes: "Initial store entry",
+                    restockedById: decoded.id
+                }
             })
         }
-
-        await newStock.save()
-        console.log("✅ Stock item created successfully:", newStock._id)
 
         const serializedStock = {
-            ...newStock.toObject(),
-            _id: newStock._id.toString(),
+            ...newStock,
+            _id: newStock.id,
             totalValue: (newStock.quantity + newStock.storeQuantity) * newStock.averagePurchasePrice,
             sellingValue: (newStock.quantity + newStock.storeQuantity) * newStock.unitCost,
             profitMargin: newStock.unitCost > 0 ? ((newStock.unitCost - newStock.averagePurchasePrice) / newStock.unitCost * 100).toFixed(1) : 0,

@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server"
-import { connectDB } from "@/lib/db"
-import Floor from "@/lib/models/floor"
-import Table from "@/lib/models/table"
+import { prisma } from "@/lib/prisma"
 import { validateSession } from "@/lib/auth"
 
 export const dynamic = 'force-dynamic'
@@ -21,12 +19,13 @@ export async function GET(request: Request) {
     try {
         if (!(await verifyAdmin(request))) return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
 
-        await connectDB()
-        const floors = await (Floor as any).find({}).sort({ order: 1 }).lean()
-        const serialized = floors.map((f: any) => ({
+        const floors = await prisma.floor.findMany({
+            orderBy: { order: 'asc' }
+        })
+        const serialized = floors.map(f => ({
             ...f,
-            _id: f._id.toString(),
-            roomServiceCashierId: f.roomServiceCashierId?.toString() || null
+            _id: f.id,
+            roomServiceCashierId: f.roomServiceCashierId || null
         }))
         return NextResponse.json(serialized)
     } catch (error: any) {
@@ -38,22 +37,25 @@ export async function POST(request: Request) {
     try {
         if (!(await verifyAdmin(request))) return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
 
-        await connectDB()
-        const { floorNumber, description, order, isVIP, type, roomServiceMenuTier } = await request.json()
+        const body = await request.json()
+        const { floorNumber, description, order, isVIP, type, roomServiceMenuTier } = body
 
         if (!floorNumber) {
             return NextResponse.json({ message: "Floor Number is required" }, { status: 400 })
         }
 
-        const floor = await (Floor as any).create({ 
-            floorNumber, 
-            description, 
-            order: order || 0, 
-            isVIP: isVIP || false, 
-            type: type || 'standard',
-            roomServiceMenuTier: roomServiceMenuTier || 'standard'
-        })
-        return NextResponse.json(floor, { status: 201 })
+        const dataPayload: any = {
+            floorNumber,
+            description,
+            order: order || 0,
+            isVIP: isVIP || false
+        }
+        if (type) dataPayload.type = type as any
+        if (roomServiceMenuTier) dataPayload.roomServiceMenuTier = roomServiceMenuTier as any
+
+        const floor = await prisma.floor.create({ data: dataPayload })
+
+        return NextResponse.json({ ...floor, _id: floor.id }, { status: 201 })
     } catch (error: any) {
         return NextResponse.json({ message: "Failed to create floor" }, { status: 500 })
     }
@@ -63,7 +65,6 @@ export async function PUT(request: Request) {
     try {
         if (!(await verifyAdmin(request))) return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
 
-        await connectDB()
         const body = await request.json()
         const { id } = body
 
@@ -72,32 +73,36 @@ export async function PUT(request: Request) {
         }
 
         const updateObj: any = {}
-        const fields = ['floorNumber', 'description', 'order', 'isActive', 'isVIP', 'type', 'roomServiceCashierId', 'roomServiceMenuTier']
+        const fields = ['floorNumber', 'description', 'order', 'isActive', 'isVIP']
         fields.forEach(f => {
             if (body[f] !== undefined) updateObj[f] = body[f]
         })
+        if (body.type !== undefined) updateObj.type = body.type as any
+        if (body.roomServiceCashierId !== undefined) updateObj.roomServiceCashierId = body.roomServiceCashierId
+        if (body.roomServiceMenuTier !== undefined) updateObj.roomServiceMenuTier = body.roomServiceMenuTier as any
 
         console.log("🛠️ Attempting update for floor:", id, updateObj)
 
-        const updatedFloor = await (Floor as any).findOneAndUpdate(
-            { _id: id },
-            { $set: updateObj },
-            { new: true, lean: true }
-        )
+        try {
+            const updatedFloor = await prisma.floor.update({
+                where: { id },
+                data: updateObj
+            })
+            console.log("✅ Floor updated result:", updatedFloor)
 
-        console.log("✅ Floor updated result:", updatedFloor)
-
-        if (!updatedFloor) {
-            console.log("❌ Floor not found for update:", id)
-            return NextResponse.json({ message: "Floor not found" }, { status: 404 })
+            const serialized = {
+                ...updatedFloor,
+                _id: updatedFloor.id,
+                roomServiceCashierId: updatedFloor.roomServiceCashierId || null
+            }
+            return NextResponse.json(serialized)
+        } catch (error: any) {
+            if (error.code === 'P2025') {
+                console.log("❌ Floor not found for update:", id)
+                return NextResponse.json({ message: "Floor not found" }, { status: 404 })
+            }
+            throw error
         }
-
-        const serialized = {
-            ...updatedFloor,
-            _id: updatedFloor._id.toString(),
-            roomServiceCashierId: updatedFloor.roomServiceCashierId?.toString() || null
-        }
-        return NextResponse.json(serialized)
     } catch (error: any) {
         return NextResponse.json({ message: "Failed to update floor" }, { status: 500 })
     }
@@ -112,15 +117,15 @@ export async function DELETE(request: Request) {
 
         if (!id) return NextResponse.json({ message: "ID is required" }, { status: 400 })
 
-        await connectDB()
-
-        // 1. Find the floor to get its floorNumber if needed for unassigning/cascading
-        const floor = await (Floor as any).findById(id)
-        if (!floor) return NextResponse.json({ message: "Floor not found" }, { status: 404 })
-
-        // 2. Delete the floor (Tables are now global and independent)
-        await (Floor as any).findByIdAndDelete(id)
-        return NextResponse.json({ message: "Floor deleted" })
+        try {
+            await prisma.floor.delete({ where: { id } })
+            return NextResponse.json({ message: "Floor deleted" })
+        } catch (error: any) {
+            if (error.code === 'P2025') {
+                return NextResponse.json({ message: "Floor not found" }, { status: 404 })
+            }
+            throw error
+        }
     } catch (error: any) {
         return NextResponse.json({ message: "Failed to delete floor" }, { status: 500 })
     }

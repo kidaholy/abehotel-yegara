@@ -1,10 +1,5 @@
 import { NextResponse } from "next/server"
-import { connectDB } from "@/lib/db"
-import Order from "@/lib/models/order"
-import MenuItem from "@/lib/models/menu-item"
-import Stock from "@/lib/models/stock"
-import DailyExpense from "@/lib/models/daily-expense"
-import OperationalExpense from "@/lib/models/operational-expense"
+import { prisma } from "@/lib/prisma"
 import { validateSession } from "@/lib/auth"
 
 interface BusinessMetrics {
@@ -67,8 +62,6 @@ export async function GET(request: Request) {
     const decoded = await validateSession(request)
     console.log("📊 User requesting business metrics:", decoded.email || decoded.id)
 
-    await connectDB()
-
     // Date calculations
     const now = new Date()
     const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate())
@@ -82,37 +75,27 @@ export async function GET(request: Request) {
     const lastMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1)
     const lastMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59, 999)
 
-    // Fetch all relevant data
-    const [
-      todayOrders,
-      yesterdayOrders,
-      weekOrders,
-      monthOrders,
-      lastMonthOrders,
-      allMenuItems,
-      allStock,
-      todayExpenses,
-      monthExpenses,
-      todayOpExpenses,
-      monthOpExpenses
-    ] = await Promise.all([
-      Order.find({ createdAt: { $gte: todayStart, $lte: todayEnd } }).lean(),
-      Order.find({ createdAt: { $gte: yesterdayStart, $lte: yesterdayEnd } }).lean(),
-      Order.find({ createdAt: { $gte: weekStart, $lte: todayEnd } }).lean(),
-      Order.find({ createdAt: { $gte: monthStart, $lte: todayEnd } }).lean(),
-      Order.find({ createdAt: { $gte: lastMonthStart, $lte: lastMonthEnd } }).lean(),
-      MenuItem.find().populate('stockItemId').lean(),
-      Stock.find().lean(),
-      DailyExpense.find({ date: { $gte: todayStart, $lte: todayEnd } }).lean(),
-      DailyExpense.find({ date: { $gte: monthStart, $lte: todayEnd } }).lean(),
-      OperationalExpense.find({ date: { $gte: todayStart, $lte: todayEnd } }).lean(),
-      OperationalExpense.find({ date: { $gte: monthStart, $lte: todayEnd } }).lean()
-    ])
+    // Fetch all relevant data sequentially to avoid connection pool saturation
+    const todayOrders = await prisma.order.findMany({ where: { createdAt: { gte: todayStart, lte: todayEnd } }, include: { items: true } })
+    const yesterdayOrders = await prisma.order.findMany({ where: { createdAt: { gte: yesterdayStart, lte: yesterdayEnd } }, include: { items: true } })
+    const weekOrders = await prisma.order.findMany({ where: { createdAt: { gte: weekStart, lte: todayEnd } }, include: { items: true } })
+    const monthOrders = await prisma.order.findMany({ where: { createdAt: { gte: monthStart, lte: todayEnd } }, include: { items: true } })
+    const lastMonthOrders = await prisma.order.findMany({ where: { createdAt: { gte: lastMonthStart, lte: lastMonthEnd } }, include: { items: true } })
+    const allMenuItems = await prisma.menuItem.findMany({ include: { stockItem: true, recipe: true } })
+    const allStock = await prisma.stock.findMany()
+    const todayExpenses = await prisma.dailyExpense.findMany({ where: { date: { gte: todayStart, lte: todayEnd } } })
+    const monthExpenses = await prisma.dailyExpense.findMany({ where: { date: { gte: monthStart, lte: todayEnd } } })
+    const todayOpExpenses = await prisma.operationalExpense.findMany({ where: { date: { gte: todayStart, lte: todayEnd } } })
+    const monthOpExpenses = await prisma.operationalExpense.findMany({ where: { date: { gte: monthStart, lte: todayEnd } } })
+
+    // Map Prisma IDs back to _id for legacy logic compatibility
+    allMenuItems.forEach(m => (m as any)._id = m.id)
+    allStock.forEach(s => (s as any)._id = s.id)
 
     // Calculate Real-Time Metrics
-    const todayRevenue = todayOrders.filter(o => o.status !== 'cancelled').reduce((sum, order) => sum + order.totalAmount, 0)
+    const todayRevenue = todayOrders.filter(o => o.status !== ('cancelled' as any)).reduce((sum, order) => sum + order.totalAmount, 0)
     const activeOrders = todayOrders.filter(o => ['pending', 'preparing', 'ready'].includes(o.status)).length
-    const completedToday = todayOrders.filter(o => o.status === 'completed').length
+    const completedToday = todayOrders.filter(o => o.status === ('completed' as any)).length
     const completionRate = todayOrders.length > 0 ? (completedToday / todayOrders.length) * 100 : 0
     const averageOrderValue = todayOrders.length > 0 ? todayRevenue / todayOrders.length : 0
 
@@ -121,7 +104,7 @@ export async function GET(request: Request) {
       const hourStart = new Date(todayStart.getTime() + hour * 60 * 60 * 1000)
       const hourEnd = new Date(hourStart.getTime() + 60 * 60 * 1000 - 1)
       const hourOrders = todayOrders.filter(o =>
-        new Date(o.createdAt) >= hourStart && new Date(o.createdAt) <= hourEnd && o.status !== 'cancelled'
+        new Date(o.createdAt) >= hourStart && new Date(o.createdAt) <= hourEnd && o.status !== ('cancelled' as any)
       )
       return {
         hour: `${hour.toString().padStart(2, '0')}:00`,
@@ -134,10 +117,10 @@ export async function GET(request: Request) {
     const itemSales = new Map<string, { quantity: number; revenue: number; category: string }>()
 
     todayOrders.forEach(order => {
-      if (order.status !== 'cancelled') {
+      if (order.status !== ('cancelled' as any)) {
         order.items.forEach((item: any) => {
           const existing = itemSales.get(item.name) || { quantity: 0, revenue: 0, category: '' }
-          const menuItem = allMenuItems.find(m => m._id.toString() === item.menuItemId)
+          const menuItem = allMenuItems.find(m => m.id === item.menuItemId || (m as any)._id === item.menuItemId)
           existing.quantity += item.quantity
           existing.revenue += item.price * item.quantity
           existing.category = menuItem?.category || 'Unknown'
@@ -154,9 +137,9 @@ export async function GET(request: Request) {
     // Category performance
     const categoryStats = new Map<string, { revenue: number; orders: number }>()
     todayOrders.forEach(order => {
-      if (order.status !== 'cancelled') {
+      if (order.status !== ('cancelled' as any)) {
         order.items.forEach((item: any) => {
-          const menuItem = allMenuItems.find(m => m._id.toString() === item.menuItemId)
+          const menuItem = allMenuItems.find(m => m.id === item.menuItemId || (m as any)._id === item.menuItemId)
           const category = menuItem?.category || 'Unknown'
           const existing = categoryStats.get(category) || { revenue: 0, orders: 0 }
           existing.revenue += item.price * item.quantity
@@ -176,7 +159,7 @@ export async function GET(request: Request) {
     // Payment method breakdown
     const paymentStats = new Map<string, { amount: number; count: number }>()
     todayOrders.forEach(order => {
-      if (order.status !== 'cancelled') {
+      if (order.status !== ('cancelled' as any)) {
         const method = order.paymentMethod || 'cash'
         const existing = paymentStats.get(method) || { amount: 0, count: 0 }
         existing.amount += order.totalAmount
@@ -197,10 +180,10 @@ export async function GET(request: Request) {
     )
 
     // Revenue growth calculations
-    const yesterdayRevenue = yesterdayOrders.filter(o => o.status !== 'cancelled').reduce((sum, order) => sum + order.totalAmount, 0)
-    const weekRevenue = weekOrders.filter(o => o.status !== 'cancelled').reduce((sum, order) => sum + order.totalAmount, 0)
-    const monthRevenue = monthOrders.filter(o => o.status !== 'cancelled').reduce((sum, order) => sum + order.totalAmount, 0)
-    const lastMonthRevenue = lastMonthOrders.filter(o => o.status !== 'cancelled').reduce((sum, order) => sum + order.totalAmount, 0)
+    const yesterdayRevenue = yesterdayOrders.filter(o => o.status !== ('cancelled' as any)).reduce((sum, order) => sum + order.totalAmount, 0)
+    const weekRevenue = weekOrders.filter(o => o.status !== ('cancelled' as any)).reduce((sum, order) => sum + order.totalAmount, 0)
+    const monthRevenue = monthOrders.filter(o => o.status !== ('cancelled' as any)).reduce((sum, order) => sum + order.totalAmount, 0)
+    const lastMonthRevenue = lastMonthOrders.filter(o => o.status !== ('cancelled' as any)).reduce((sum, order) => sum + order.totalAmount, 0)
 
     const dailyGrowth = yesterdayRevenue > 0 ? ((todayRevenue - yesterdayRevenue) / yesterdayRevenue) * 100 : 0
     const weeklyGrowth = weekRevenue > 0 ? ((todayRevenue - (weekRevenue / 7)) / (weekRevenue / 7)) * 100 : 0
@@ -208,7 +191,7 @@ export async function GET(request: Request) {
 
     // Inventory Insights
     const lowStockAlerts = allStock
-      .filter(item => item.trackQuantity && item.minLimit && item.quantity !== undefined)
+      .filter(item => item.trackQuantity && item.minLimit && item.quantity !== null && item.quantity !== undefined)
       .filter(item => (item.quantity || 0) <= (item.minLimit || 0))
       .map(item => ({
         name: item.name,
@@ -222,16 +205,15 @@ export async function GET(request: Request) {
     const stockConsumption = new Map<string, { consumed: number; unit: string; cost: number }>()
 
     todayOrders.forEach(order => {
-      if (order.status !== 'cancelled') {
+      if (order.status !== ('cancelled' as any)) {
         order.items.forEach((item: any) => {
-          const menuItem = allMenuItems.find(m => m._id.toString() === item.menuItemId)
+          const menuItem = allMenuItems.find(m => m.id === item.menuItemId || (m as any)._id === item.menuItemId)
           if (menuItem) {
             // Use recipe system if available
             if (menuItem.recipe && menuItem.recipe.length > 0) {
               menuItem.recipe.forEach((ingredient: any) => {
-                const stockItem = allStock.find(s => s._id.toString() === ingredient.stockItemId?.toString())
+                const stockItem = allStock.find(s => s.id === ingredient.stockItemId || (s as any)._id === ingredient.stockItemId)
                 if (stockItem) {
-                  // Handle both field names: 'quantityRequired' (MenuItem) and 'quantity' (VIP items)
                   const perItemQuantity = ingredient.quantityRequired ?? (ingredient as any).quantity ?? 0
                   const consumedAmount = perItemQuantity * item.quantity
                   const existing = stockConsumption.get(stockItem.name) || { consumed: 0, unit: stockItem.unit || '', cost: 0 }
@@ -242,10 +224,10 @@ export async function GET(request: Request) {
               })
             }
             // Legacy fallback
-            else if (menuItem.stockItemId && menuItem.reportQuantity) {
-              const stockItem = allStock.find(s => s._id.toString() === (menuItem.stockItemId as any)._id?.toString() || s._id.toString() === menuItem.stockItemId.toString())
+            else if (menuItem.stockItemId && (menuItem as any).reportQuantity) {
+              const stockItem = allStock.find(s => s.id === menuItem.stockItemId || (s as any)._id === menuItem.stockItemId)
               if (stockItem) {
-                const consumedAmount = menuItem.reportQuantity * item.quantity
+                const consumedAmount = (menuItem as any).reportQuantity * item.quantity
                 const existing = stockConsumption.get(stockItem.name) || { consumed: 0, unit: stockItem.unit || '', cost: 0 }
                 existing.consumed += consumedAmount
                 existing.cost += consumedAmount * (stockItem.averagePurchasePrice || stockItem.unitCost || 0)
@@ -307,7 +289,7 @@ export async function GET(request: Request) {
       const dayOrders = weekOrders.filter(o =>
         new Date(o.createdAt) >= dayStart &&
         new Date(o.createdAt) <= dayEnd &&
-        o.status !== 'cancelled'
+        o.status !== ('cancelled' as any)
       )
 
       const dayRevenue = dayOrders.reduce((sum, order) => sum + order.totalAmount, 0)
@@ -351,7 +333,7 @@ export async function GET(request: Request) {
         peakHours: hourlyOrderCount.slice(0, 5),
         customerSatisfaction: {
           completedOrders: completedToday,
-          cancelledOrders: todayOrders.filter(o => o.status === 'cancelled').length,
+          cancelledOrders: todayOrders.filter(o => o.status === ('cancelled' as any)).length,
           successRate: Math.round(completionRate * 100) / 100
         }
       },
@@ -361,7 +343,7 @@ export async function GET(request: Request) {
         netProfit: Math.round(netProfit * 100) / 100,
         profitMargin: Math.round(profitMargin * 100) / 100,
         costBreakdown: {
-          otherExpenses: (todayExpenses.reduce((sum, exp) => sum + (exp.otherExpenses || 0), 0)) + (todayOpExpenses.reduce((sum, exp) => sum + (exp.amount || 0), 0)),
+          otherExpenses: todayExpensesTotal,
           stockCosts: Math.round(stockCosts * 100) / 100
         }
       },

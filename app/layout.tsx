@@ -14,17 +14,15 @@ const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfa
 export const dynamic = "force-dynamic"
 export const revalidate = 0
 
-import { connectDB } from "@/lib/db"
-import Settings from "@/lib/models/settings"
+import { prisma } from "@/lib/prisma"
 
 export async function generateMetadata(): Promise<Metadata> {
   const settingsObj: Record<string, string> = {}
 
   try {
-    await connectDB()
-    const settings = await Settings.find({
-      key: { $in: ["logo_url", "favicon_url", "app_name", "app_tagline"] }
-    }).lean()
+    const settings = await prisma.settings.findMany({
+      where: { key: { in: ["logo_url", "favicon_url", "app_name", "app_tagline"] } }
+    })
 
     settings.forEach((s) => {
       settingsObj[s.key] = s.value

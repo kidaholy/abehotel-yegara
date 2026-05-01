@@ -1,10 +1,5 @@
 import { NextResponse } from "next/server"
-import { connectDB } from "@/lib/db"
-import Order from "@/lib/models/order"
-import MenuItem from "@/lib/models/menu-item"
-import Stock from "@/lib/models/stock"
-import DailyExpense from "@/lib/models/daily-expense"
-import StoreLog from "@/lib/models/store-log"
+import { prisma } from "@/lib/prisma"
 import { validateSession } from "@/lib/auth"
 
 export async function GET(request: Request) {
@@ -16,19 +11,14 @@ export async function GET(request: Request) {
 
     try {
         const decoded = await validateSession(request)
-
         if (decoded.role !== "admin" && decoded.role !== "super-admin") return NextResponse.json({ message: "Forbidden" }, { status: 403 })
 
-        await connectDB()
-
-        // Performance check
         const checkTimeout = () => {
             if (Date.now() - startTime > 15000) {
                 throw new Error("Request timeout - data processing taking too long")
             }
         }
 
-        // 1. Determine Date Range
         let startDate = new Date()
         let endDate = new Date()
         endDate.setHours(23, 59, 59, 999)
@@ -59,38 +49,46 @@ export async function GET(request: Request) {
             }
         }
 
-        // 2. Fetch Data
         checkTimeout()
-        checkTimeout()
-        // FIX: Include ALL active orders (not just completed) to reflect real-time stock deductions
-        // Stock is deducted at creation, so 'pending', 'preparing', 'ready', 'served', and 'completed'
-        // should all count towards consumption. Only 'cancelled' is excluded.
-        const orders = await Order.find({
-            createdAt: { $gte: startDate, $lte: endDate },
-            status: { $ne: "cancelled" }
-        }).select('items totalAmount createdAt status').lean()
 
-        const stockItems = await Stock.find({}).select('name category quantity storeQuantity unit unitCost averagePurchasePrice totalInvestment minLimit storeMinLimit status supplier updatedAt totalPurchased sellUnitEquivalent').lean()
-        const menuItems = await MenuItem.find({}).select('name reportUnit reportQuantity stockItemId recipe').lean()
-        const menuMap = new Map(menuItems.map(m => [m._id.toString(), m]))
+        const orders = await prisma.order.findMany({
+            where: {
+                createdAt: { gte: startDate, lte: endDate },
+                status: { not: "cancelled" }
+            },
+            select: { items: true, totalAmount: true, createdAt: true, status: true, id: true }
+        })
 
-        const dailyExpenses = await DailyExpense.find({
-            date: { $gte: startDate, $lte: endDate }
-        }).select('date otherExpenses items').lean()
+        const stockItems = await prisma.stock.findMany({
+            select: { id: true, name: true, category: true, quantity: true, storeQuantity: true, unit: true, unitCost: true, averagePurchasePrice: true, totalInvestment: true, minLimit: true, storeMinLimit: true, status: true, supplier: true, updatedAt: true, totalPurchased: true, sellUnitEquivalent: true }
+        })
+        const menuItems = await prisma.menuItem.findMany({
+            select: { id: true, name: true, reportUnit: true, reportQuantity: true, stockItemId: true },
+            include: { recipe: { include: { stockItem: true } } }
+        })
+        const menuMap = new Map(menuItems.map(m => [m.id, m]))
 
-        const storeLogs = await StoreLog.find({
-            date: { $gte: startDate, $lte: endDate },
-            type: 'TRANSFER_OUT'
-        }).lean()
+        const dailyExpenses = await prisma.dailyExpense.findMany({
+            where: {
+                date: { gte: startDate, lte: endDate }
+            },
+            select: { date: true, otherExpenses: true, items: true }
+        })
 
-        // 3. Process Purchases & Transfers
+        const storeLogs = await prisma.storeLog.findMany({
+            where: {
+                date: { gte: startDate, lte: endDate },
+                type: 'TRANSFER_OUT' as any
+            }
+        })
+
         const purchaseStats: Record<string, { quantity: number, totalCost: number, transactions: any[] }> = {}
         const purchasesByDate: Record<string, any[]> = {}
         let totalOtherExpenses = 0
 
         const transferStats: Record<string, { quantity: number }> = {}
         storeLogs.forEach((log: any) => {
-            const stockId = log.stockId.toString()
+            const stockId = log.stockId
             if (!transferStats[stockId]) transferStats[stockId] = { quantity: 0 }
             transferStats[stockId].quantity += log.quantity
         })
@@ -100,8 +98,15 @@ export async function GET(request: Request) {
             if (!purchasesByDate[dateKey]) purchasesByDate[dateKey] = []
             totalOtherExpenses += (exp.otherExpenses || 0)
 
-            exp.items?.forEach((item: any) => {
-                const nameKey = item.name.toLowerCase()
+            let expItems = []
+            if (typeof exp.items === 'string') {
+                try { expItems = JSON.parse(exp.items) } catch {}
+            } else if (Array.isArray(exp.items)) {
+                expItems = exp.items
+            }
+
+            expItems.forEach((item: any) => {
+                const nameKey = item.name?.toLowerCase() || ''
                 if (!purchaseStats[nameKey]) {
                     purchaseStats[nameKey] = { quantity: 0, totalCost: 0, transactions: [] }
                 }
@@ -132,7 +137,6 @@ export async function GET(request: Request) {
             }
         })
 
-        // 4. Calculate Consumption
         const usageStats: Record<string, { unit: string, total: number, items: any[] }> = {
             'kg': { unit: 'kg', total: 0, items: [] },
             'liter': { unit: 'liter', total: 0, items: [] },
@@ -159,43 +163,25 @@ export async function GET(request: Request) {
             ordersByDate[orderDate].push(order)
 
             for (const item of order.items) {
-                if (!item.menuItemId) {
-                    console.log(`⚠️ Item in order ${order._id} missing menuItemId`)
-                    continue;
-                }
-                const menuData = menuMap.get(item.menuItemId?.toString())
+                if (!item.menuItemId) continue
+                const menuData = menuMap.get(item.menuItemId)
 
                 if (menuData) {
-                    // console.log(`🔍 Processing ${item.name} (${item.quantity}) -> Menu: ${menuData.name}`)
-
-                    // Recipe System
                     if (menuData.recipe && menuData.recipe.length > 0) {
                         for (const ingredient of menuData.recipe) {
-                            if (!ingredient.stockItemId) {
-                                console.log(`⚠️ Ingredient ${ingredient.stockItemName} missing stockItemId`)
-                                continue;
-                            }
+                            if (!ingredient.stockItemId) continue
+                            
                             const unit = normalizeUnit(ingredient.unit)
-                            // Handle both field names: 'quantityRequired' (MenuItem) and 'quantity' (VIP items)
                             const perItemQuantity = ingredient.quantityRequired ?? (ingredient as any).quantity ?? 0
                             const amount = perItemQuantity * item.quantity
 
-                            if (!usageStats[unit]) usageStats[unit] = { unit: unit, total: 0, items: [] }
+                            if (!usageStats[unit]) usageStats[unit] = { unit, total: 0, items: [] }
 
-                            // Special handling for Liter/ml conversion for summary
-                            let consumptionValue = amount
-                            let baseUnit = unit
-                            if (unit === 'ml') {
-                                usageStats['liter'].total += (amount / 1000)
-                            } else if (unit === 'liter') {
-                                usageStats['liter'].total += amount
-                            } else if (unit === 'g') {
-                                usageStats['kg'].total += (amount / 1000)
-                            } else if (unit === 'kg') {
-                                usageStats['kg'].total += amount
-                            } else if (unit === 'piece') {
-                                usageStats['piece'].total += amount
-                            }
+                            if (unit === 'ml') usageStats['liter'].total += (amount / 1000)
+                            else if (unit === 'liter') usageStats['liter'].total += amount
+                            else if (unit === 'g') usageStats['kg'].total += (amount / 1000)
+                            else if (unit === 'kg') usageStats['kg'].total += amount
+                            else if (unit === 'piece') usageStats['piece'].total += amount
 
                             usageStats[unit].total += amount
                             usageStats[unit].items.push({
@@ -204,27 +190,24 @@ export async function GET(request: Request) {
                                 quantity: item.quantity,
                                 consumption: amount,
                                 baseUnit: unit,
-                                orderId: order._id,
+                                orderId: order.id,
                                 date: order.createdAt
                             })
 
-                            const stockId = ingredient.stockItemId.toString()
+                            const stockId = ingredient.stockItemId
                             if (!itemConsumption[stockId]) {
-                                itemConsumption[stockId] = { name: menuData.name, unit: unit, quantity: 0, stockId: stockId, orders: [] }
+                                itemConsumption[stockId] = { name: menuData.name, unit, quantity: 0, stockId, orders: [] }
                             }
                             itemConsumption[stockId].quantity += amount
                             itemConsumption[stockId].orders.push({
-                                orderId: order._id,
+                                orderId: order.id,
                                 quantity: item.quantity,
                                 consumption: amount,
                                 date: order.createdAt,
                                 menuItemName: menuData.name
                             })
-                            // console.log(`✅ Consumed ${amount} ${unit} of ${ingredient.stockItemName} (StockID: ${stockId})`)
                         }
-                    }
-                    // Legacy Fallback
-                    else if (menuData.stockItemId) {
+                    } else if (menuData.stockItemId) {
                         const unit = menuData.reportUnit || 'piece'
                         const consumptionRatio = menuData.reportQuantity || 1
                         const amount = consumptionRatio * item.quantity
@@ -235,33 +218,27 @@ export async function GET(request: Request) {
                                 menuItem: menuData.name,
                                 quantity: item.quantity,
                                 consumption: amount,
-                                orderId: order._id,
+                                orderId: order.id,
                                 date: order.createdAt
                             })
                         }
 
-                        const stockId = menuData.stockItemId.toString()
+                        const stockId = menuData.stockItemId
                         if (!itemConsumption[stockId]) {
-                            itemConsumption[stockId] = { name: menuData.name, unit: unit, quantity: 0, stockId: stockId, orders: [] }
+                            itemConsumption[stockId] = { name: menuData.name, unit, quantity: 0, stockId, orders: [] }
                         }
                         itemConsumption[stockId].quantity += amount
                         itemConsumption[stockId].orders.push({
-                            orderId: order._id,
+                            orderId: order.id,
                             quantity: item.quantity,
                             consumption: amount,
                             date: order.createdAt
                         })
-                        // console.log(`✅ Consumed ${amount} ${unit} (Legacy) via ${menuData.name} (StockID: ${stockId})`)
-                    } else {
-                        console.log(`⚠️ Menu item ${menuData.name} has no recipe or stockItemId`)
                     }
-                } else {
-                    console.log(`⚠️ Menu Data not found for ID: ${item.menuItemId}`)
                 }
             }
         }
 
-        // 5. Stock Analysis
         const periodDays = Math.max(1, Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)))
 
         const stockAnalysis = stockItems.map(stock => {
@@ -269,9 +246,9 @@ export async function GET(request: Request) {
             const rootName = fullName.split(' (finished')[0].trim()
             const purchaseData = purchaseStats[rootName] || purchaseStats[fullName] || { quantity: 0, totalCost: 0, transactions: [] }
             const purchased = purchaseData.quantity
-            const transferred = transferStats[stock._id.toString()]?.quantity || 0
+            const transferred = transferStats[stock.id]?.quantity || 0
 
-            const consumptionData = Object.values(itemConsumption).filter(c => c.stockId === stock._id.toString())
+            const consumptionData = Object.values(itemConsumption).filter(c => c.stockId === stock.id)
             const consumed = consumptionData.reduce((acc, c) => acc + c.quantity, 0)
 
             const currentStock = stock.quantity || 0
@@ -281,13 +258,13 @@ export async function GET(request: Request) {
             const storeOpeningStock = Math.max(0, currentStoreStock - purchased + transferred)
 
             const currentUnitCost = stock.unitCost || 0
-            const totalHandled = openingStock + transferred
+            const purchaseTotalCost = purchaseData.totalCost || 0
             const weightedAvgCost = purchased > 0
-                ? ((openingStock * (stock.averagePurchasePrice || 0)) + purchaseData.totalCost) / (openingStock + purchased)
+                ? ((openingStock * (stock.averagePurchasePrice || 0)) + purchaseTotalCost) / (openingStock + purchased)
                 : (stock.averagePurchasePrice || 0)
 
             return {
-                id: stock._id,
+                id: stock.id,
                 name: stock.name,
                 category: stock.category,
                 unit: stock.unit,
@@ -305,7 +282,7 @@ export async function GET(request: Request) {
                 totalLifetimePurchased: stock.totalPurchased || 0,
                 sellUnitEquivalent: 1,
                 openingValue: openingStock * currentUnitCost,
-                purchaseValue: purchaseData.totalCost,
+                purchaseValue: purchaseTotalCost,
                 transferredValue: transferred * currentUnitCost,
                 consumedValue: consumed * currentUnitCost,
                 closingValue: currentStock * currentUnitCost,
@@ -323,7 +300,6 @@ export async function GET(request: Request) {
             }
         })
 
-        // 6. Summary and Return
         const totalOpeningValue = stockAnalysis.reduce((sum, item) => sum + item.openingValue, 0)
         const totalPurchaseValue = stockAnalysis.reduce((sum, item) => sum + item.purchaseValue, 0)
         const totalTransferredValue = stockAnalysis.reduce((sum, item) => sum + item.transferredValue, 0)

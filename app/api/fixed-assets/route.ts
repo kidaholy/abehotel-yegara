@@ -1,17 +1,13 @@
 import { NextResponse } from "next/server"
-import { connectDB } from "@/lib/db"
-import FixedAsset from "@/lib/models/fixed-asset"
+import { prisma } from "@/lib/prisma"
 import { validateSession } from "@/lib/auth"
 
-// GET all fixed assets
 export async function GET(request: Request) {
     try {
         const decoded = await validateSession(request)
         if (decoded.role !== "admin" && decoded.role !== "super-admin" && decoded.role !== "store_keeper" && !(decoded.role === "custom" && decoded.permissions?.includes("store:view"))) {
             return NextResponse.json({ message: "Forbidden" }, { status: 403 })
         }
-
-        await connectDB()
 
         const { searchParams } = new URL(request.url)
         const status = searchParams.get("status")
@@ -21,16 +17,15 @@ export async function GET(request: Request) {
         if (status) query.status = status
         if (category) query.category = category
 
-        const assets = await FixedAsset.find(query).sort({ createdAt: -1 }).lean()
+        const assets = await prisma.fixedAsset.findMany({
+            where: query,
+            orderBy: { createdAt: 'desc' }
+        })
 
         const serialized = assets.map((a: any) => ({
             ...a,
-            _id: a._id.toString(),
-            dismissals: (a.dismissals || []).map((d: any) => ({
-                ...d,
-                _id: d._id?.toString(),
-                dismissedBy: d.dismissedBy?.toString()
-            }))
+            _id: a.id,
+            dismissals: []
         }))
 
         return NextResponse.json(serialized)
@@ -41,15 +36,12 @@ export async function GET(request: Request) {
     }
 }
 
-// POST create new fixed asset
 export async function POST(request: Request) {
     try {
         const decoded = await validateSession(request)
         if (decoded.role !== "admin" && decoded.role !== "super-admin" && !(decoded.role === "custom" && decoded.permissions?.includes("store:create"))) {
             return NextResponse.json({ message: "Forbidden" }, { status: 403 })
         }
-
-        await connectDB()
 
         const body = await request.json()
         const { name, category, quantity, unitPrice, purchaseDate, notes } = body
@@ -62,22 +54,23 @@ export async function POST(request: Request) {
         const price = Number(unitPrice)
         const totalValue = qty * price
 
-        const asset = await FixedAsset.create({
-            name,
-            category: category || "General",
-            quantity: qty,
-            unitPrice: price,
-            totalValue,
-            totalInvested: totalValue,
-            purchaseDate: purchaseDate ? new Date(purchaseDate) : new Date(),
-            notes,
-            status: 'active',
-            dismissals: []
+        const asset = await prisma.fixedAsset.create({
+            data: {
+                name,
+                category: category || "General",
+                quantity: qty,
+                unitPrice: price,
+                totalValue,
+                totalInvested: totalValue,
+                purchaseDate: purchaseDate ? new Date(purchaseDate) : new Date(),
+                notes,
+                status: 'active'
+            }
         })
 
         return NextResponse.json({
-            ...asset.toObject(),
-            _id: asset._id.toString()
+            ...asset,
+            _id: asset.id
         }, { status: 201 })
     } catch (error: any) {
         console.error("❌ Create fixed asset error:", error)

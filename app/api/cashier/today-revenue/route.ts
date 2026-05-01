@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server"
-import Order from "@/lib/models/order"
-import Settings from "@/lib/models/settings"
-import { connectDB } from "@/lib/db"
+import { prisma } from "@/lib/db"
 import { validateSession } from "@/lib/auth"
 import { getStartOfTodayUTC3 } from "@/lib/time-sync"
 
@@ -12,20 +10,30 @@ export async function GET(request: Request) {
       return NextResponse.json({ message: "Forbidden" }, { status: 403 })
     }
 
-    await connectDB()
-
-    const toggle = await (Settings as any).findOne({ key: "enable_cashier_today_revenue" }).lean()
+    const toggle = await prisma.settings.findUnique({ where: { key: "enable_cashier_today_revenue" } })
     const isEnabled = (toggle?.value || "false") === "true"
     if (!isEnabled) {
       return NextResponse.json({ enabled: false, totalRevenue: 0, totalOrders: 0 })
     }
 
     const todayStart = getStartOfTodayUTC3()
-    const revenueOrders = await Order.find({
-      createdAt: { $gte: todayStart },
-      status: { $ne: "cancelled" },
-      createdBy: decoded.id
-    }).select("totalAmount items").lean()
+    const revenueOrders = await prisma.order.findMany({
+      where: {
+        createdAt: { gte: todayStart },
+        status: { not: "cancelled" },
+        createdById: decoded.id
+      },
+      select: {
+        totalAmount: true,
+        items: {
+          select: {
+            mainCategory: true,
+            price: true,
+            quantity: true
+          }
+        }
+      }
+    })
 
     let foodRevenue = 0
     let drinksRevenue = 0

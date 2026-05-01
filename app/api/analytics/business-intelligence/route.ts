@@ -1,28 +1,25 @@
 import { NextResponse } from "next/server"
-import { connectDB } from "@/lib/db"
-import Order from "@/lib/models/order"
-import DailyExpense from "@/lib/models/daily-expense"
+import { prisma } from "@/lib/prisma"
 import { validateSession } from "@/lib/auth"
 
 export async function GET(request: Request) {
   try {
     const decoded = await validateSession(request)
-    await connectDB()
 
     // Business intelligence analytics
     const today = new Date()
     const monthStart = new Date(today.getFullYear(), today.getMonth(), 1)
 
     const [monthOrders, monthExpenses] = await Promise.all([
-      Order.find({ createdAt: { $gte: monthStart } }).lean(),
-      DailyExpense.find({ date: { $gte: monthStart } }).lean()
+      prisma.order.findMany({ where: { createdAt: { gte: monthStart } } }),
+      prisma.dailyExpense.findMany({ where: { date: { gte: monthStart } } })
     ])
 
     const monthRevenue = monthOrders
-      .filter(o => o.status !== 'cancelled')
-      .reduce((sum, order) => sum + order.totalAmount, 0)
+      .filter((o: any) => o.status !== 'cancelled')
+      .reduce((sum: number, order: any) => sum + order.totalAmount, 0)
 
-    const monthExpensesTotal = monthExpenses.reduce((sum, exp) =>
+    const monthExpensesTotal = monthExpenses.reduce((sum: number, exp: any) =>
       sum + (exp.otherExpenses || 0), 0)
 
     const intelligence = {

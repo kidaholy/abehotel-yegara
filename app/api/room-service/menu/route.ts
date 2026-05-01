@@ -1,10 +1,6 @@
 import { NextResponse } from "next/server"
-import { connectDB } from "@/lib/db"
-import MenuItem from "@/lib/models/menu-item"
-import Vip1MenuItem from "@/lib/models/vip1-menu-item"
-import Vip2MenuItem from "@/lib/models/vip2-menu-item"
-import Room from "@/lib/models/room"
-import Floor from "@/lib/models/floor"
+import { MenuTier } from "@prisma/client"
+import { prisma } from "@/lib/db"
 
 export const dynamic = 'force-dynamic'
 
@@ -13,35 +9,28 @@ export async function GET(req: Request) {
     const { searchParams } = new URL(req.url)
     const roomNumber = searchParams.get("roomNumber")
 
-    await connectDB()
-
-    let menuTier = 'standard'
+    let menuTier: MenuTier = "standard"
 
     if (roomNumber) {
-        const room = await (Room as any).findOne({ roomNumber }).lean()
+        const room = await prisma.room.findUnique({
+          where: { roomNumber },
+          select: { roomServiceMenuTier: true }
+        })
         if (room) {
-            menuTier = room.roomServiceMenuTier || 'standard'
+            menuTier = room.roomServiceMenuTier || "standard"
         }
     }
 
-    let items = []
-    if (menuTier === 'vip1') {
-        items = await (Vip1MenuItem as any).find({ available: true }).lean()
-    } else if (menuTier === 'vip2') {
-        items = await (Vip2MenuItem as any).find({ available: true }).lean()
-    } else {
-        const allItems = await (MenuItem as any).find({ available: true }).lean()
-        // Filter out VIP items from standard collection just in case
-        items = allItems.filter((item: any) => {
-            const isVipCat = item.category && item.category.toLowerCase().includes('vip')
-            const isVipName = item.name && item.name.toLowerCase().includes('vip')
-            return !isVipCat && !isVipName && item.isVIP !== true
-        })
-    }
+    const items = await prisma.menuItem.findMany({
+      where: {
+        available: true,
+        tier: menuTier
+      }
+    })
     
     const serializedItems = items.map((item: any) => ({
       ...item,
-      _id: item._id.toString()
+      _id: item.id
     })).sort((a: any, b: any) => {
       const idA = a.menuId || ""
       const idB = b.menuId || ""

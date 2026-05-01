@@ -1,25 +1,18 @@
 import { NextResponse } from "next/server"
-import { connectDB } from "@/lib/db"
-import Order from "@/lib/models/order"
-import MenuItem from "@/lib/models/menu-item"
-import Stock from "@/lib/models/stock"
-import DailyExpense from "@/lib/models/daily-expense"
+import { prisma } from "@/lib/prisma"
 import { validateSession } from "@/lib/auth"
 
 export async function GET(request: Request) {
     try {
         const { searchParams } = new URL(request.url)
         const period = searchParams.get("period") || "today"
-        const format = searchParams.get("format") || "json" // json, csv, pdf
+        const format = searchParams.get("format") || "json"
 
         const decoded = await validateSession(request)
         if (decoded.role !== "admin" && decoded.role !== "super-admin") {
             return NextResponse.json({ message: "Forbidden" }, { status: 403 })
         }
 
-        await connectDB()
-
-        // Calculate date range
         let startDate = new Date()
         let endDate = new Date()
         endDate.setHours(23, 59, 59, 999)
@@ -45,54 +38,56 @@ export async function GET(request: Request) {
                 break
         }
 
-        // Fetch all data
-        const [orders, stockItems, menuItems, dailyExpenses] = await Promise.all([
-            Order.find({
-                createdAt: { $gte: startDate, $lte: endDate },
-                status: { $ne: "cancelled" }
-            }).sort({ createdAt: -1 }).lean(),
-            Stock.find({}).lean(),
-            MenuItem.find({}).lean(),
-            DailyExpense.find({
-                date: { $gte: startDate, $lte: endDate }
-            }).lean()
-        ])
+        const orders = await prisma.order.findMany({
+            where: {
+                createdAt: { gte: startDate, lte: endDate },
+                status: { not: "cancelled" }
+            },
+            include: { items: true },
+            orderBy: { createdAt: 'desc' }
+        })
+        const stockItems = await prisma.stock.findMany()
+        const menuItems = await prisma.menuItem.findMany({
+            include: { recipe: true }
+        })
+        const dailyExpenses = await prisma.dailyExpense.findMany({
+            where: { date: { gte: startDate, lte: endDate } }
+        })
 
-        // Calculate comprehensive metrics
         const totalRevenue = orders.reduce((sum, order) => sum + order.totalAmount, 0)
         const totalOrders = orders.length
         const completedOrders = orders.filter(o => o.status === "completed").length
 
-        // Expense calculations
         const totalOtherExpenses = dailyExpenses.reduce((sum, exp) => sum + (exp.otherExpenses || 0), 0)
 
-        // Stock calculations
         const totalStockValue = stockItems
             .reduce((sum, item) => sum + (((item.quantity || 0) + (item.storeQuantity || 0)) * (item.averagePurchasePrice || item.unitCost || 0)), 0)
 
-        // Total investment = Other expenses + Total stock assets
         const totalInvestment = totalOtherExpenses + totalStockValue
         const totalLifetimeInvestment = stockItems.reduce((sum, item) => sum + (item.totalInvestment || 0), 0)
 
-        // Net worth = Revenue - Total investment (Orders - (Asset + Expenses))
         const netProfit = totalRevenue - totalInvestment
         const profitMargin = totalRevenue > 0 ? (netProfit / totalRevenue) * 100 : 0
 
-        // Stock consumption analysis
-        const menuMap = new Map(menuItems.map(m => [m._id.toString(), m]))
+        const menuMap = new Map(menuItems.map(m => [m.id, m]))
         const stockConsumption: Record<string, { name: string, consumed: number, unit: string, cost: number }> = {}
 
         orders.forEach(order => {
             if (order.status === "completed") {
-                order.items.forEach((item: any) => {
+                let parsedItems = []
+                if (typeof order.items === 'string') {
+                    try { parsedItems = JSON.parse(order.items) } catch {}
+                } else if (Array.isArray(order.items)) {
+                    parsedItems = order.items
+                }
+
+                parsedItems.forEach((item: any) => {
                     const menuData = menuMap.get(item.menuItemId)
                     if (menuData) {
-                        // Use recipe system if available
                         if (menuData.recipe && menuData.recipe.length > 0) {
                             menuData.recipe.forEach((ingredient: any) => {
-                                const stockItem = stockItems.find(s => s._id.toString() === ingredient.stockItemId?.toString())
+                                const stockItem = stockItems.find(s => s.id === ingredient.stockItemId)
                                 if (stockItem) {
-                                    // Handle both field names: 'quantityRequired' (MenuItem) and 'quantity' (VIP items)
                                     const perItemQuantity = ingredient.quantityRequired ?? (ingredient as any).quantity ?? 0
                                     const consumedAmount = perItemQuantity * item.quantity
                                     const key = stockItem.name
@@ -110,9 +105,8 @@ export async function GET(request: Request) {
                                 }
                             })
                         }
-                        // Legacy fallback
                         else if (menuData.stockItemId && menuData.reportQuantity) {
-                            const stockItem = stockItems.find(s => s._id.toString() === (menuData.stockItemId as any)._id?.toString() || s._id.toString() === menuData.stockItemId.toString())
+                            const stockItem = stockItems.find(s => s.id === menuData.stockItemId)
                             if (stockItem) {
                                 const consumedAmount = menuData.reportQuantity * item.quantity
                                 const key = stockItem.name
@@ -134,7 +128,6 @@ export async function GET(request: Request) {
             }
         })
 
-        // Low stock alerts
         const lowStockAlerts = stockItems
             .filter(item => item.trackQuantity && item.minLimit && (item.quantity || 0) <= (item.minLimit || 0))
             .map(item => ({
@@ -145,10 +138,15 @@ export async function GET(request: Request) {
                 urgency: (item.quantity || 0) === 0 ? 'critical' as const : 'warning' as const
             }))
 
-        // Category performance
         const categoryStats = new Map<string, { revenue: number, orders: number }>()
         orders.forEach(order => {
-            order.items.forEach((item: any) => {
+            let parsedItems = []
+            if (typeof order.items === 'string') {
+                try { parsedItems = JSON.parse(order.items) } catch {}
+            } else if (Array.isArray(order.items)) {
+                parsedItems = order.items
+            }
+            parsedItems.forEach((item: any) => {
                 const menuData = menuMap.get(item.menuItemId)
                 const category = menuData?.category || 'Unknown'
                 const existing = categoryStats.get(category) || { revenue: 0, orders: 0 }
@@ -171,18 +169,16 @@ export async function GET(request: Request) {
             endDate,
             generatedAt: new Date(),
 
-            // Financial Overview
             financial: {
                 totalRevenue,
                 totalOtherExpenses,
-                totalStockValue, // All stock assets
+                totalStockValue,
                 totalInvestment,
                 totalLifetimeInvestment,
                 netProfit,
                 profitMargin
             },
 
-            // Operational Metrics
             operational: {
                 totalOrders,
                 completedOrders,
@@ -190,22 +186,20 @@ export async function GET(request: Request) {
                 completionRate: totalOrders > 0 ? (completedOrders / totalOrders) * 100 : 0
             },
 
-            // Stock Analysis
             inventory: {
-                totalStockValue, // All assets
+                totalStockValue,
                 lowStockAlerts,
                 stockConsumption: Object.values(stockConsumption),
                 categoryPerformance
             },
 
-            // Raw data for detailed exports
             orders: orders.map(order => ({
                 orderNumber: order.orderNumber,
                 date: order.createdAt,
                 status: order.status,
                 totalAmount: order.totalAmount,
                 paymentMethod: order.paymentMethod,
-                itemsCount: order.items.length
+                itemsCount: Array.isArray(order.items) ? order.items.length : 0
             })),
 
             stockItems: stockItems.map(item => ({

@@ -1,14 +1,8 @@
 import { NextResponse } from "next/server"
-import { connectDB } from "@/lib/db"
-import Vip2MenuItem from "@/lib/models/vip2-menu-item"
+import { prisma } from "@/lib/prisma"
 import { validateSession } from "@/lib/auth"
-import mongoose from "mongoose"
 
-// =============================================================================
-// VIP 2 MENU ITEM — Update & Delete ONLY from `vip2menuitems`
-// =============================================================================
-
-export async function PUT(request: Request, context: { params: Promise<{ id: string }> }) {
+export async function PUT(request: Request, context: any) {
   try {
     const { id } = await context.params
     const decoded = await validateSession(request)
@@ -16,55 +10,58 @@ export async function PUT(request: Request, context: { params: Promise<{ id: str
       return NextResponse.json({ message: "Forbidden" }, { status: 403 })
     }
 
-    await connectDB()
     const data = await request.json()
 
-    console.log(`[VIP2] PUT request for _id: ${id} in vip2menuitems`)
-
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return NextResponse.json({ message: "Invalid ID format" }, { status: 400 })
-    }
-
-    const updatePayload = {
+    const updatePayload: any = {
       name: data.name?.trim(),
-      mainCategory: data.mainCategory,
       category: data.category?.trim(),
-      price: data.price !== undefined ? Number(data.price) : undefined,
       description: data.description?.trim(),
       image: data.image,
-      preparationTime: data.preparationTime ? Number(data.preparationTime) : undefined,
-      available: data.available,
-      recipe: data.recipe,
       reportUnit: data.reportUnit,
-      reportQuantity: data.reportQuantity !== undefined ? Number(data.reportQuantity) : undefined,
       distributions: data.distributions,
-      // Convert empty stockItemId to null to avoid BSON casting errors
       stockItemId: data.stockItemId === "" ? null : data.stockItemId
     }
 
-    // Remove undefined fields so we don't overwrite with undefined
-    Object.keys(updatePayload).forEach(k => (updatePayload as any)[k] === undefined && delete (updatePayload as any)[k])
+    if (data.mainCategory !== undefined) updatePayload.mainCategory = data.mainCategory as any
+    if (data.price !== undefined) updatePayload.price = Number(data.price)
+    if (data.preparationTime !== undefined) updatePayload.preparationTime = Number(data.preparationTime)
+    if (data.available !== undefined) updatePayload.available = data.available
+    if (data.reportQuantity !== undefined) updatePayload.reportQuantity = Number(data.reportQuantity)
 
-    const updated = await (Vip2MenuItem as any).findByIdAndUpdate(
-      id,
-      { $set: updatePayload },
-      { new: true, runValidators: true }
-    )
-
-    if (!updated) {
-      console.error(`[VIP2] _id ${id} NOT found in vip2menuitems`)
-      return NextResponse.json({ message: "Item not found in VIP 2 collection" }, { status: 404 })
+    if (data.recipe && Array.isArray(data.recipe)) {
+      updatePayload.recipe = {
+        deleteMany: {}, 
+        create: data.recipe.map((r: any) => ({
+          stockItemId: r.stockItemId,
+          stockItemName: r.stockItemName || '',
+          quantityRequired: Number(r.quantityRequired),
+          unit: r.unit || ''
+        }))
+      }
     }
 
-    console.log(`[VIP2] Successfully updated _id: ${id} in vip2menuitems`)
-    return NextResponse.json({ message: "VIP 2 Menu item updated successfully", item: updated })
+    Object.keys(updatePayload).forEach(k => updatePayload[k] === undefined && delete updatePayload[k])
+
+    try {
+      const updated = await prisma.menuItem.update({
+        where: { id },
+        data: updatePayload,
+        include: { recipe: true }
+      })
+      return NextResponse.json({ message: "VIP 2 Menu item updated successfully", item: { ...updated, _id: updated.id } })
+    } catch (error: any) {
+      if (error.code === 'P2025') {
+        return NextResponse.json({ message: "Item not found in compilation" }, { status: 404 })
+      }
+      throw error
+    }
   } catch (error: any) {
     console.error("[VIP2] PUT error:", error)
     return NextResponse.json({ message: "Failed to update VIP 2 item" }, { status: 500 })
   }
 }
 
-export async function DELETE(request: Request, context: { params: Promise<{ id: string }> }) {
+export async function DELETE(request: Request, context: any) {
   try {
     const { id } = await context.params
     const decoded = await validateSession(request)
@@ -72,17 +69,15 @@ export async function DELETE(request: Request, context: { params: Promise<{ id: 
       return NextResponse.json({ message: "Forbidden" }, { status: 403 })
     }
 
-    await connectDB()
-    console.log(`[VIP2] DELETE request for _id: ${id} in vip2menuitems`)
-
-    const deleted = await (Vip2MenuItem as any).findByIdAndDelete(id)
-
-    if (!deleted) {
-      return NextResponse.json({ message: "Item not found in VIP 2 collection" }, { status: 404 })
+    try {
+      await prisma.menuItem.delete({ where: { id } })
+      return NextResponse.json({ message: "VIP 2 Menu item deleted successfully" })
+    } catch (error: any) {
+      if (error.code === 'P2025') {
+        return NextResponse.json({ message: "Item not found" }, { status: 404 })
+      }
+      throw error
     }
-
-    console.log(`[VIP2] Successfully deleted _id: ${id} from vip2menuitems`)
-    return NextResponse.json({ message: "VIP 2 Menu item deleted successfully" })
   } catch (error: any) {
     console.error("[VIP2] DELETE error:", error)
     return NextResponse.json({ message: "Failed to delete VIP 2 item" }, { status: 500 })

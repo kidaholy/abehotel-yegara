@@ -1,19 +1,25 @@
 import { NextResponse } from "next/server"
 
 export const dynamic = "force-dynamic"
-import { connectDB } from "@/lib/db"
-import Settings from "@/lib/models/settings"
+import { prisma } from "@/lib/prisma"
 
 export async function GET(request: Request) {
   try {
-    await connectDB()
+    const publicSettingKeys = [
+      "logo_url",
+      "favicon_url",
+      "app_name",
+      "app_tagline",
+      "vat_rate",
+      "enable_cashier_printing",
+      "enable_cashier_today_revenue",
+    ]
 
-    // Get public settings (logo, app name, etc.)
-    const publicSettings = await (Settings as any).find({
-      key: { $in: ["logo_url", "favicon_url", "app_name", "app_tagline", "vat_rate", "enable_cashier_printing", "enable_cashier_today_revenue"] }
-    }).lean()
+    const publicSettings = await prisma.settings.findMany({
+      where: { key: { in: publicSettingKeys } },
+      select: { key: true, value: true },
+    })
 
-    // Convert to key-value object
     const settingsObject = publicSettings.reduce((acc, setting) => {
       acc[setting.key] = setting.value
       return acc

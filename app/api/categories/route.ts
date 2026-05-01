@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server"
-import { connectDB } from "@/lib/db"
-import Category from "@/lib/models/category"
+import { prisma } from "@/lib/prisma"
 import { validateSession } from "@/lib/auth"
 
 // GET categories by type
@@ -10,12 +9,18 @@ export async function GET(request: Request) {
         const { searchParams } = new URL(request.url)
         const type = searchParams.get("type")
 
-        await connectDB()
+        const query = type ? { type: type as any } : {}
+        const categories = await prisma.category.findMany({
+            where: query,
+            orderBy: { name: 'asc' }
+        })
 
-        const query = type ? { type } : {}
-        const categories = await Category.find(query).sort({ name: 1 }).lean()
+        const serialized = categories.map(c => ({
+            ...c,
+            _id: c.id
+        }))
 
-        return NextResponse.json(categories)
+        return NextResponse.json(serialized)
     } catch (error: any) {
         console.error("❌ Get categories error:", error)
         const status = error.message?.includes("Unauthorized") ? 401 : 500
@@ -31,8 +36,6 @@ export async function POST(request: Request) {
             return NextResponse.json({ message: "Forbidden" }, { status: 403 })
         }
 
-        await connectDB()
-
         const body = await request.json()
         const { name, type, description } = body
 
@@ -40,20 +43,22 @@ export async function POST(request: Request) {
             return NextResponse.json({ message: "Name and type are required" }, { status: 400 })
         }
 
-        const newCategory = new Category({
-            name: name.trim().normalize("NFC"),
-            type,
-            description: description?.trim()
+        const newCategory = await prisma.category.create({
+            data: {
+                name: name.trim().normalize("NFC"),
+                type: type as any,
+                description: description?.trim()
+            }
         })
-        await newCategory.save()
 
-        return NextResponse.json(newCategory, { status: 201 })
+        return NextResponse.json({ ...newCategory, _id: newCategory.id }, { status: 201 })
     } catch (error: any) {
         console.error("❌ Create category error:", error)
         const status = error.message?.includes("Unauthorized") ? 401 : 500
         return NextResponse.json({ message: "Failed to create category" }, { status })
     }
 }
+
 // DELETE category (Admin only)
 export async function DELETE(request: Request) {
     try {
@@ -69,11 +74,15 @@ export async function DELETE(request: Request) {
             return NextResponse.json({ message: "ID is required" }, { status: 400 })
         }
 
-        await connectDB()
-
-        const deletedCategory = await Category.findByIdAndDelete(id)
-        if (!deletedCategory) {
-            return NextResponse.json({ message: "Category not found" }, { status: 404 })
+        try {
+            await prisma.category.delete({
+                where: { id }
+            })
+        } catch (e: any) {
+            if (e.code === 'P2025') {
+                return NextResponse.json({ message: "Category not found" }, { status: 404 })
+            }
+            throw e
         }
 
         return NextResponse.json({ message: "Category deleted" })

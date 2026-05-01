@@ -1,35 +1,20 @@
 import { NextResponse } from "next/server"
-import { connectDB } from "@/lib/db"
-import MenuItem from "@/lib/models/menu-item"
-import Stock from "@/lib/models/stock"
+import { prisma } from "@/lib/prisma"
 
-// Public endpoint — no authentication required
 export async function GET() {
   try {
-    await connectDB()
-    // Force Stock model registration
-    console.log("Public menu fetch", Stock.modelName)
+    const items = await prisma.menuItem.findMany({
+      where: { tier: 'standard', available: true },
+      include: { stockItem: true }
+    })
 
-    const menuItems = await MenuItem.find({ available: true })
-      .populate('stockItemId')
-      .lean()
-
-    // Filter out items where linked stock is finished and filter out VIP items
-    const filteredItems = menuItems.filter((item: any) => {
-      if (item.stockItemId && item.stockItemId.status === 'finished') {
-        return false
-      }
-      const isVipCat = item.category && item.category.toLowerCase().includes('vip');
-      const isVipName = item.name && item.name.toLowerCase().includes('vip');
-      if (isVipCat || isVipName || item.isVIP === true) {
-        return false
-      }
+    const filteredItems = items.filter((item: any) => {
+      if (item.stockItem && item.stockItem.status === 'finished') return false
       return true
     })
 
-    // Serialize for frontend
     const serializedItems = filteredItems.map((item: any) => ({
-      _id: item._id.toString(),
+      _id: item.id,
       menuId: item.menuId,
       name: item.name,
       mainCategory: item.mainCategory || 'Food',

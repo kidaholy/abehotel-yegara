@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server"
-import { connectDB } from "@/lib/db"
-import ReceptionRequest from "@/lib/models/reception-request"
+import { prisma } from "@/lib/prisma"
 import { validateSession } from "@/lib/auth"
 
 export async function GET(request: Request) {
@@ -8,20 +7,6 @@ export async function GET(request: Request) {
     const decoded = await validateSession(request)
     if (decoded.role !== "admin") {
       return NextResponse.json({ message: "Forbidden" }, { status: 403 })
-    }
-
-    try {
-      await connectDB()
-    } catch (dbError: any) {
-      // Database unreachable - return empty report with 200 status
-      console.warn("⚠️ Bedroom revenue report - DB unreachable, returning empty report")
-      return NextResponse.json({
-        totalRevenue: 0,
-        totalBookings: 0,
-        byRoom: [],
-        byPayment: [],
-        bookings: []
-      })
     }
 
     const { searchParams } = new URL(request.url)
@@ -34,7 +19,7 @@ export async function GET(request: Request) {
     let endDate: Date | null = null
 
     if (startDateParam) {
-      // Explicit date range (custom)
+      // Explicit date range
       startDate = new Date(startDateParam)
       endDate = endDateParam ? new Date(endDateParam) : null
     } else if (period === "today") {
@@ -47,27 +32,20 @@ export async function GET(request: Request) {
       startDate = new Date(now.getFullYear(), now.getMonth(), 1)
     }
 
-    const dateFilter: any = { $gte: startDate }
-    if (endDate) dateFilter.$lte = endDate
+    const dateFilter: any = { gte: startDate }
+    if (endDate) dateFilter.lte = endDate
 
-    const bookings = await ReceptionRequest.find({
-      status: { $in: [
-        // Canonical statuses
-        "CHECKIN_APPROVED",
-        "ACTIVE",
-        "CHECKOUT_PENDING",
-        "CHECKOUT_APPROVED",
-        "CHECKED_OUT",
-        // Legacy statuses
-        "guests",
-        "check_in",
-        "check_out",
-      ]},
-      inquiryType: { $in: ["check_in", "check_out", "reservation"] },
-      createdAt: dateFilter,
-    }).lean()
+    const bookings = await prisma.receptionRequest.findMany({
+      where: {
+        status: { in: [
+          "CHECKIN_APPROVED", "ACTIVE", "CHECKOUT_PENDING", "CHECKOUT_APPROVED", "CHECKED_OUT",
+          "guests" as any, "check_in" as any, "check_out" as any
+        ]},
+        inquiryType: { in: ["check_in", "check_out", "reservation"] },
+        createdAt: dateFilter,
+      }
+    })
 
-    // Helper: calculate nights between checkIn and checkOut strings
     const calcNights = (checkIn?: string, checkOut?: string): number => {
       if (!checkIn || !checkOut) return 1
       const msPerDay = 1000 * 60 * 60 * 24
@@ -104,8 +82,8 @@ export async function GET(request: Request) {
       totalBookings,
       byRoom: Object.values(byRoom),
       byPayment: Object.values(byPayment),
-      bookings: bookings.map(b => ({
-        _id: b._id?.toString(),
+      bookings: bookings.map((b: any) => ({
+        _id: b.id,
         guestName: b.guestName,
         roomNumber: b.roomNumber,
         roomPrice: b.roomPrice,
@@ -118,6 +96,7 @@ export async function GET(request: Request) {
       }))
     })
   } catch (error: any) {
+    console.error("Bedroom revenue report error:", error)
     return NextResponse.json({ message: "Failed" }, { status: 500 })
   }
 }

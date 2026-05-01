@@ -1,7 +1,15 @@
 import { NextResponse } from "next/server"
-import { connectDB } from "@/lib/db"
-import Settings from "@/lib/models/settings"
+import { SettingsType } from "@prisma/client"
 import { validateSession } from "@/lib/auth"
+import { prisma } from "@/lib/prisma"
+
+const toSettingsType = (value: unknown): SettingsType => {
+  const raw = String(value ?? "string")
+  if (raw === "url" || raw === "boolean" || raw === "number" || raw === "string") {
+    return raw
+  }
+  return "string"
+}
 
 export async function GET(request: Request) {
   try {
@@ -12,9 +20,15 @@ export async function GET(request: Request) {
       return NextResponse.json({ message: "Forbidden - Admin access required" }, { status: 403 })
     }
 
-    await connectDB()
-
-    const settings = await Settings.find({}).lean()
+    const settings = await prisma.settings.findMany({
+      select: {
+        key: true,
+        value: true,
+        type: true,
+        description: true,
+        updatedAt: true,
+      },
+    })
 
     // Convert to key-value object for easier frontend usage
     const settingsObject = settings.reduce((acc, setting) => {
@@ -44,29 +58,27 @@ export async function PUT(request: Request) {
       return NextResponse.json({ message: "Forbidden - Admin access required" }, { status: 403 })
     }
 
-    await connectDB()
-
     const { key, value, type, description } = await request.json()
+    const settingsType = toSettingsType(type)
 
     if (!key || value === undefined) {
       return NextResponse.json({ message: "Key and value are required" }, { status: 400 })
     }
 
-    // Update or create setting
-    const setting = await Settings.findOneAndUpdate(
-      { key },
-      {
+    const setting = await prisma.settings.upsert({
+      where: { key },
+      update: {
+        value: String(value),
+        type: settingsType,
+        description,
+      },
+      create: {
         key,
         value: String(value),
-        type: type || "string",
-        description
+        type: settingsType,
+        description,
       },
-      {
-        new: true,
-        upsert: true,
-        runValidators: true
-      }
-    )
+    })
 
     console.log(`✅ Setting updated: ${key} (Type: ${type}, Value Length: ${String(value).length})`)
     return NextResponse.json(setting)

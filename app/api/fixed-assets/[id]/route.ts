@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server"
-import { connectDB } from "@/lib/db"
-import FixedAsset from "@/lib/models/fixed-asset"
+import { prisma } from "@/lib/prisma"
 import { validateSession } from "@/lib/auth"
 
 // PUT update asset or dismiss
@@ -14,11 +13,13 @@ export async function PUT(
             return NextResponse.json({ message: "Forbidden" }, { status: 403 })
         }
 
-        await connectDB()
         const body = await request.json()
         const { id } = await params
 
-        const asset = await FixedAsset.findById(id)
+        const asset = await prisma.fixedAsset.findUnique({
+            where: { id },
+            include: { dismissals: true }
+        })
         if (!asset) {
             return NextResponse.json({ message: "Asset not found" }, { status: 404 })
         }
@@ -38,40 +39,49 @@ export async function PUT(
                 return NextResponse.json({ message: `Cannot dismiss ${dismissQty}. Only ${asset.quantity} remaining.` }, { status: 400 })
             }
 
-            asset.dismissals.push({
-                date: new Date(),
-                quantity: dismissQty,
-                reason,
-                valueLost: lostValue,
-                dismissedBy: decoded.id
+            const updatedAsset = await prisma.fixedAsset.update({
+                where: { id: asset.id },
+                data: {
+                    quantity: asset.quantity - dismissQty,
+                    totalValue: Math.max(0, asset.totalValue - lostValue),
+                    dismissals: {
+                        create: {
+                            quantity: dismissQty,
+                            reason,
+                            valueLost: lostValue,
+                            dismissedById: decoded.id
+                        }
+                    }
+                },
+                include: { dismissals: true }
             })
-
-            asset.quantity -= dismissQty
-            asset.totalValue = Math.max(0, asset.totalValue - lostValue)
-
-            await asset.save()
 
             return NextResponse.json({
                 message: `Dismissed ${dismissQty} unit(s). Value decreased by ${lostValue.toLocaleString()} ETB.`,
-                asset: { ...asset.toObject(), _id: asset._id.toString() }
+                asset: { ...updatedAsset, _id: updatedAsset.id }
             })
         }
 
         // Regular update
-        if (body.name) asset.name = body.name
-        if (body.category) asset.category = body.category
-        if (body.notes !== undefined) asset.notes = body.notes
+        const updateData: any = {}
+        if (body.name) updateData.name = body.name
+        if (body.category) updateData.category = body.category
+        if (body.notes !== undefined) updateData.notes = body.notes
         if (body.unitPrice) {
-            asset.unitPrice = Number(body.unitPrice)
-            asset.totalValue = asset.quantity * asset.unitPrice
+            updateData.unitPrice = Number(body.unitPrice)
+            updateData.totalValue = asset.quantity * updateData.unitPrice
         }
-        if (body.purchaseDate) asset.purchaseDate = new Date(body.purchaseDate)
+        if (body.purchaseDate) updateData.purchaseDate = new Date(body.purchaseDate)
 
-        await asset.save()
+        const savedAsset = await prisma.fixedAsset.update({
+            where: { id: asset.id },
+            data: updateData,
+            include: { dismissals: true }
+        })
 
         return NextResponse.json({
-            ...asset.toObject(),
-            _id: asset._id.toString()
+            ...savedAsset,
+            _id: savedAsset.id
         })
     } catch (error: any) {
         console.error("❌ Update fixed asset error:", error)
@@ -91,16 +101,17 @@ export async function DELETE(
             return NextResponse.json({ message: "Forbidden" }, { status: 403 })
         }
 
-        await connectDB()
         const { id } = await params
 
-        const deleted = await FixedAsset.findByIdAndDelete(id)
-        if (!deleted) {
-            return NextResponse.json({ message: "Asset not found" }, { status: 404 })
-        }
+        await prisma.fixedAsset.delete({
+            where: { id }
+        })
 
         return NextResponse.json({ message: "Asset deleted successfully" })
     } catch (error: any) {
+        if (error.code === 'P2025') {
+            return NextResponse.json({ message: "Asset not found" }, { status: 404 })
+        }
         console.error("❌ Delete fixed asset error:", error)
         const status = error.message?.includes("Unauthorized") ? 401 : 500
         return NextResponse.json({ message: "Failed to delete fixed asset" }, { status })

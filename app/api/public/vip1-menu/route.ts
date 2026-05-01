@@ -1,28 +1,20 @@
 import { NextResponse } from "next/server"
-import { connectDB } from "@/lib/db"
-import Vip1MenuItem from "@/lib/models/vip1-menu-item"
-import Stock from "@/lib/models/stock"
+import { prisma } from "@/lib/prisma"
 
 export async function GET() {
   try {
-    await connectDB()
-    console.log("Public VIP1 menu fetch")
+    const items = await prisma.menuItem.findMany({
+      where: { tier: 'vip1', available: true },
+      include: { stockItem: true }
+    })
 
-    const menuItems = await Vip1MenuItem.find({ available: true })
-      .sort({ menuId: 1 })
-      .populate('stockItemId')
-      .lean()
-
-    // Filter out items where linked stock is finished
-    const filteredItems = menuItems.filter((item: any) => {
-      if (item.stockItemId && item.stockItemId.status === 'finished') {
-        return false
-      }
+    const filteredItems = items.filter((item: any) => {
+      if (item.stockItem && item.stockItem.status === 'finished') return false
       return true
     })
 
     const serializedItems = filteredItems.map((item: any) => ({
-      _id: item._id.toString(),
+      _id: item.id,
       menuId: item.menuId,
       name: item.name,
       description: item.description,

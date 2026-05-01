@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server"
-import { connectDB } from "@/lib/db"
-import ReceptionRequest from "@/lib/models/reception-request"
+import { prisma } from "@/lib/prisma"
 import { validateSession } from "@/lib/auth"
 
 // GET all requests (admin) or own submissions (reception)
@@ -13,54 +12,43 @@ export async function GET(request: Request) {
     const searchTerm = searchParams.get('search') // Search by name/phone/room
     
     const decoded = await validateSession(request)
-    
-    try {
-      await connectDB()
-    } catch (dbError: any) {
-      console.warn("⚠️ Reception requests - DB unreachable, returning empty array")
-      return NextResponse.json([])
-    }
 
-    let query: any = {}
+    let where: any = {}
+    let andConditions: any[] = []
     
     // Build query based on role
     if (decoded.role === "admin") {
       // Admin sees all requests
       if (status && status !== "all") {
         if (status === "pending") {
-          query.status = { $in: ["CHECKIN_PENDING", "CHECKOUT_PENDING", "EXTEND_PENDING", "pending"] }
-        } else if (status === "check_in") {
-          // Canonical "checked in" bucket
-          query.status = { $in: ["CHECKIN_APPROVED", "check_in", "ACTIVE", "guests"] }
-        } else if (status === "guests") {
-          // Legacy tab name - still map to checked-in guests
-          query.status = { $in: ["CHECKIN_APPROVED", "check_in", "ACTIVE", "guests"] }
+          andConditions.push({ status: { in: ["CHECKIN_PENDING", "CHECKOUT_PENDING", "EXTEND_PENDING", "pending"] } })
+        } else if (status === "check_in" || status === "guests") {
+          andConditions.push({ status: { in: ["CHECKIN_APPROVED", "check_in", "ACTIVE", "guests"] } })
         } else if (status === "check_out") {
-          query.status = { $in: ["CHECKED_OUT", "CHECKOUT_APPROVED", "check_out"] }
+          andConditions.push({ status: { in: ["CHECKED_OUT", "CHECKOUT_APPROVED", "check_out"] } })
         } else if (status === "rejected") {
-          query.status = { $in: ["REJECTED", "rejected"] }
+          andConditions.push({ status: { in: ["REJECTED", "rejected"] } })
         } else {
-          query.status = status
+          andConditions.push({ status })
         }
       }
     } else if (decoded.role === "reception") {
       // Reception staff sees all approved guests + their own submissions
-      query.$or = [
-        { submittedBy: decoded.id },
-        // Reception staff needs visibility into the lifecycle buckets
-        { status: { $in: ["CHECKIN_APPROVED", "CHECKOUT_PENDING", "CHECKED_OUT", "CHECKOUT_APPROVED", "ACTIVE", "guests", "check_in", "check_out", "REJECTED", "rejected"] } },
-      ]
+      andConditions.push({
+        OR: [
+          { submittedBy: decoded.id },
+          { status: { in: ["CHECKIN_APPROVED", "CHECKOUT_PENDING", "CHECKED_OUT", "CHECKOUT_APPROVED", "ACTIVE", "guests", "check_in", "check_out", "REJECTED", "rejected"] } }
+        ]
+      })
       if (status && status !== "all") {
         if (status === "pending") {
-           query.status = { $in: ["CHECKIN_PENDING", "CHECKOUT_PENDING", "EXTEND_PENDING", "pending"] }
-        } else if (status === "check_in") {
-           query.status = { $in: ["CHECKIN_APPROVED", "check_in", "ACTIVE", "guests"] }
-        } else if (status === "guests") {
-           query.status = { $in: ["CHECKIN_APPROVED", "check_in", "ACTIVE", "guests"] }
+           andConditions.push({ status: { in: ["CHECKIN_PENDING", "CHECKOUT_PENDING", "EXTEND_PENDING", "pending"] } })
+        } else if (status === "check_in" || status === "guests") {
+           andConditions.push({ status: { in: ["CHECKIN_APPROVED", "check_in", "ACTIVE", "guests"] } })
         } else if (status === "check_out") {
-           query.status = { $in: ["CHECKED_OUT", "CHECKOUT_APPROVED", "check_out"] }
+           andConditions.push({ status: { in: ["CHECKED_OUT", "CHECKOUT_APPROVED", "check_out"] } })
         } else {
-           query.status = status
+           andConditions.push({ status })
         }
       }
     } else {
@@ -69,36 +57,69 @@ export async function GET(request: Request) {
 
     // Search filter
     if (searchTerm) {
-      const searchRegex = new RegExp(searchTerm, 'i')
-      query.$or = [
-        ...(query.$or || []),
-        { guestName: searchRegex },
-        { phone: searchRegex },
-        { roomNumber: searchRegex },
-        { faydaId: searchRegex }
-      ]
+      andConditions.push({
+        OR: [
+          { guestName: { contains: searchTerm, mode: 'insensitive' } },
+          { phone: { contains: searchTerm, mode: 'insensitive' } },
+          { roomNumber: { contains: searchTerm, mode: 'insensitive' } },
+          { faydaId: { contains: searchTerm, mode: 'insensitive' } }
+        ]
+      })
+    }
+
+    if (andConditions.length > 0) {
+      where.AND = andConditions
     }
 
     // Execute query with pagination
-    const requests = await ReceptionRequest.find(query)
-      .select('-idPhotoFront -idPhotoBack') // Exclude large photo fields from list
-      .sort({ createdAt: -1 })
-      .limit(limit)
-      .skip(skip)
-      .lean()
+    const requests = await prisma.receptionRequest.findMany({
+      where,
+      orderBy: { createdAt: 'desc' },
+      take: limit,
+      skip: skip,
+      select: {
+        id: true,
+        guestName: true,
+        faydaId: true,
+        phone: true,
+        photoUrl: true,
+        floorId: true,
+        roomNumber: true,
+        roomPrice: true,
+        inquiryType: true,
+        checkIn: true,
+        checkOut: true,
+        checkInTime: true,
+        checkOutTime: true,
+        guests: true,
+        paymentMethod: true,
+        chequeNumber: true,
+        paymentReference: true,
+        transactionUrl: true,
+        notes: true,
+        status: true,
+        submittedBy: true,
+        reviewedBy: true,
+        reviewNote: true,
+        createdAt: true,
+        updatedAt: true
+      }
+    })
 
     // Get total count for pagination
-    const total = await ReceptionRequest.countDocuments(query)
+    const total = await prisma.receptionRequest.count({ where })
 
-    // Calculate global overdue count (across all tabs, specifically for 'guests' status)
+    // Calculate global overdue count
     const todayStr = new Date().toISOString().split('T')[0]
-    const overdueCount = await ReceptionRequest.countDocuments({
-      status: { $in: ["CHECKIN_APPROVED", "ACTIVE", "guests", "check_in"] },
-      checkOut: { $lt: todayStr }
+    const overdueCount = await prisma.receptionRequest.count({
+      where: {
+        status: { in: ["CHECKIN_APPROVED", "ACTIVE", "guests", "check_in"] },
+        checkOut: { lt: todayStr }
+      }
     })
 
     return NextResponse.json({
-      data: requests.map(r => ({ ...r, _id: r._id?.toString() })),
+      data: requests.map(r => ({ ...r, _id: r.id })),
       total,
       overdueCount,
       limit,
@@ -117,14 +138,6 @@ export async function POST(request: Request) {
     const decoded = await validateSession(request)
     if (!["reception", "admin"].includes(decoded.role)) {
       return NextResponse.json({ message: "Forbidden" }, { status: 403 })
-    }
-
-    try {
-      await connectDB()
-    } catch (dbError: any) {
-      // Database unreachable - return error with 500 status
-      console.warn("⚠️ Reception requests POST - DB unreachable")
-      return NextResponse.json({ message: "Failed to submit request" }, { status: 500 })
     }
 
     const body = await request.json()
@@ -163,14 +176,16 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "Receipt URL is required for non-cash payments" }, { status: 400 })
     }
 
-    const doc = await ReceptionRequest.create({
-      guestName, faydaId, phone, idPhotoFront, idPhotoBack, photoUrl, floorId, roomNumber, roomPrice,
-      inquiryType, checkIn, checkOut, checkInTime, checkOutTime, guests, paymentMethod, chequeNumber, paymentReference, transactionUrl, notes,
-      status: inquiryType === "check_out" ? "CHECKOUT_PENDING" : "CHECKIN_PENDING",
-      submittedBy: decoded.id
+    const doc = await prisma.receptionRequest.create({
+      data: {
+        guestName, faydaId, phone, idPhotoFront, idPhotoBack, photoUrl, floorId, roomNumber, roomPrice,
+        inquiryType, checkIn, checkOut, checkInTime, checkOutTime, guests, paymentMethod, chequeNumber, paymentReference, transactionUrl, notes,
+        status: (inquiryType === "check_out" ? "CHECKOUT_PENDING" : "CHECKIN_PENDING") as any,
+        submittedBy: decoded.id
+      }
     })
 
-    return NextResponse.json({ message: "Request submitted", request: { ...doc.toObject(), _id: doc._id.toString() } })
+    return NextResponse.json({ message: "Request submitted", request: { ...doc, _id: doc.id } })
   } catch (error: any) {
     const status = error.message?.includes("Unauthorized") ? 401 : 500
     return NextResponse.json({ message: "Failed to submit request" }, { status })
@@ -185,8 +200,7 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ message: "Forbidden" }, { status: 403 })
     }
     
-    await connectDB()
-    await ReceptionRequest.deleteMany({})
+    await prisma.receptionRequest.deleteMany({})
 
     return NextResponse.json({ message: "All reception requests deleted successfully." })
   } catch (error: any) {

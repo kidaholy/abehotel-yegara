@@ -1,9 +1,5 @@
 import { NextResponse } from "next/server"
-import { connectDB } from "@/lib/db"
-import Order from "@/lib/models/order"
-import DailyExpense from "@/lib/models/daily-expense"
-import OperationalExpense from "@/lib/models/operational-expense"
-import Stock from "@/lib/models/stock"
+import { prisma } from "@/lib/db"
 import { validateSession } from "@/lib/auth"
 
 export async function GET(request: Request) {
@@ -15,41 +11,6 @@ export async function GET(request: Request) {
 
         const decoded = await validateSession(request)
         if (decoded.role !== "admin" && decoded.role !== "super-admin") return NextResponse.json({ message: "Forbidden" }, { status: 403 })
-
-        try {
-            await connectDB()
-        } catch (dbError: any) {
-            // Database unreachable - return empty report with 200 status
-            console.warn("⚠️ Sales Report - DB unreachable, returning empty report")
-            return NextResponse.json({
-                period,
-                startDate: new Date(),
-                endDate: new Date(),
-                summary: {
-                    totalRevenue: 0,
-                    totalOrders: 0,
-                    completedOrders: 0,
-                    pendingOrders: 0,
-                    cancelledOrders: 0,
-                    paymentStats: {},
-                    totalOtherExpenses: 0,
-                    totalOperationalExpenses: 0,
-                    periodStockInvestment: 0,
-                    totalExpenses: 0,
-                    periodNetProfit: 0,
-                    lifetimeRevenue: 0,
-                    lifetimeStockInvestment: 0,
-                    lifetimeOtherExpenses: 0,
-                    lifetimeOperationalExpenses: 0,
-                    lifetimeTotalInvestment: 0,
-                    lifetimeNetWorth: 0
-                },
-                orders: [],
-                revenueOrders: [],
-                dailyExpenses: [],
-                operationalExpenses: []
-            })
-        }
 
         let startDate = new Date()
         let endDate = new Date()
@@ -98,21 +59,22 @@ export async function GET(request: Request) {
         }
 
         // Get all orders (including cancelled) for reporting
-        const allOrdersQuery = {
-            createdAt: { $gte: startDate, $lte: endDate }
-        }
-
+        const allOrders = await prisma.order.findMany({
+            where: { createdAt: { gte: startDate, lte: endDate } },
+            include: { items: true },
+            orderBy: { createdAt: "desc" }
+        })
         // Get revenue-generating orders (excluding cancelled)
-        const revenueQuery = {
-            createdAt: { $gte: startDate, $lte: endDate },
-            status: { $ne: "cancelled" }
-        }
-
-        const allOrders = await Order.find(allOrdersQuery).sort({ createdAt: -1 }).lean()
-        const revenueOrders = await Order.find(revenueQuery).lean()
+        const revenueOrders = await prisma.order.findMany({
+            where: {
+                createdAt: { gte: startDate, lte: endDate },
+                status: { not: "cancelled" }
+            },
+            include: { items: true }
+        })
 
         // Aggregation for revenue (excluding cancelled orders)
-        const paymentStats: any = {}
+        const paymentStats: Record<string, number> = {}
         const totalRevenue = revenueOrders.reduce((sum, order) => sum + order.totalAmount, 0)
         const totalOrders = allOrders.length
         const completedOrders = allOrders.filter(o => o.status === "completed").length
@@ -124,50 +86,44 @@ export async function GET(request: Request) {
             paymentStats[method] = (paymentStats[method] || 0) + order.totalAmount
         })
 
-        // Fetch Expenses (Deprecated Bulk Purchases)
-        const expenseQuery = {
-            date: { $gte: startDate, $lte: endDate }
-        }
-        const dailyExpenses = await DailyExpense.find(expenseQuery).lean()
+        const dailyExpenses = await prisma.dailyExpense.findMany({
+            where: { date: { gte: startDate, lte: endDate } }
+        })
         const totalOtherExpenses = dailyExpenses.reduce((sum, exp) => {
-            const itemsCost = (exp.items || []).reduce((iSum, item) => iSum + (item.amount || 0), 0)
+            const items = Array.isArray(exp.items) ? (exp.items as any[]) : []
+            const itemsCost = items.reduce((iSum: number, item: any) => iSum + (item?.amount || 0), 0)
             return sum + (exp.otherExpenses || 0) + itemsCost
         }, 0)
 
-        // Fetch Operational Expenses (NEW)
-        const operationalExpenses = await OperationalExpense.find(expenseQuery).lean()
+        const operationalExpenses = await prisma.operationalExpense.findMany({
+            where: { date: { gte: startDate, lte: endDate } }
+        })
         const totalOperationalExpenses = operationalExpenses.reduce((sum, exp) => sum + (exp.amount || 0), 0)
 
-        // 📉 PERIOD-SPECIFIC STOCK INVESTMENT
-        const stocksWithHistory = await Stock.find({
-            "restockHistory.date": { $gte: startDate, $lte: endDate }
-        }).select('restockHistory').lean()
-
-        let periodStockInvestment = 0
-        stocksWithHistory.forEach((stock: any) => {
-            (stock.restockHistory || []).forEach((entry: any) => {
-                const entryDate = new Date(entry.date)
-                if (entryDate >= startDate && entryDate <= endDate) {
-                    periodStockInvestment += (entry.totalPurchaseCost || 0)
-                }
-            })
+        // Period-specific stock investment from restock entries.
+        const periodStockInvestmentData = await prisma.stockRestockEntry.aggregate({
+            where: { date: { gte: startDate, lte: endDate } },
+            _sum: { totalPurchaseCost: true }
         })
+        const periodStockInvestment = periodStockInvestmentData._sum.totalPurchaseCost || 0
 
         const totalExpenses = totalOtherExpenses + totalOperationalExpenses + periodStockInvestment
         const periodNetProfit = totalRevenue - totalExpenses
 
         // 📊 LIFETIME CUMULATIVE METRICS (Stay constant across filters)
-        const [lifetimeRevenueData, allStock, allExpenses, allOpExpenses] = await Promise.all([
-            Order.find({ status: { $ne: "cancelled" } }).select('totalAmount').lean(),
-            Stock.find({}).select('totalInvestment').lean(),
-            DailyExpense.find({}).select('otherExpenses items').lean(),
-            OperationalExpense.find({}).select('amount').lean()
-        ])
+        const lifetimeRevenueData = await prisma.order.findMany({
+            where: { status: { not: "cancelled" } },
+            select: { totalAmount: true }
+        })
+        const allStock = await prisma.stock.findMany({ select: { totalInvestment: true } })
+        const allExpenses = await prisma.dailyExpense.findMany({ select: { otherExpenses: true, items: true } })
+        const allOpExpenses = await prisma.operationalExpense.findMany({ select: { amount: true } })
 
         const lifetimeRevenue = (lifetimeRevenueData as any[]).reduce((sum, order) => sum + (order.totalAmount || 0), 0)
         const lifetimeStockInvestment = (allStock as any[]).reduce((sum, item) => sum + (item.totalInvestment || 0), 0)
         const lifetimeOtherExpenses = (allExpenses as any[]).reduce((sum, exp) => {
-            const itemsCost = (exp.items || []).reduce((iSum: number, item: any) => iSum + (item.amount || 0), 0)
+            const items = Array.isArray(exp.items) ? exp.items : []
+            const itemsCost = items.reduce((iSum: number, item: any) => iSum + (item?.amount || 0), 0)
             return sum + (exp.otherExpenses || 0) + itemsCost
         }, 0)
         const lifetimeOperationalExpenses = (allOpExpenses as any[]).reduce((sum, exp) => sum + (exp.amount || 0), 0)

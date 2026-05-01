@@ -1,10 +1,7 @@
 import { NextResponse } from "next/server"
-import { connectDB } from "@/lib/db"
-import DailyExpense from "@/lib/models/daily-expense"
-import Stock from "@/lib/models/stock"
+import { prisma } from "@/lib/prisma"
 import { validateSession } from "@/lib/auth"
 
-// GET daily expenses
 export async function GET(request: Request) {
     try {
         const { searchParams } = new URL(request.url)
@@ -16,17 +13,15 @@ export async function GET(request: Request) {
             return NextResponse.json({ message: "Forbidden" }, { status: 403 })
         }
 
-        await connectDB()
-
         let query: any = {}
 
         if (date) {
-            // Specific date
             const targetDate = new Date(date)
             targetDate.setUTCHours(0, 0, 0, 0)
-            query.date = targetDate
+            const endDate = new Date(targetDate)
+            endDate.setUTCHours(23, 59, 59, 999)
+            query.date = { gte: targetDate, lte: endDate }
         } else {
-            // Period-based query
             const now = new Date()
             let startDate = new Date()
             let endDate = new Date()
@@ -49,16 +44,17 @@ export async function GET(request: Request) {
                     endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999)
                     break
             }
-
-            query.date = { $gte: startDate, $lte: endDate }
+            query.date = { gte: startDate, lte: endDate }
         }
 
-        const expenses = await DailyExpense.find(query).sort({ date: -1 }).lean()
+        const expenses = await prisma.dailyExpense.findMany({
+            where: query,
+            orderBy: { date: 'desc' }
+        })
 
-        // Convert ObjectId to string for frontend compatibility
         const serializedExpenses = expenses.map(expense => ({
             ...expense,
-            _id: expense._id.toString()
+            _id: expense.id
         }))
 
         return NextResponse.json(serializedExpenses)
@@ -69,7 +65,6 @@ export async function GET(request: Request) {
     }
 }
 
-// DELETE daily expense
 export async function DELETE(request: Request) {
     try {
         const { searchParams } = new URL(request.url)
@@ -84,21 +79,19 @@ export async function DELETE(request: Request) {
             return NextResponse.json({ message: "Expense ID is required" }, { status: 400 })
         }
 
-        await connectDB()
-
-        const deletedExpense = await DailyExpense.findByIdAndDelete(id)
-        if (!deletedExpense) {
-            return NextResponse.json({ message: "Expense not found" }, { status: 404 })
+        try {
+            await prisma.dailyExpense.delete({ where: { id } })
+            return NextResponse.json({ message: "Expense deleted successfully" })
+        } catch (error: any) {
+            if (error.code === 'P2025') return NextResponse.json({ message: "Expense not found" }, { status: 404 })
+            throw error
         }
-
-        return NextResponse.json({ message: "Expense deleted successfully" })
     } catch (error: any) {
         console.error("❌ Delete expense error:", error)
         return NextResponse.json({ message: "Failed to delete expense" }, { status: 500 })
     }
 }
 
-// POST create/update daily expense
 export async function POST(request: Request) {
     try {
         const decoded = await validateSession(request)
@@ -106,58 +99,58 @@ export async function POST(request: Request) {
             return NextResponse.json({ message: "Forbidden" }, { status: 403 })
         }
 
-        await connectDB()
-
         const body = await request.json()
         const { date, otherExpenses, items, description } = body
 
-        // Validate required fields
         if (!date) {
             return NextResponse.json({ message: "Date is required" }, { status: 400 })
         }
 
-        // Normalize date to midnight UTC
         const expenseDate = new Date(date)
         expenseDate.setUTCHours(0, 0, 0, 0)
+        
+        // Target an explicit range for existing expense on that date
+        const endDate = new Date(expenseDate)
+        endDate.setUTCHours(23, 59, 59, 999)
 
-        // Check if expense already exists for this date
-        const existingExpense = await DailyExpense.findOne({ date: expenseDate })
+        const existingExpenses = await prisma.dailyExpense.findMany({ 
+            where: { date: { gte: expenseDate, lte: endDate } } 
+        })
+        const existingExpense = existingExpenses.length > 0 ? existingExpenses[0] : null
 
         const expenseData = {
             date: expenseDate,
-            otherExpenses: otherExpenses || 0,
+            otherExpenses: typeof otherExpenses === 'number' ? otherExpenses : 0,
             items: items || [],
             description: description || ""
         }
 
         let expense
         if (existingExpense) {
-            // Update existing expense
-            expense = await DailyExpense.findOneAndUpdate(
-                { date: expenseDate },
-                expenseData,
-                { new: true, runValidators: true }
-            )
+            expense = await prisma.dailyExpense.update({
+                where: { id: existingExpense.id },
+                data: expenseData
+            })
         } else {
-            // Create new expense
-            expense = await DailyExpense.create(expenseData)
+            expense = await prisma.dailyExpense.create({
+                data: expenseData
+            })
         }
 
-        // Update stock quantities based on purchases
         if (items && items.length > 0) {
             for (const item of items) {
-                if (item.quantity > 0) {
-                    await Stock.findOneAndUpdate(
-                        { name: { $regex: new RegExp(`^${item.name}`, 'i') } },
-                        { $inc: { quantity: item.quantity } }
-                    )
+                if (item.quantity > 0 && item.name) {
+                    await prisma.stock.updateMany({
+                        where: { name: { startsWith: item.name, mode: 'insensitive' } },
+                        data: { quantity: { increment: item.quantity } }
+                    })
                 }
             }
         }
 
         const serializedExpense = {
-            ...expense.toObject(),
-            _id: expense._id.toString()
+            ...expense,
+            _id: expense.id
         }
 
         return NextResponse.json(serializedExpense, { status: existingExpense ? 200 : 201 })

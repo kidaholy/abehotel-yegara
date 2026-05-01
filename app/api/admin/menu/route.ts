@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server"
-import { connectDB } from "@/lib/db"
-import MenuItem from "@/lib/models/menu-item"
-import Stock from "@/lib/models/stock"
+import { prisma } from "@/lib/prisma"
 import { validateSession } from "@/lib/auth"
 
 // Get all menu items (admin only)
@@ -14,11 +12,16 @@ export async function GET(request: Request) {
       return NextResponse.json({ message: "Forbidden" }, { status: 403 })
     }
 
-    await connectDB()
     console.log("📊 Database connected for menu retrieval")
 
     // Fetch all items without expensive DB-side regex
-    const allItems = await (MenuItem as any).find({}).populate("stockItemId", "name unit status").lean()
+    const allItems = await prisma.menuItem.findMany({
+      include: {
+        stockItem: {
+          select: { name: true, unit: true, status: true }
+        }
+      }
+    })
     
     // STRICT SEPARATION: Filter out VIP items in memory
     const menuItems = allItems.filter((item: any) => {
@@ -32,7 +35,8 @@ export async function GET(request: Request) {
     // Convert ObjectId to string for frontend compatibility
     const serializedItems = menuItems.map((item: any) => ({
       ...item,
-      _id: item._id.toString()
+      _id: item.id,
+      stockItemId: item.stockItem ? { ...item.stockItem, _id: item.stockItemId } : item.stockItemId
     })).sort((a: any, b: any) => {
       const idA = a.menuId || ""
       const idB = b.menuId || ""
@@ -57,7 +61,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "Forbidden" }, { status: 403 })
     }
 
-    await connectDB()
     console.log("📊 Database connected for menu item creation")
 
     const { menuId, name, mainCategory, category, price, description, image, preparationTime, available, stockItemId, stockConsumption, isVIP } = await request.json()
@@ -71,7 +74,7 @@ export async function POST(request: Request) {
     let finalMenuId = menuId ? menuId.toString().trim() : ""
     if (!finalMenuId) {
       // Find the items and extract the highest number
-      const allItems = await (MenuItem as any).find({}, { menuId: 1 }).lean()
+      const allItems = await prisma.menuItem.findMany({ select: { menuId: true } })
       let maxId = 0
 
       allItems.forEach((item: any) => {
@@ -92,32 +95,31 @@ export async function POST(request: Request) {
     const numericId = parseInt(finalMenuId, 10)
     if (!isNaN(numericId)) {
       // Find all menu items, sort them by numeric menuId
-      const allItems = await (MenuItem as any).find({}).lean()
+      const allItems = await prisma.menuItem.findMany()
 
       // Get all items that need to be shifted (>= numericId)
       // Sort in DESCENDING order so we process higher IDs first (safest)
-      const itemsToShift = allItems.filter(item => {
+      const itemsToShift = allItems.filter((item: any) => {
         const itemNumericId = parseInt(item.menuId, 10)
         return !isNaN(itemNumericId) && itemNumericId >= numericId
-      }).sort((a, b) => parseInt(b.menuId, 10) - parseInt(a.menuId, 10))
+      }).sort((a: any, b: any) => parseInt(b.menuId, 10) - parseInt(a.menuId, 10))
 
       // Multi-step shift process to avoid duplicate key errors (index: menuId_1)
       // Step 1: Shift everything to unique temporary IDs
       for (const item of itemsToShift) {
-        await (MenuItem as any).updateOne(
-          { _id: item._id },
-          { $set: { menuId: `TEMP_POST_${item._id}_${Date.now()}` } }
-        )
+        await prisma.menuItem.update({
+          where: { id: item.id },
+          data: { menuId: `TEMP_POST_${item.id}_${Date.now()}` }
+        })
       }
 
       // Step 2: Assign new numeric IDs (original + 1)
-      // We use the original numeric ID collected before the temporary rename
       for (const item of itemsToShift) {
         const originalNumericId = parseInt(item.menuId, 10)
-        await (MenuItem as any).updateOne(
-          { _id: item._id },
-          { $set: { menuId: (originalNumericId + 1).toString() } }
-        )
+        await prisma.menuItem.update({
+          where: { id: item.id },
+          data: { menuId: (originalNumericId + 1).toString() }
+        })
       }
     }
 
@@ -127,27 +129,28 @@ export async function POST(request: Request) {
     }
 
     // Create menu item
-    const menuItem = new MenuItem({
-      menuId: finalMenuId,
-      name: name.trim(),
-      mainCategory: mainCategory || 'Food',
-      category: category ? category.trim().normalize("NFC") : undefined,
-      price: Number(price),
-      description,
-      image,
-      preparationTime: preparationTime ? Number(preparationTime) : 10,
-      available: available !== false,
-      stockItemId: stockItemId || null,
-      stockConsumption: stockConsumption ? Number(stockConsumption) : 0,
-      isVIP: isVIP || false,
+    const menuItem = await prisma.menuItem.create({
+      data: {
+        menuId: finalMenuId,
+        name: name.trim(),
+        mainCategory: (mainCategory || 'Food') as any,
+        category: category ? category.trim().normalize("NFC") : undefined,
+        price: Number(price),
+        description,
+        image,
+        preparationTime: preparationTime ? Number(preparationTime) : 10,
+        available: available !== false,
+        stockItemId: stockItemId || null,
+        stockConsumption: stockConsumption ? Number(stockConsumption) : 0,
+        isVIP: isVIP || false,
+      }
     })
-    await menuItem.save()
 
-    console.log("✅ Menu item created successfully:", menuItem._id)
+    console.log("✅ Menu item created successfully:", menuItem.id)
 
     return NextResponse.json({
       message: "Menu item created successfully",
-      menuItem
+      menuItem: { ...menuItem, _id: menuItem.id }
     })
   } catch (error: any) {
     console.error("❌ Create menu item error:", error)

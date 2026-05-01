@@ -1,20 +1,24 @@
 import { NextResponse } from "next/server"
-import { connectDB } from "@/lib/db"
-import Stock from "@/lib/models/stock"
+import { prisma } from "@/lib/prisma"
 import { validateSession } from "@/lib/auth"
 
-// GET single stock item with full history
-export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(request: Request, context: any) {
     try {
         const decoded = await validateSession(request)
         if (decoded.role !== "admin" && decoded.role !== "super-admin") {
             return NextResponse.json({ message: "Forbidden" }, { status: 403 })
         }
 
-        await connectDB()
-
-        const { id } = await params
-        const stockItem = await (Stock as any).findById(id).populate('restockHistory.restockedBy', 'name email').lean()
+        const { id } = await context.params
+        const stockItem = await prisma.stock.findUnique({
+            where: { id },
+            include: {
+                restockHistory: {
+                    include: { restockedBy: { select: { id: true, name: true, email: true } } },
+                    orderBy: { date: 'desc' }
+                }
+            }
+        })
 
         if (!stockItem) {
             return NextResponse.json({ message: "Stock item not found" }, { status: 404 })
@@ -22,19 +26,19 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
 
         const serializedStock = {
             ...stockItem,
-            _id: stockItem._id.toString(),
+            _id: stockItem.id,
             totalValue: (stockItem.quantity || 0) * (stockItem.unitCost || 0),
             isLowStock: stockItem.trackQuantity && (stockItem.quantity || 0) <= (stockItem.minLimit || 0),
             isLowStoreStock: stockItem.trackQuantity && (stockItem.storeQuantity || 0) <= (stockItem.storeMinLimit || 0),
             isOutOfStock: stockItem.trackQuantity && (stockItem.quantity || 0) <= 0,
             availableForOrder: stockItem.trackQuantity ? (stockItem.status === 'active' && (stockItem.quantity || 0) > 0) : true,
             sellUnitEquivalent: stockItem.sellUnitEquivalent || 1,
-            restockHistory: stockItem.restockHistory?.map((entry: any) => ({
+            restockHistory: stockItem.restockHistory?.map(entry => ({
                 ...entry,
-                _id: entry._id?.toString(),
+                _id: entry.id,
                 restockedBy: entry.restockedBy ? {
                     ...entry.restockedBy,
-                    _id: entry.restockedBy._id?.toString()
+                    _id: entry.restockedBy.id
                 } : null
             })) || []
         }
@@ -46,129 +50,121 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     }
 }
 
-// PUT update stock item or restock
-export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function PUT(request: Request, context: any) {
     try {
         const decoded = await validateSession(request)
         if (decoded.role !== "admin" && decoded.role !== "super-admin") {
             return NextResponse.json({ message: "Forbidden" }, { status: 403 })
         }
 
-        await connectDB()
-
         const body = await request.json()
-        const { id } = await params
-        const stockItem = await (Stock as any).findById(id)
+        const { id } = await context.params
+        const stockItem = await prisma.stock.findUnique({ where: { id } })
         if (!stockItem) {
             return NextResponse.json({ message: "Stock item not found" }, { status: 404 })
         }
 
-        // Check if this is a restock operation
         if (body.action === 'restock' && body.quantityAdded && body.totalPurchaseCost) {
-            console.log(`🔄 Restocking ${stockItem.name}: +${body.quantityAdded} ${stockItem.unit} for total cost ${body.totalPurchaseCost} Br / selling at ${body.newUnitCost || stockItem.unitCost} per unit`)
+            const quantityAdded = Number(body.quantityAdded)
+            const totalPurchaseCost = Number(body.totalPurchaseCost)
+            const newUnitCost = Number(body.newUnitCost || stockItem.unitCost)
 
-            stockItem.restock(
-                Number(body.quantityAdded),
-                Number(body.totalPurchaseCost),
-                Number(body.newUnitCost || stockItem.unitCost),
-                body.notes || `Restocked via admin panel`,
-                decoded.id
-            )
+            // Replicate stockItem.restock logic dynamically
+            const currentTotalQty = stockItem.quantity + stockItem.storeQuantity
+            const currentTotalValue = currentTotalQty * stockItem.averagePurchasePrice
+            const newAveragePurchasePrice = (currentTotalValue + totalPurchaseCost) / (currentTotalQty + quantityAdded)
 
-            await stockItem.save()
+            const updatedStock = await prisma.stock.update({
+                where: { id },
+                data: {
+                    storeQuantity: stockItem.storeQuantity + quantityAdded,
+                    totalPurchased: stockItem.totalPurchased + quantityAdded,
+                    totalInvestment: stockItem.totalInvestment + totalPurchaseCost,
+                    averagePurchasePrice: newAveragePurchasePrice,
+                    unitCost: newUnitCost
+                }
+            })
 
-            // Create Store Log for better tracking
-            const StoreLog = (await import("@/lib/models/store-log")).default
-            await (StoreLog as any).create({
-                stockId: stockItem._id,
-                type: 'PURCHASE',
-                quantity: Number(body.quantityAdded),
-                unit: stockItem.unit,
-                pricePerUnit: Number(body.totalPurchaseCost) / Number(body.quantityAdded),
-                totalPrice: Number(body.totalPurchaseCost),
-                user: decoded.id,
-                notes: body.notes || "Manual restock (Store)"
+            await prisma.storeLog.create({
+                data: {
+                    stockId: id,
+                    type: 'PURCHASE' as any,
+                    quantity: quantityAdded,
+                    unit: stockItem.unit,
+                    pricePerUnit: totalPurchaseCost / quantityAdded,
+                    totalPrice: totalPurchaseCost,
+                    userId: decoded.id,
+                    notes: body.notes || "Manual restock (Store)"
+                }
+            })
+
+            await prisma.stockRestockEntry.create({
+                data: {
+                    stockId: id,
+                    quantityAdded,
+                    totalPurchaseCost,
+                    unitCostAtTime: stockItem.unitCost,
+                    notes: body.notes || "Restocked via admin panel",
+                    restockedById: decoded.id
+                }
             })
 
             const serializedStock = {
-                ...stockItem.toObject(),
-                _id: stockItem._id.toString(),
-                totalValue: stockItem.quantity * stockItem.averagePurchasePrice,
-                sellingValue: stockItem.quantity * stockItem.unitCost,
-                profitMargin: stockItem.unitCost > 0 ? ((stockItem.unitCost - stockItem.averagePurchasePrice) / stockItem.unitCost * 100).toFixed(1) : 0,
-                isLowStock: stockItem.trackQuantity && stockItem.quantity <= stockItem.minLimit,
-                isLowStoreStock: stockItem.trackQuantity && stockItem.storeQuantity <= stockItem.storeMinLimit,
-                isOutOfStock: stockItem.trackQuantity && stockItem.quantity <= 0,
-                availableForOrder: stockItem.trackQuantity ? (stockItem.status === 'active' && stockItem.quantity > 0) : true
+                ...updatedStock,
+                _id: updatedStock.id,
+                totalValue: updatedStock.quantity * updatedStock.averagePurchasePrice,
+                sellingValue: updatedStock.quantity * updatedStock.unitCost,
+                profitMargin: updatedStock.unitCost > 0 ? ((updatedStock.unitCost - updatedStock.averagePurchasePrice) / updatedStock.unitCost * 100).toFixed(1) : 0,
+                isLowStock: updatedStock.trackQuantity && updatedStock.quantity <= updatedStock.minLimit,
+                isLowStoreStock: updatedStock.trackQuantity && updatedStock.storeQuantity <= updatedStock.storeMinLimit,
+                isOutOfStock: updatedStock.trackQuantity && updatedStock.quantity <= 0,
+                availableForOrder: updatedStock.trackQuantity ? (updatedStock.status === 'active' && updatedStock.quantity > 0) : true
             }
 
             return NextResponse.json({
                 ...serializedStock,
-                message: `Successfully restocked ${body.quantityAdded} ${stockItem.unit}. New total: ${stockItem.quantity} ${stockItem.unit}. Investment: ${body.totalPurchaseCost.toLocaleString()} Br`
+                message: `Successfully restocked. New parameters applied.`
             })
         }
 
-        // Regular update operation
         const allowedUpdates = ['name', 'category', 'unit', 'unitType', 'minLimit', 'storeMinLimit', 'trackQuantity', 'showStatus', 'status', 'storeQuantity', 'totalInvestment', 'isVIP', 'vipLevel']
         const updateData: any = {}
 
-        console.log('🔍 API received body:', body)
-        console.log('🔍 API received sellUnitEquivalent:', body.sellUnitEquivalent)
-
         for (const key of allowedUpdates) {
             if (body[key] !== undefined) {
-                if (true) {
-                    updateData[key] = body[key]
-                }
+                updateData[key] = body[key]
             }
         }
 
-        // Handle totalPurchaseCost mapping to totalInvestment if provided
-        if (body.totalPurchaseCost !== undefined) {
-            updateData.totalInvestment = Number(body.totalPurchaseCost)
-        }
+        if (body.totalPurchaseCost !== undefined) updateData.totalInvestment = Number(body.totalPurchaseCost)
+        if (body.quantity !== undefined) updateData.quantity = Math.max(0, Number(body.quantity))
+        if (body.averagePurchasePrice !== undefined) updateData.averagePurchasePrice = Math.max(0, Number(body.averagePurchasePrice))
+        if (body.unitCost !== undefined) updateData.unitCost = Math.max(0, Number(body.unitCost))
 
-        // Handle direct quantity/price updates (for admin corrections)
-        if (body.quantity !== undefined) {
-            updateData.quantity = Math.max(0, Number(body.quantity))
-        }
-        if (body.averagePurchasePrice !== undefined) {
-            updateData.averagePurchasePrice = Math.max(0, Number(body.averagePurchasePrice))
-        }
-        if (body.unitCost !== undefined) {
-            updateData.unitCost = Math.max(0, Number(body.unitCost))
-        }
-
-        // Auto-update unitType if unit changes
         if (body.unit !== undefined) {
             const unit = body.unit.toLowerCase()
-            if (['kg', 'g', 'gram', 'kilogram'].includes(unit)) {
-                updateData.unitType = 'weight'
-            } else if (['l', 'ml', 'liter', 'litre', 'milliliter'].includes(unit)) {
-                updateData.unitType = 'volume'
-            } else {
-                updateData.unitType = 'count'
-            }
+            if (['kg', 'g', 'gram', 'kilogram'].includes(unit)) updateData.unitType = 'weight' as any
+            else if (['l', 'ml', 'liter', 'litre', 'milliliter'].includes(unit)) updateData.unitType = 'volume' as any
+            else updateData.unitType = 'count' as any
         }
-
-        Object.assign(stockItem, updateData)
-
-        stockItem.sellUnitEquivalent = 1
-
-        await stockItem.save()
         
-        console.log('🔍 After save, stockItem.sellUnitEquivalent:', stockItem.sellUnitEquivalent)
+        updateData.sellUnitEquivalent = 1
+
+        const savedStock = await prisma.stock.update({
+            where: { id },
+            data: updateData
+        })
 
         const serializedStock = {
-            ...stockItem.toObject(),
-            _id: stockItem._id.toString(),
-            totalValue: stockItem.quantity * stockItem.averagePurchasePrice,
-            sellingValue: stockItem.quantity * stockItem.unitCost,
-            profitMargin: stockItem.unitCost > 0 ? ((stockItem.unitCost - stockItem.averagePurchasePrice) / stockItem.unitCost * 100).toFixed(1) : 0,
-            isLowStock: stockItem.trackQuantity && stockItem.quantity <= stockItem.minLimit,
-            isLowStoreStock: stockItem.trackQuantity && stockItem.storeQuantity <= stockItem.storeMinLimit,
-            isOutOfStock: stockItem.trackQuantity && stockItem.quantity <= 0,
-            availableForOrder: stockItem.trackQuantity ? (stockItem.status === 'active' && stockItem.quantity > 0) : true
+            ...savedStock,
+            _id: savedStock.id,
+            totalValue: savedStock.quantity * savedStock.averagePurchasePrice,
+            sellingValue: savedStock.quantity * savedStock.unitCost,
+            profitMargin: savedStock.unitCost > 0 ? ((savedStock.unitCost - savedStock.averagePurchasePrice) / savedStock.unitCost * 100).toFixed(1) : 0,
+            isLowStock: savedStock.trackQuantity && savedStock.quantity <= savedStock.minLimit,
+            isLowStoreStock: savedStock.trackQuantity && savedStock.storeQuantity <= savedStock.storeMinLimit,
+            isOutOfStock: savedStock.trackQuantity && savedStock.quantity <= 0,
+            availableForOrder: savedStock.trackQuantity ? (savedStock.status === 'active' && savedStock.quantity > 0) : true
         }
 
         return NextResponse.json(serializedStock)
@@ -178,65 +174,41 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     }
 }
 
-// DELETE stock item
-export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function DELETE(request: Request, context: any) {
     try {
         const decoded = await validateSession(request)
         if (decoded.role !== "admin" && decoded.role !== "super-admin") {
             return NextResponse.json({ message: "Forbidden" }, { status: 403 })
         }
 
-        await connectDB()
-
-        const { id } = await params
+        const { id } = await context.params
         const { searchParams } = new URL(request.url)
         const source = searchParams.get("source") // 'stock' or 'store'
         
-        const stockItem = await (Stock as any).findById(id)
+        const stockItem = await prisma.stock.findUnique({ where: { id } })
 
         if (!stockItem) {
             return NextResponse.json({ message: "Stock item not found" }, { status: 404 })
         }
 
-        // If deleting from Store page - only clear store quantity
         if (source === 'store') {
             const hasActiveStock = (stockItem.quantity || 0) > 0
-            
-            // Always keep the record, just clear store quantity
-            stockItem.storeQuantity = 0
-            await stockItem.save()
+            await prisma.stock.update({ where: { id }, data: { storeQuantity: 0 } })
             
             if (hasActiveStock) {
-                return NextResponse.json({
-                    message: "Item removed from Store. Active stock in POS remains.",
-                    keepInPOS: true
-                })
+                return NextResponse.json({ message: "Item removed from Store. Active stock in POS remains.", keepInPOS: true })
             } else {
-                return NextResponse.json({
-                    message: "Item removed from Store. Record kept for history.",
-                    keepRecord: true
-                })
+                return NextResponse.json({ message: "Item removed from Store. Record kept for history.", keepRecord: true })
             }
         }
 
-        // If deleting from Stock/POS page - only clear active quantity
         const hasStoreQuantity = (stockItem.storeQuantity || 0) > 0
-        
-        // Always keep the record, just clear active stock
-        stockItem.quantity = 0
-        stockItem.status = 'out_of_stock'
-        await stockItem.save()
+        await prisma.stock.update({ where: { id }, data: { quantity: 0, status: 'out_of_stock' as any } })
         
         if (hasStoreQuantity) {
-            return NextResponse.json({
-                message: "Stock removed from POS, but kept in Store because it has remaining quantity.",
-                keepInStore: true
-            })
+            return NextResponse.json({ message: "Stock removed from POS, but kept in Store because it has remaining quantity.", keepInStore: true })
         } else {
-            return NextResponse.json({
-                message: "Stock removed from POS. Record kept for history.",
-                keepRecord: true
-            })
+            return NextResponse.json({ message: "Stock removed from POS. Record kept for history.", keepRecord: true })
         }
     } catch (error: any) {
         console.error("❌ Delete stock error:", error)

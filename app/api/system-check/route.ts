@@ -27,10 +27,8 @@ export async function GET(request: Request) {
 
     // Check collections
     try {
-      const [userCount, menuItemCount] = await Promise.all([
-        prisma.user.count(),
-        prisma.menuItem.count(),
-      ])
+      const userCount = await prisma.user.count()
+      const menuItemCount = await prisma.menuItem.count()
 
       checks.collections.status = "✅ Available"
       checks.collections.details = {
@@ -100,24 +98,22 @@ export async function GET(request: Request) {
 
     // Add debug data
     try {
-      const [recentOrders, sampleMenuItems, allCategories] = await Promise.all([
-        prisma.order.findMany({
-          orderBy: { createdAt: "desc" },
-          take: 5,
-          select: {
-            orderNumber: true,
-            status: true,
-            items: { select: { name: true, category: true } },
-          },
-        }),
-        prisma.menuItem.findMany({
-          take: 5,
-          select: { name: true, category: true },
-        }),
-        prisma.category.findMany({
-          select: { name: true },
-        }),
-      ])
+      const recentOrders = await prisma.order.findMany({
+        orderBy: { createdAt: "desc" },
+        take: 5,
+        select: {
+          orderNumber: true,
+          status: true,
+          items: { select: { name: true, category: true } },
+        },
+      })
+      const sampleMenuItems = await prisma.menuItem.findMany({
+        take: 5,
+        select: { name: true, category: true },
+      })
+      const allCategories = await prisma.category.findMany({
+        select: { name: true },
+      })
 
       checks.debug_data.status = "✅ Collected"
       checks.debug_data.details = {

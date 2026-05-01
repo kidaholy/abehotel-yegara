@@ -1,9 +1,7 @@
 import { NextResponse } from "next/server"
-import { connectDB } from "@/lib/db"
-import OperationalExpense from "@/lib/models/operational-expense"
+import { prisma } from "@/lib/prisma"
 import { validateSession } from "@/lib/auth"
 
-// GET operational expenses
 export async function GET(request: Request) {
     try {
         const { searchParams } = new URL(request.url)
@@ -15,10 +13,7 @@ export async function GET(request: Request) {
             return NextResponse.json({ message: "Forbidden" }, { status: 403 })
         }
 
-        await connectDB()
-
         let query: any = {}
-
         if (date) {
             const targetDate = new Date(date)
             targetDate.setUTCHours(0, 0, 0, 0)
@@ -46,26 +41,27 @@ export async function GET(request: Request) {
                     endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999)
                     break
             }
-            query.date = { $gte: startDate, $lte: endDate }
+            query.date = { gte: startDate, lte: endDate }
         }
 
-        const expenses = await OperationalExpense.find(query).sort({ date: -1 }).lean()
-        return NextResponse.json(expenses)
+        const expenses = await prisma.operationalExpense.findMany({
+            where: query,
+            orderBy: { date: 'desc' }
+        })
+        const serializedExpenses = expenses.map(e => ({ ...e, _id: e.id }))
+        return NextResponse.json(serializedExpenses)
     } catch (error: any) {
         console.error("❌ Get operational expenses error:", error)
         return NextResponse.json({ message: "Failed to get expenses" }, { status: 500 })
     }
 }
 
-// POST create/update operational expense
 export async function POST(request: Request) {
     try {
         const decoded = await validateSession(request)
         if (decoded.role !== "admin" && decoded.role !== "super-admin" && !(decoded.role === "custom" && decoded.permissions?.includes("store:create"))) {
             return NextResponse.json({ message: "Forbidden" }, { status: 403 })
         }
-
-        await connectDB()
 
         const body = await request.json()
         const { _id, date, category, amount, description, name } = body
@@ -84,19 +80,23 @@ export async function POST(request: Request) {
 
         let expense
         if (_id) {
-            expense = await OperationalExpense.findByIdAndUpdate(_id, expenseData, { new: true, runValidators: true })
+            expense = await prisma.operationalExpense.update({
+                where: { id: _id },
+                data: expenseData
+            })
         } else {
-            expense = await OperationalExpense.create(expenseData)
+            expense = await prisma.operationalExpense.create({
+                data: expenseData
+            })
         }
 
-        return NextResponse.json(expense, { status: _id ? 200 : 201 })
+        return NextResponse.json({ ...expense, _id: expense.id }, { status: _id ? 200 : 201 })
     } catch (error: any) {
         console.error("❌ Save operational expense error:", error)
         return NextResponse.json({ message: "Failed to save expense" }, { status: 500 })
     }
 }
 
-// DELETE operational expense
 export async function DELETE(request: Request) {
     try {
         const { searchParams } = new URL(request.url)
@@ -111,14 +111,13 @@ export async function DELETE(request: Request) {
             return NextResponse.json({ message: "Expense ID is required" }, { status: 400 })
         }
 
-        await connectDB()
-
-        const deletedExpense = await OperationalExpense.findByIdAndDelete(id)
-        if (!deletedExpense) {
-            return NextResponse.json({ message: "Expense not found" }, { status: 404 })
+        try {
+            await prisma.operationalExpense.delete({ where: { id } })
+            return NextResponse.json({ message: "Expense deleted successfully" })
+        } catch (error: any) {
+            if (error.code === 'P2025') return NextResponse.json({ message: "Expense not found" }, { status: 404 })
+            throw error
         }
-
-        return NextResponse.json({ message: "Expense deleted successfully" })
     } catch (error: any) {
         console.error("❌ Delete operational expense error:", error)
         return NextResponse.json({ message: "Failed to delete expense" }, { status: 500 })
