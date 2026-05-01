@@ -13,8 +13,9 @@ async function migrate() {
         process.exit(1);
     }
 
-    const sourceClient = new Client({ connectionString: SOURCE_URL });
-    const targetClient = new Client({ connectionString: TARGET_URL });
+    const sslConfig = { rejectUnauthorized: false };
+    const sourceClient = new Client({ connectionString: SOURCE_URL, ssl: sslConfig });
+    const targetClient = new Client({ connectionString: TARGET_URL, ssl: sslConfig });
 
     try {
         await sourceClient.connect();
