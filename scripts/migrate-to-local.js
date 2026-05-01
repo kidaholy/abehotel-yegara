@@ -7,6 +7,8 @@ const { Client } = require('pg');
 const SOURCE_URL = process.env.SOURCE_DATABASE_URL; // Supabase
 const TARGET_URL = process.env.TARGET_DATABASE_URL; // Yegara
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 async function migrate() {
     if (!SOURCE_URL || !TARGET_URL) {
         console.error("Please set SOURCE_DATABASE_URL and TARGET_DATABASE_URL");
