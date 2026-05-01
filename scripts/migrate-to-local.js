@@ -4,7 +4,7 @@ const { Client } = require('pg');
 // 1. Set the environment variables below or in a .env file
 // 2. Run: node scripts/migrate-to-local.js
 
-const SOURCE_URL = process.env.SOURCE_DATABASE_URL; // Supabase
+const SOURCE_URL = process.env.SOURCE_DATABASE_URL || process.env.DATABASE_URL; // Supabase
 const TARGET_URL = process.env.TARGET_DATABASE_URL; // Yegara
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
@@ -15,9 +15,12 @@ async function migrate() {
         process.exit(1);
     }
 
-    const sslConfig = { rejectUnauthorized: false };
-    const sourceClient = new Client({ connectionString: SOURCE_URL, ssl: sslConfig });
-    const targetClient = new Client({ connectionString: TARGET_URL, ssl: sslConfig });
+    const sourceClient = new Client({
+        connectionString: SOURCE_URL,
+        ssl: { rejectUnauthorized: false },
+    });
+    // Local/cPanel Postgres often doesn't use SSL by default.
+    const targetClient = new Client({ connectionString: TARGET_URL });
 
     try {
         await sourceClient.connect();
@@ -45,7 +48,7 @@ async function migrate() {
         console.log(`Found ${tables.length} tables to migrate.`);
 
         // Disable constraints temporarily on target
-        await targetClient.query('SET session_replication_role = "replica";');
+        await targetClient.query("SET session_replication_role = 'replica';");
 
         for (const table of tables) {
             console.log(`Migrating table: ${table}...`);
@@ -70,7 +73,7 @@ async function migrate() {
         }
 
         // Re-enable constraints
-        await targetClient.query('SET session_replication_role = "origin";');
+        await targetClient.query("SET session_replication_role = 'origin';");
         console.log("Migration completed successfully!");
 
     } catch (err) {
