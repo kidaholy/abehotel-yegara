@@ -32,7 +32,16 @@ async function migrate() {
             WHERE table_schema = 'public' AND table_type = 'BASE TABLE'
         `);
 
-        const tables = tablesRes.rows.map(r => r.table_name);
+        let tables = tablesRes.rows.map(r => r.table_name)
+            .filter(t => t !== '_prisma_migrations'); // Skip prisma internal tables
+
+        // Prioritize the 'User' table if it exists
+        tables.sort((a, b) => {
+            if (a === 'User') return -1;
+            if (b === 'User') return 1;
+            return 0;
+        });
+
         console.log(`Found ${tables.length} tables to migrate.`);
 
         // Disable constraints temporarily on target
