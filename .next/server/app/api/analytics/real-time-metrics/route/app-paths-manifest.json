@@ -1,0 +1,3 @@
+{
+  "/api/analytics/real-time-metrics/route": "app/api/analytics/real-time-metrics/route.js"
+}

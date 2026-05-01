@@ -1,0 +1,3 @@
+module.exports=[31069,e=>{"use strict";var t=e.i(64328);let i=new t.Schema({name:{type:String,required:!0,trim:!0},type:{type:String,enum:["menu","stock","fixed-asset","expense","room","service","vip1-menu","vip2-menu","distribution"],required:!0},description:{type:String}},{timestamps:!0}),s=t.default.models.Category||t.default.model("Category",i);if(t.default.models.Category){let e=t.default.models.Category.schema.path("type");e&&e.enumValues&&!e.enumValues.includes("distribution")&&e.enumValues.push("distribution")}e.s(["default",0,s])}];
+
+//# sourceMappingURL=lib_models_category_ts_9444551e._.js.map

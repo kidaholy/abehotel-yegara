@@ -1,0 +1,3 @@
+module.exports=[9710,e=>{"use strict";var t=e.i(64328);let i=new t.Schema({key:{type:String,required:!0,unique:!0},value:{type:String,default:""},type:{type:String,enum:["string","url","boolean","number"],default:"string"},description:{type:String}},{timestamps:!0}),n=t.default.models.Settings||t.default.model("Settings",i);e.s(["default",0,n])}];
+
+//# sourceMappingURL=lib_models_settings_ts_fe07c89e._.js.map
