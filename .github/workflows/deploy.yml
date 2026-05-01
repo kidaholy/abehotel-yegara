@@ -1,0 +1,45 @@
+name: Build and Deploy to Yegara
+
+on:
+  push:
+    branches:
+      - main # Change this to your main branch name
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Match your Yegara Node.js version
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma Client
+        run: npx prisma generate
+
+      - name: Build Next.js
+        run: npm run build
+        env:
+          NEXT_PRIVATE_STANDALONE: true
+
+      - name: Prepare Standalone Folder
+        run: |
+          cp -r public .next/standalone/
+          cp app.js .next/standalone/
+          mkdir -p .next/standalone/.next
+          cp -r .next/static .next/standalone/.next/
+
+      - name: Deploy to Deploy Branch
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: .next/standalone
+          branch: deploy
+          clean: true
+          token: ${{ secrets.GITHUB_TOKEN }}
