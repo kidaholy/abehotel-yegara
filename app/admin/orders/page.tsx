@@ -70,7 +70,7 @@ export default function AdminOrdersPage() {
         // Trigger notification
         notify({
           title: "Preparation Delay!",
-          message: `Order #${order.orderNumber} (Table ${order.tableNumber}) has exceeded its target time by ${metrics.delay}m.`,
+          message: `Order #${order.orderNumber} (${order.floorNumber?.toLowerCase().includes("rooms") ? "Room" : "Table"} ${order.tableNumber}) has exceeded its target time by ${metrics.delay}m.`,
           type: "error"
         })
         // Mark as notified
@@ -508,7 +508,7 @@ export default function AdminOrdersPage() {
                         </div>
                         <div className="flex flex-col gap-1 items-start border-l border-white/10 pl-3 ml-1">
                           <span className="text-[10px] font-bold text-[#d4af37] tracking-widest">
-                            {o.floorNumber ? `${o.floorNumber} - ` : ''}{o.tableNumber}
+                            {o.floorNumber ? `${o.floorNumber} - ` : ''}{o.floorNumber?.toLowerCase().includes("rooms") ? "Room" : "Table"} {o.tableNumber}
                           </span>
                           {(o.distributions || []).length > 0 && (
                             <div className="flex flex-wrap gap-1">
@@ -786,7 +786,7 @@ export default function AdminOrdersPage() {
                               <div className="flex-shrink-0 w-24">
                                 <h4 className="text-[#f3cf7a] font-playfair italic font-bold">#{order.orderNumber}</h4>
                                 <p className="text-[10px] text-gray-500 font-bold tracking-tighter mt-1">
-                                  {order.floorNumber ? `${order.floorNumber} - ` : ''}{order.tableNumber}
+                                  {order.floorNumber ? `${order.floorNumber} - ` : ''}{order.floorNumber?.toLowerCase().includes("rooms") ? "Room" : "Table"} {order.tableNumber}
                                 </p>
                                 {order.batchNumber && (
                                   <p className="text-[9px] text-amber-400 font-black tracking-widest uppercase mt-1">
@@ -845,7 +845,7 @@ export default function AdminOrdersPage() {
                               {order.floorNumber && (
                                 <span className="bg-[#1a1c1b] text-[#f3cf7a] border border-[#d4af37]/20 px-2 py-0.5 rounded text-[10px] font-black tracking-widest">FLOOR #{order.floorNumber}</span>
                               )}
-                              <span className="bg-[#1a1c1b] text-gray-400 border border-white/10 px-2 py-0.5 rounded text-[10px] font-black tracking-widest">{order.tableNumber}</span>
+                              <span className="bg-[#1a1c1b] text-gray-400 border border-white/10 px-2 py-0.5 rounded text-[10px] font-black tracking-widest">{order.floorNumber?.toLowerCase().includes("rooms") ? "Room" : "Table"} {order.tableNumber}</span>
                               {(order.distributions || []).length > 0 && (
                                 <div className="flex flex-wrap gap-1 items-center ml-2 border-l border-white/10 pl-2">
                                   {order.distributions!.map((dist, idx) => (

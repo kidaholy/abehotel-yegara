@@ -15,7 +15,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:25:34.555Z",
-    "updatedAt": "2026-04-21T09:43:38.680Z"
+    "updatedAt": "2026-04-21T09:43:38.680Z",
+    "isDeleted": false
   },
   {
     "id": "69ada303d661b3f94ac72f87",
@@ -33,7 +34,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:25:35.197Z",
-    "updatedAt": "2026-04-20T06:35:48.711Z"
+    "updatedAt": "2026-04-20T06:35:48.711Z",
+    "isDeleted": false
   },
   {
     "id": "69ada304d661b3f94ac72f8e",
@@ -51,7 +53,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:25:36.339Z",
-    "updatedAt": "2026-04-17T12:47:03.025Z"
+    "updatedAt": "2026-04-17T12:47:03.025Z",
+    "isDeleted": false
   },
   {
     "id": "69ada304d661b3f94ac72f8f",
@@ -69,7 +72,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:25:36.496Z",
-    "updatedAt": "2026-04-20T06:26:34.041Z"
+    "updatedAt": "2026-04-20T06:26:34.041Z",
+    "isDeleted": false
   },
   {
     "id": "69ada306d661b3f94ac72f9b",
@@ -87,7 +91,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:25:38.455Z",
-    "updatedAt": "2026-04-20T06:27:16.517Z"
+    "updatedAt": "2026-04-20T06:27:16.517Z",
+    "isDeleted": false
   },
   {
     "id": "69ada307d661b3f94ac72f9e",
@@ -105,7 +110,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:25:38.938Z",
-    "updatedAt": "2026-04-20T06:27:37.307Z"
+    "updatedAt": "2026-04-20T06:27:37.307Z",
+    "isDeleted": false
   },
   {
     "id": "69ada309d661b3f94ac72fad",
@@ -123,7 +129,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:25:41.359Z",
-    "updatedAt": "2026-04-15T14:14:07.984Z"
+    "updatedAt": "2026-04-15T14:14:07.984Z",
+    "isDeleted": false
   },
   {
     "id": "69ada309d661b3f94ac72fae",
@@ -141,7 +148,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:25:41.518Z",
-    "updatedAt": "2026-04-15T14:14:22.898Z"
+    "updatedAt": "2026-04-15T14:14:22.898Z",
+    "isDeleted": false
   },
   {
     "id": "69ada30ad661b3f94ac72fb2",
@@ -159,7 +167,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:25:42.174Z",
-    "updatedAt": "2026-04-15T14:15:04.100Z"
+    "updatedAt": "2026-04-15T14:15:04.100Z",
+    "isDeleted": false
   },
   {
     "id": "69ada302d661b3f94ac72f82",
@@ -177,7 +186,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:25:34.393Z",
-    "updatedAt": "2026-04-21T09:43:22.624Z"
+    "updatedAt": "2026-04-21T09:43:22.624Z",
+    "isDeleted": false
   },
   {
     "id": "69ada303d661b3f94ac72f84",
@@ -195,7 +205,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:25:34.715Z",
-    "updatedAt": "2026-04-21T09:43:51.380Z"
+    "updatedAt": "2026-04-21T09:43:51.380Z",
+    "isDeleted": false
   },
   {
     "id": "69ada303d661b3f94ac72f86",
@@ -213,7 +224,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:25:35.037Z",
-    "updatedAt": "2026-04-21T09:44:02.471Z"
+    "updatedAt": "2026-04-21T09:44:02.471Z",
+    "isDeleted": false
   },
   {
     "id": "69ada304d661b3f94ac72f8a",
@@ -231,7 +243,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:25:35.688Z",
-    "updatedAt": "2026-04-20T06:25:43.168Z"
+    "updatedAt": "2026-04-20T06:25:43.168Z",
+    "isDeleted": false
   },
   {
     "id": "69ada305d661b3f94ac72f95",
@@ -249,7 +262,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:25:37.472Z",
-    "updatedAt": "2026-04-17T12:45:37.054Z"
+    "updatedAt": "2026-04-17T12:45:37.054Z",
+    "isDeleted": false
   },
   {
     "id": "69ada305d661b3f94ac72f96",
@@ -267,7 +281,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:25:37.636Z",
-    "updatedAt": "2026-04-17T12:47:16.862Z"
+    "updatedAt": "2026-04-17T12:47:16.862Z",
+    "isDeleted": false
   },
   {
     "id": "69ada306d661b3f94ac72f98",
@@ -285,7 +300,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:25:37.958Z",
-    "updatedAt": "2026-04-21T09:38:42.772Z"
+    "updatedAt": "2026-04-21T09:38:42.772Z",
+    "isDeleted": false
   },
   {
     "id": "69ada308d661b3f94ac72fa5",
@@ -303,7 +319,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:25:40.059Z",
-    "updatedAt": "2026-04-20T06:36:41.496Z"
+    "updatedAt": "2026-04-20T06:36:41.496Z",
+    "isDeleted": false
   },
   {
     "id": "69ada308d661b3f94ac72fa7",
@@ -321,7 +338,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:25:40.392Z",
-    "updatedAt": "2026-04-20T06:34:55.298Z"
+    "updatedAt": "2026-04-20T06:34:55.298Z",
+    "isDeleted": false
   },
   {
     "id": "69ada30ad661b3f94ac72faf",
@@ -339,7 +357,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:25:41.678Z",
-    "updatedAt": "2026-04-15T14:14:37.833Z"
+    "updatedAt": "2026-04-15T14:14:37.833Z",
+    "isDeleted": false
   },
   {
     "id": "69ada30bd661b3f94ac72fb6",
@@ -357,7 +376,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:25:42.814Z",
-    "updatedAt": "2026-04-26T06:25:18.162Z"
+    "updatedAt": "2026-04-26T06:25:18.162Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38ad661b3f94ac72fc5",
@@ -375,7 +395,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:27:50.014Z",
-    "updatedAt": "2026-04-28T03:49:06.045Z"
+    "updatedAt": "2026-04-28T03:49:06.045Z",
+    "isDeleted": false
   },
   {
     "id": "69ada303d661b3f94ac72f89",
@@ -393,7 +414,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:25:35.517Z",
-    "updatedAt": "2026-04-20T06:25:18.708Z"
+    "updatedAt": "2026-04-20T06:25:18.708Z",
+    "isDeleted": false
   },
   {
     "id": "69ada304d661b3f94ac72f8b",
@@ -411,7 +433,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:25:35.856Z",
-    "updatedAt": "2026-04-20T06:25:59.444Z"
+    "updatedAt": "2026-04-20T06:25:59.444Z",
+    "isDeleted": false
   },
   {
     "id": "69ada308d661b3f94ac72fa4",
@@ -429,7 +452,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:25:39.894Z",
-    "updatedAt": "2026-04-21T09:43:10.941Z"
+    "updatedAt": "2026-04-21T09:43:10.941Z",
+    "isDeleted": false
   },
   {
     "id": "69ada304d661b3f94ac72f8d",
@@ -447,7 +471,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:25:36.175Z",
-    "updatedAt": "2026-04-17T12:46:44.186Z"
+    "updatedAt": "2026-04-17T12:46:44.186Z",
+    "isDeleted": false
   },
   {
     "id": "69ada305d661b3f94ac72f92",
@@ -465,7 +490,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:25:36.976Z",
-    "updatedAt": "2026-04-20T06:27:51.856Z"
+    "updatedAt": "2026-04-20T06:27:51.856Z",
+    "isDeleted": false
   },
   {
     "id": "69ada307d661b3f94ac72fa1",
@@ -483,7 +509,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:25:39.418Z",
-    "updatedAt": "2026-04-20T06:38:35.826Z"
+    "updatedAt": "2026-04-20T06:38:35.826Z",
+    "isDeleted": false
   },
   {
     "id": "69ada308d661b3f94ac72fa3",
@@ -501,7 +528,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:25:39.735Z",
-    "updatedAt": "2026-03-27T16:24:58.549Z"
+    "updatedAt": "2026-03-27T16:24:58.549Z",
+    "isDeleted": false
   },
   {
     "id": "69ada309d661b3f94ac72fac",
@@ -519,7 +547,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:25:41.200Z",
-    "updatedAt": "2026-04-26T06:22:30.708Z"
+    "updatedAt": "2026-04-26T06:22:30.708Z",
+    "isDeleted": false
   },
   {
     "id": "69ada30ad661b3f94ac72fb1",
@@ -537,7 +566,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:25:42.002Z",
-    "updatedAt": "2026-04-15T14:14:50.173Z"
+    "updatedAt": "2026-04-15T14:14:50.173Z",
+    "isDeleted": false
   },
   {
     "id": "69ada30ad661b3f94ac72fb3",
@@ -555,7 +585,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:25:42.335Z",
-    "updatedAt": "2026-03-26T15:58:20.342Z"
+    "updatedAt": "2026-03-26T15:58:20.342Z",
+    "isDeleted": false
   },
   {
     "id": "69ada30ad661b3f94ac72fb4",
@@ -573,7 +604,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:25:42.494Z",
-    "updatedAt": "2026-04-15T13:02:25.518Z"
+    "updatedAt": "2026-04-15T13:02:25.518Z",
+    "isDeleted": false
   },
   {
     "id": "69ada30ad661b3f94ac72fb5",
@@ -591,7 +623,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:25:42.653Z",
-    "updatedAt": "2026-04-21T09:51:10.169Z"
+    "updatedAt": "2026-04-21T09:51:10.169Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38ad661b3f94ac72fc4",
@@ -609,7 +642,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:27:49.796Z",
-    "updatedAt": "2026-04-28T03:48:20.252Z"
+    "updatedAt": "2026-04-28T03:48:20.252Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38bd661b3f94ac72fc8",
@@ -627,7 +661,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:27:50.622Z",
-    "updatedAt": "2026-04-28T03:50:17.368Z"
+    "updatedAt": "2026-04-28T03:50:17.368Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38bd661b3f94ac72fca",
@@ -645,7 +680,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:27:51.027Z",
-    "updatedAt": "2026-04-28T03:50:49.177Z"
+    "updatedAt": "2026-04-28T03:50:49.177Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38cd661b3f94ac72fcd",
@@ -663,7 +699,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:27:51.633Z",
-    "updatedAt": "2026-04-28T03:51:55.879Z"
+    "updatedAt": "2026-04-28T03:51:55.879Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38cd661b3f94ac72fce",
@@ -681,7 +718,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:27:51.843Z",
-    "updatedAt": "2026-04-28T03:52:08.970Z"
+    "updatedAt": "2026-04-28T03:52:08.970Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38dd661b3f94ac72fd3",
@@ -699,7 +737,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:27:52.867Z",
-    "updatedAt": "2026-04-28T03:54:00.819Z"
+    "updatedAt": "2026-04-28T03:54:00.819Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38dd661b3f94ac72fd5",
@@ -717,7 +756,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:27:53.276Z",
-    "updatedAt": "2026-04-20T06:21:29.718Z"
+    "updatedAt": "2026-04-20T06:21:29.718Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38dd661b3f94ac72fd6",
@@ -735,7 +775,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:27:53.483Z",
-    "updatedAt": "2026-04-20T06:21:44.948Z"
+    "updatedAt": "2026-04-20T06:21:44.948Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38ed661b3f94ac72fda",
@@ -753,7 +794,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:27:54.328Z",
-    "updatedAt": "2026-05-01T17:45:59.543Z"
+    "updatedAt": "2026-05-01T17:45:59.543Z",
+    "isDeleted": false
   },
   {
     "id": "69ada391d661b3f94ac72fe5",
@@ -771,7 +813,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:27:56.622Z",
-    "updatedAt": "2026-04-30T15:16:38.813Z"
+    "updatedAt": "2026-04-30T15:16:38.813Z",
+    "isDeleted": false
   },
   {
     "id": "69ada392d661b3f94ac72fed",
@@ -789,7 +832,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:27:58.294Z",
-    "updatedAt": "2026-03-26T13:26:45.443Z"
+    "updatedAt": "2026-03-26T13:26:45.443Z",
+    "isDeleted": false
   },
   {
     "id": "69ae3904f9fdbe9351c81698",
@@ -807,7 +851,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-09T03:05:40.683Z",
-    "updatedAt": "2026-04-26T06:23:09.470Z"
+    "updatedAt": "2026-04-26T06:23:09.470Z",
+    "isDeleted": false
   },
   {
     "id": "69ae3bcae4ec353f2d2c5cd3",
@@ -825,7 +870,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-09T03:17:30.668Z",
-    "updatedAt": "2026-04-20T06:29:13.369Z"
+    "updatedAt": "2026-04-20T06:29:13.369Z",
+    "isDeleted": false
   },
   {
     "id": "69b05fe14f185ccba4c7e07c",
@@ -843,7 +889,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-10T18:16:01.398Z",
-    "updatedAt": "2026-04-20T06:41:25.888Z"
+    "updatedAt": "2026-04-20T06:41:25.888Z",
+    "isDeleted": false
   },
   {
     "id": "69b062b28a5ac8d9f6c31595",
@@ -861,7 +908,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-10T18:28:02.523Z",
-    "updatedAt": "2026-04-20T06:41:14.677Z"
+    "updatedAt": "2026-04-20T06:41:14.677Z",
+    "isDeleted": false
   },
   {
     "id": "69b07c29600d3a2c233e9348",
@@ -879,7 +927,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-10T20:16:41.743Z",
-    "updatedAt": "2026-04-20T06:38:48.347Z"
+    "updatedAt": "2026-04-20T06:38:48.347Z",
+    "isDeleted": false
   },
   {
     "id": "69b4ef8beb7719eea4ff44b0",
@@ -897,7 +946,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-14T05:18:03.372Z",
-    "updatedAt": "2026-05-01T17:44:58.244Z"
+    "updatedAt": "2026-05-01T17:44:58.244Z",
+    "isDeleted": false
   },
   {
     "id": "69c15561e8139ff0a561d675",
@@ -915,7 +965,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-23T14:59:45.832Z",
-    "updatedAt": "2026-04-30T15:19:48.890Z"
+    "updatedAt": "2026-04-30T15:19:48.890Z",
+    "isDeleted": false
   },
   {
     "id": "69c155bfe8139ff0a561d697",
@@ -933,7 +984,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-23T15:01:19.108Z",
-    "updatedAt": "2026-04-30T15:20:04.294Z"
+    "updatedAt": "2026-04-30T15:20:04.294Z",
+    "isDeleted": false
   },
   {
     "id": "69c52c81dea98a88e765b153",
@@ -951,7 +1003,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-26T12:54:25.027Z",
-    "updatedAt": "2026-03-26T12:54:25.027Z"
+    "updatedAt": "2026-03-26T12:54:25.027Z",
+    "isDeleted": false
   },
   {
     "id": "69c52ce4dea98a88e765b15f",
@@ -969,7 +1022,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-26T12:56:04.165Z",
-    "updatedAt": "2026-03-26T12:56:04.165Z"
+    "updatedAt": "2026-03-26T12:56:04.165Z",
+    "isDeleted": false
   },
   {
     "id": "69c530bbdea98a88e765b193",
@@ -987,7 +1041,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-26T13:12:27.375Z",
-    "updatedAt": "2026-03-26T13:12:27.375Z"
+    "updatedAt": "2026-03-26T13:12:27.375Z",
+    "isDeleted": false
   },
   {
     "id": "69c53157dea98a88e765b19f",
@@ -1005,7 +1060,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-26T13:15:03.421Z",
-    "updatedAt": "2026-03-26T13:15:03.421Z"
+    "updatedAt": "2026-03-26T13:15:03.421Z",
+    "isDeleted": false
   },
   {
     "id": "69c53194dea98a88e765b1a5",
@@ -1023,7 +1079,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-26T13:16:04.541Z",
-    "updatedAt": "2026-03-26T13:16:04.541Z"
+    "updatedAt": "2026-03-26T13:16:04.541Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38ad661b3f94ac72fc7",
@@ -1041,7 +1098,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:27:50.419Z",
-    "updatedAt": "2026-04-28T03:49:38.463Z"
+    "updatedAt": "2026-04-28T03:49:38.463Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38bd661b3f94ac72fc9",
@@ -1059,7 +1117,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:27:50.824Z",
-    "updatedAt": "2026-04-28T03:50:34.672Z"
+    "updatedAt": "2026-04-28T03:50:34.672Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38bd661b3f94ac72fcb",
@@ -1077,7 +1136,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:27:51.228Z",
-    "updatedAt": "2026-04-28T03:51:04.168Z"
+    "updatedAt": "2026-04-28T03:51:04.168Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38cd661b3f94ac72fcf",
@@ -1095,7 +1155,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:27:52.047Z",
-    "updatedAt": "2026-04-28T03:52:42.745Z"
+    "updatedAt": "2026-04-28T03:52:42.745Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38dd661b3f94ac72fd4",
@@ -1113,7 +1174,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:27:53.072Z",
-    "updatedAt": "2026-04-14T14:29:12.539Z"
+    "updatedAt": "2026-04-14T14:29:12.539Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38fd661b3f94ac72fde",
@@ -1131,7 +1193,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:27:55.153Z",
-    "updatedAt": "2026-04-28T03:57:06.345Z"
+    "updatedAt": "2026-04-28T03:57:06.345Z",
+    "isDeleted": false
   },
   {
     "id": "69ada392d661b3f94ac72feb",
@@ -1149,7 +1212,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:27:57.875Z",
-    "updatedAt": "2026-03-26T13:21:58.172Z"
+    "updatedAt": "2026-03-26T13:21:58.172Z",
+    "isDeleted": false
   },
   {
     "id": "69ada392d661b3f94ac72fec",
@@ -1167,7 +1231,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:27:58.085Z",
-    "updatedAt": "2026-03-26T13:22:13.717Z"
+    "updatedAt": "2026-03-26T13:22:13.717Z",
+    "isDeleted": false
   },
   {
     "id": "69ae3938f9fdbe9351c8169e",
@@ -1185,7 +1250,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-09T03:06:32.413Z",
-    "updatedAt": "2026-04-20T06:30:37.189Z"
+    "updatedAt": "2026-04-20T06:30:37.189Z",
+    "isDeleted": false
   },
   {
     "id": "69ae3ad8e4ec353f2d2c5cc5",
@@ -1203,7 +1269,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-09T03:13:28.241Z",
-    "updatedAt": "2026-04-20T06:34:10.968Z"
+    "updatedAt": "2026-04-20T06:34:10.968Z",
+    "isDeleted": false
   },
   {
     "id": "69ae3b5ee4ec353f2d2c5ccd",
@@ -1221,7 +1288,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-09T03:15:42.530Z",
-    "updatedAt": "2026-04-20T06:29:35.250Z"
+    "updatedAt": "2026-04-20T06:29:35.250Z",
+    "isDeleted": false
   },
   {
     "id": "69ae3c17e4ec353f2d2c5cda",
@@ -1239,7 +1307,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-09T03:18:47.431Z",
-    "updatedAt": "2026-04-20T06:30:13.686Z"
+    "updatedAt": "2026-04-20T06:30:13.686Z",
+    "isDeleted": false
   },
   {
     "id": "69ae3edf05fbad0c0df5f159",
@@ -1257,7 +1326,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-09T03:30:39.097Z",
-    "updatedAt": "2026-04-17T12:52:10.453Z"
+    "updatedAt": "2026-04-17T12:52:10.453Z",
+    "isDeleted": false
   },
   {
     "id": "69ae3f3205fbad0c0df5f160",
@@ -1275,7 +1345,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-09T03:32:02.013Z",
-    "updatedAt": "2026-04-17T12:52:21.326Z"
+    "updatedAt": "2026-04-17T12:52:21.326Z",
+    "isDeleted": false
   },
   {
     "id": "69b05e9976105045558f69f9",
@@ -1293,7 +1364,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-10T18:10:33.994Z",
-    "updatedAt": "2026-04-20T06:40:17.546Z"
+    "updatedAt": "2026-04-20T06:40:17.546Z",
+    "isDeleted": false
   },
   {
     "id": "69b061d58a5ac8d9f6c31562",
@@ -1311,7 +1383,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-10T18:24:21.696Z",
-    "updatedAt": "2026-04-20T06:45:04.415Z"
+    "updatedAt": "2026-04-20T06:45:04.415Z",
+    "isDeleted": false
   },
   {
     "id": "69b065ecfbbe31c2394f3c0a",
@@ -1329,7 +1402,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-10T18:41:48.557Z",
-    "updatedAt": "2026-04-20T06:30:59.773Z"
+    "updatedAt": "2026-04-20T06:30:59.773Z",
+    "isDeleted": false
   },
   {
     "id": "69b523e1665c578e006a78c0",
@@ -1347,7 +1421,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-14T09:01:21.491Z",
-    "updatedAt": "2026-04-20T06:37:51.724Z"
+    "updatedAt": "2026-04-20T06:37:51.724Z",
+    "isDeleted": false
   },
   {
     "id": "69b55a365261c7d302b5463a",
@@ -1365,7 +1440,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-14T12:53:10.034Z",
-    "updatedAt": "2026-04-20T06:46:31.526Z"
+    "updatedAt": "2026-04-20T06:46:31.526Z",
+    "isDeleted": false
   },
   {
     "id": "69c3a290d83d54b684f9a4da",
@@ -1383,7 +1459,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-25T08:53:36.342Z",
-    "updatedAt": "2026-04-17T12:45:51.301Z"
+    "updatedAt": "2026-04-17T12:45:51.301Z",
+    "isDeleted": false
   },
   {
     "id": "69c505c3cab647c06482275f",
@@ -1401,7 +1478,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-26T10:09:07.541Z",
-    "updatedAt": "2026-03-26T10:09:07.541Z"
+    "updatedAt": "2026-03-26T10:09:07.541Z",
+    "isDeleted": false
   },
   {
     "id": "69c52cbedea98a88e765b159",
@@ -1419,7 +1497,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-26T12:55:26.339Z",
-    "updatedAt": "2026-03-26T12:55:26.339Z"
+    "updatedAt": "2026-03-26T12:55:26.339Z",
+    "isDeleted": false
   },
   {
     "id": "69c52ee4dea98a88e765b173",
@@ -1437,7 +1516,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-26T13:04:36.630Z",
-    "updatedAt": "2026-03-26T13:04:36.630Z"
+    "updatedAt": "2026-03-26T13:04:36.630Z",
+    "isDeleted": false
   },
   {
     "id": "69c6adbb140cb91738d35034",
@@ -1455,7 +1535,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-27T16:18:03.702Z",
-    "updatedAt": "2026-04-25T16:51:10.995Z"
+    "updatedAt": "2026-04-25T16:51:10.995Z",
+    "isDeleted": false
   },
   {
     "id": "69c6b33ed28eb9fa5a1e25e2",
@@ -1473,7 +1554,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-27T16:41:34.273Z",
-    "updatedAt": "2026-04-17T12:49:45.252Z"
+    "updatedAt": "2026-04-17T12:49:45.252Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38ad661b3f94ac72fc6",
@@ -1491,7 +1573,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:27:50.217Z",
-    "updatedAt": "2026-04-28T03:49:20.506Z"
+    "updatedAt": "2026-04-28T03:49:20.506Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38dd661b3f94ac72fd2",
@@ -1509,7 +1592,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:27:52.664Z",
-    "updatedAt": "2026-04-28T03:53:44.889Z"
+    "updatedAt": "2026-04-28T03:53:44.889Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38fd661b3f94ac72fdc",
@@ -1527,7 +1611,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:27:54.744Z",
-    "updatedAt": "2026-03-26T13:21:36.581Z"
+    "updatedAt": "2026-03-26T13:21:36.581Z",
+    "isDeleted": false
   },
   {
     "id": "69ada390d661b3f94ac72fe2",
@@ -1545,7 +1630,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:27:55.974Z",
-    "updatedAt": "2026-04-30T15:15:34.835Z"
+    "updatedAt": "2026-04-30T15:15:34.835Z",
+    "isDeleted": false
   },
   {
     "id": "69ada390d661b3f94ac72fe4",
@@ -1563,7 +1649,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:27:56.398Z",
-    "updatedAt": "2026-04-30T15:16:21.792Z"
+    "updatedAt": "2026-04-30T15:16:21.792Z",
+    "isDeleted": false
   },
   {
     "id": "69ada392d661b3f94ac72fea",
@@ -1581,7 +1668,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:27:57.645Z",
-    "updatedAt": "2026-03-26T13:21:01.129Z"
+    "updatedAt": "2026-03-26T13:21:01.129Z",
+    "isDeleted": false
   },
   {
     "id": "69ada393d661b3f94ac72fef",
@@ -1599,7 +1687,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:27:58.700Z",
-    "updatedAt": "2026-03-26T16:01:43.212Z"
+    "updatedAt": "2026-03-26T16:01:43.212Z",
+    "isDeleted": false
   },
   {
     "id": "69ae2fe57f9ee29e9baebfea",
@@ -1617,7 +1706,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-09T02:26:45.815Z",
-    "updatedAt": "2026-05-01T17:46:08.327Z"
+    "updatedAt": "2026-05-01T17:46:08.327Z",
+    "isDeleted": false
   },
   {
     "id": "69ae3c5de4ec353f2d2c5ce0",
@@ -1635,7 +1725,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-09T03:19:57.935Z",
-    "updatedAt": "2026-04-20T06:28:30.599Z"
+    "updatedAt": "2026-04-20T06:28:30.599Z",
+    "isDeleted": false
   },
   {
     "id": "69ae3cd7e4ec353f2d2c5ced",
@@ -1653,7 +1744,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-09T03:21:59.007Z",
-    "updatedAt": "2026-04-20T06:28:40.012Z"
+    "updatedAt": "2026-04-20T06:28:40.012Z",
+    "isDeleted": false
   },
   {
     "id": "69ae3df405fbad0c0df5f144",
@@ -1671,7 +1763,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-09T03:26:44.950Z",
-    "updatedAt": "2026-04-21T09:34:53.141Z"
+    "updatedAt": "2026-04-21T09:34:53.141Z",
+    "isDeleted": false
   },
   {
     "id": "69ae42ebee8d1cbfd731551a",
@@ -1689,7 +1782,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-09T03:47:55.064Z",
-    "updatedAt": "2026-03-31T12:41:27.567Z"
+    "updatedAt": "2026-03-31T12:41:27.567Z",
+    "isDeleted": false
   },
   {
     "id": "69ae58ec531c1b152b687ffa",
@@ -1707,7 +1801,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-09T05:21:48.089Z",
-    "updatedAt": "2026-05-01T17:46:31.415Z"
+    "updatedAt": "2026-05-01T17:46:31.415Z",
+    "isDeleted": false
   },
   {
     "id": "69b05edf76105045558f6a10",
@@ -1725,7 +1820,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-10T18:11:43.890Z",
-    "updatedAt": "2026-04-20T06:40:07.546Z"
+    "updatedAt": "2026-04-20T06:40:07.546Z",
+    "isDeleted": false
   },
   {
     "id": "69c50746cab647c06482276f",
@@ -1743,7 +1839,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-26T10:15:34.044Z",
-    "updatedAt": "2026-03-26T10:15:34.044Z"
+    "updatedAt": "2026-03-26T10:15:34.044Z",
+    "isDeleted": false
   },
   {
     "id": "69c50ab7cab647c064822781",
@@ -1761,7 +1858,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-26T10:30:15.358Z",
-    "updatedAt": "2026-03-26T10:30:15.358Z"
+    "updatedAt": "2026-03-26T10:30:15.358Z",
+    "isDeleted": false
   },
   {
     "id": "69c52d6edea98a88e765b16c",
@@ -1779,7 +1877,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-26T12:58:22.858Z",
-    "updatedAt": "2026-03-26T12:58:22.858Z"
+    "updatedAt": "2026-03-26T12:58:22.858Z",
+    "isDeleted": false
   },
   {
     "id": "69c52f1cdea98a88e765b179",
@@ -1797,7 +1896,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-26T13:05:32.071Z",
-    "updatedAt": "2026-03-26T13:05:32.071Z"
+    "updatedAt": "2026-03-26T13:05:32.071Z",
+    "isDeleted": false
   },
   {
     "id": "69c5308edea98a88e765b18d",
@@ -1815,7 +1915,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-26T13:11:42.503Z",
-    "updatedAt": "2026-03-26T13:11:42.503Z"
+    "updatedAt": "2026-03-26T13:11:42.503Z",
+    "isDeleted": false
   },
   {
     "id": "69c6adf8140cb91738d3503a",
@@ -1833,7 +1934,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-27T16:19:04.782Z",
-    "updatedAt": "2026-04-17T12:51:01.833Z"
+    "updatedAt": "2026-04-17T12:51:01.833Z",
+    "isDeleted": false
   },
   {
     "id": "69c6b297d0b789ac7c90c8fb",
@@ -1851,7 +1953,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-27T16:38:47.577Z",
-    "updatedAt": "2026-04-26T15:19:01.140Z"
+    "updatedAt": "2026-04-26T15:19:01.140Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38bd661b3f94ac72fcc",
@@ -1869,7 +1972,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:27:51.430Z",
-    "updatedAt": "2026-04-28T03:51:30.008Z"
+    "updatedAt": "2026-04-28T03:51:30.008Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38cd661b3f94ac72fd0",
@@ -1887,7 +1991,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:27:52.251Z",
-    "updatedAt": "2026-04-28T03:52:58.989Z"
+    "updatedAt": "2026-04-28T03:52:58.989Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38cd661b3f94ac72fd1",
@@ -1905,7 +2010,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:27:52.460Z",
-    "updatedAt": "2026-04-28T03:53:13.689Z"
+    "updatedAt": "2026-04-28T03:53:13.689Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38fd661b3f94ac72fdd",
@@ -1923,7 +2029,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:27:54.952Z",
-    "updatedAt": "2026-03-26T13:23:18.572Z"
+    "updatedAt": "2026-03-26T13:23:18.572Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38fd661b3f94ac72fe0",
@@ -1941,7 +2048,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:27:55.557Z",
-    "updatedAt": "2026-04-28T03:57:19.513Z"
+    "updatedAt": "2026-04-28T03:57:19.513Z",
+    "isDeleted": false
   },
   {
     "id": "69ada390d661b3f94ac72fe3",
@@ -1959,7 +2067,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:27:56.194Z",
-    "updatedAt": "2026-04-30T15:16:07.352Z"
+    "updatedAt": "2026-04-30T15:16:07.352Z",
+    "isDeleted": false
   },
   {
     "id": "69ada391d661b3f94ac72fe6",
@@ -1977,7 +2086,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:27:56.830Z",
-    "updatedAt": "2026-03-26T16:01:43.212Z"
+    "updatedAt": "2026-03-26T16:01:43.212Z",
+    "isDeleted": false
   },
   {
     "id": "69ada391d661b3f94ac72fe7",
@@ -1995,7 +2105,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:27:57.032Z",
-    "updatedAt": "2026-03-26T16:01:43.212Z"
+    "updatedAt": "2026-03-26T16:01:43.212Z",
+    "isDeleted": false
   },
   {
     "id": "69ada391d661b3f94ac72fe8",
@@ -2013,7 +2124,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:27:57.234Z",
-    "updatedAt": "2026-03-26T16:01:43.212Z"
+    "updatedAt": "2026-03-26T16:01:43.212Z",
+    "isDeleted": false
   },
   {
     "id": "69ada391d661b3f94ac72fe9",
@@ -2031,7 +2143,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-08T16:27:57.437Z",
-    "updatedAt": "2026-03-26T13:21:18.373Z"
+    "updatedAt": "2026-03-26T13:21:18.373Z",
+    "isDeleted": false
   },
   {
     "id": "69ae305b6af84bda007308cc",
@@ -2049,7 +2162,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-09T02:28:43.952Z",
-    "updatedAt": "2026-03-26T13:26:20.192Z"
+    "updatedAt": "2026-03-26T13:26:20.192Z",
+    "isDeleted": false
   },
   {
     "id": "69ae30b76af84bda007308d2",
@@ -2067,7 +2181,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-09T02:30:15.082Z",
-    "updatedAt": "2026-03-26T13:22:43.877Z"
+    "updatedAt": "2026-03-26T13:22:43.877Z",
+    "isDeleted": false
   },
   {
     "id": "69ae4ffa45ad6497474a028a",
@@ -2085,7 +2200,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-09T04:43:38.754Z",
-    "updatedAt": "2026-03-26T13:23:04.816Z"
+    "updatedAt": "2026-03-26T13:23:04.816Z",
+    "isDeleted": false
   },
   {
     "id": "69c15512e8139ff0a561d667",
@@ -2103,7 +2219,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-23T14:58:26.669Z",
-    "updatedAt": "2026-04-30T15:19:15.006Z"
+    "updatedAt": "2026-04-30T15:19:15.006Z",
+    "isDeleted": false
   },
   {
     "id": "69c15608e8139ff0a561d6a6",
@@ -2121,7 +2238,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-23T15:02:32.016Z",
-    "updatedAt": "2026-04-30T15:20:36.575Z"
+    "updatedAt": "2026-04-30T15:20:36.575Z",
+    "isDeleted": false
   },
   {
     "id": "69c50617cab647c064822766",
@@ -2139,7 +2257,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-26T10:10:31.965Z",
-    "updatedAt": "2026-03-26T10:10:31.965Z"
+    "updatedAt": "2026-03-26T10:10:31.965Z",
+    "isDeleted": false
   },
   {
     "id": "69c52d38dea98a88e765b166",
@@ -2157,7 +2276,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-26T12:57:28.890Z",
-    "updatedAt": "2026-03-26T12:57:28.890Z"
+    "updatedAt": "2026-03-26T12:57:28.890Z",
+    "isDeleted": false
   },
   {
     "id": "69c52f54dea98a88e765b17f",
@@ -2175,7 +2295,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-26T13:06:28.213Z",
-    "updatedAt": "2026-03-26T13:06:28.213Z"
+    "updatedAt": "2026-03-26T13:06:28.213Z",
+    "isDeleted": false
   },
   {
     "id": "69c53021dea98a88e765b186",
@@ -2193,7 +2314,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-26T13:09:53.295Z",
-    "updatedAt": "2026-03-26T13:09:53.295Z"
+    "updatedAt": "2026-03-26T13:09:53.295Z",
+    "isDeleted": false
   },
   {
     "id": "69c530f6dea98a88e765b199",
@@ -2211,7 +2333,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-26T13:13:26.054Z",
-    "updatedAt": "2026-03-26T13:13:26.054Z"
+    "updatedAt": "2026-03-26T13:13:26.054Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c6d41c6f5e8c1d6a3154",
@@ -2229,7 +2352,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:17:24.493Z",
-    "updatedAt": "2026-03-28T12:17:24.493Z"
+    "updatedAt": "2026-03-28T12:17:24.493Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c7081c6f5e8c1d6a315a",
@@ -2247,7 +2371,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:18:16.924Z",
-    "updatedAt": "2026-03-28T12:18:16.924Z"
+    "updatedAt": "2026-03-28T12:18:16.924Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c74a1c6f5e8c1d6a3160",
@@ -2265,7 +2390,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:19:22.927Z",
-    "updatedAt": "2026-03-28T12:57:24.663Z"
+    "updatedAt": "2026-03-28T12:57:24.663Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c78b1c6f5e8c1d6a3167",
@@ -2283,7 +2409,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:20:27.837Z",
-    "updatedAt": "2026-03-28T12:20:27.837Z"
+    "updatedAt": "2026-03-28T12:20:27.837Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c7c9b3a516b0b7f8b7a4",
@@ -2301,7 +2428,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:21:29.396Z",
-    "updatedAt": "2026-03-28T12:21:29.396Z"
+    "updatedAt": "2026-03-28T12:21:29.396Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c7eeb3a516b0b7f8b7aa",
@@ -2319,7 +2447,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:22:06.614Z",
-    "updatedAt": "2026-03-28T12:22:06.614Z"
+    "updatedAt": "2026-03-28T12:22:06.614Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c81cb3a516b0b7f8b7b0",
@@ -2337,7 +2466,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:22:52.374Z",
-    "updatedAt": "2026-03-28T12:22:52.374Z"
+    "updatedAt": "2026-03-28T12:22:52.374Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c89cb3a516b0b7f8b7b6",
@@ -2355,7 +2485,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:25:00.989Z",
-    "updatedAt": "2026-03-28T12:25:00.989Z"
+    "updatedAt": "2026-03-28T12:25:00.989Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c8d7b3a516b0b7f8b7bd",
@@ -2373,7 +2504,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:25:59.679Z",
-    "updatedAt": "2026-03-28T12:25:59.679Z"
+    "updatedAt": "2026-03-28T12:25:59.679Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c931b3a516b0b7f8b7c3",
@@ -2391,7 +2523,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:27:29.265Z",
-    "updatedAt": "2026-03-28T12:58:03.899Z"
+    "updatedAt": "2026-03-28T12:58:03.899Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c97cb3a516b0b7f8b7c9",
@@ -2409,7 +2542,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:28:44.575Z",
-    "updatedAt": "2026-03-28T12:28:44.575Z"
+    "updatedAt": "2026-03-28T12:28:44.575Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c9bcb3a516b0b7f8b7cf",
@@ -2427,7 +2561,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:29:48.137Z",
-    "updatedAt": "2026-03-28T12:29:48.137Z"
+    "updatedAt": "2026-03-28T12:29:48.137Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c9e9b3a516b0b7f8b7d5",
@@ -2445,7 +2580,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:30:33.618Z",
-    "updatedAt": "2026-03-28T12:58:22.126Z"
+    "updatedAt": "2026-03-28T12:58:22.126Z",
+    "isDeleted": false
   },
   {
     "id": "69c7ca34b3a516b0b7f8b7dc",
@@ -2463,7 +2599,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:31:48.080Z",
-    "updatedAt": "2026-03-28T12:58:46.206Z"
+    "updatedAt": "2026-03-28T12:58:46.206Z",
+    "isDeleted": false
   },
   {
     "id": "69c7ca79b3a516b0b7f8b7e2",
@@ -2481,7 +2618,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:32:57.142Z",
-    "updatedAt": "2026-03-28T12:32:57.142Z"
+    "updatedAt": "2026-03-28T12:32:57.142Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cabbb3a516b0b7f8b7e8",
@@ -2499,7 +2637,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:34:03.975Z",
-    "updatedAt": "2026-03-28T12:34:03.975Z"
+    "updatedAt": "2026-03-28T12:34:03.975Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cae4b3a516b0b7f8b7ee",
@@ -2517,7 +2656,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:34:44.981Z",
-    "updatedAt": "2026-03-28T12:34:44.981Z"
+    "updatedAt": "2026-03-28T12:34:44.981Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cb0bb3a516b0b7f8b7f4",
@@ -2535,7 +2675,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:35:23.694Z",
-    "updatedAt": "2026-03-28T12:35:23.694Z"
+    "updatedAt": "2026-03-28T12:35:23.694Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cb4cb3a516b0b7f8b7fb",
@@ -2553,7 +2694,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:36:28.572Z",
-    "updatedAt": "2026-03-28T12:36:28.572Z"
+    "updatedAt": "2026-03-28T12:36:28.572Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cb70b3a516b0b7f8b801",
@@ -2571,7 +2713,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:37:04.719Z",
-    "updatedAt": "2026-03-28T12:59:15.710Z"
+    "updatedAt": "2026-03-28T12:59:15.710Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cbaeb3a516b0b7f8b807",
@@ -2589,7 +2732,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:38:06.172Z",
-    "updatedAt": "2026-04-15T11:54:50.161Z"
+    "updatedAt": "2026-04-15T11:54:50.161Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cbd1b3a516b0b7f8b80d",
@@ -2607,7 +2751,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:38:41.244Z",
-    "updatedAt": "2026-03-28T12:54:08.316Z"
+    "updatedAt": "2026-03-28T12:54:08.316Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cbf9b3a516b0b7f8b813",
@@ -2625,7 +2770,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:39:21.698Z",
-    "updatedAt": "2026-03-28T12:39:21.698Z"
+    "updatedAt": "2026-03-28T12:39:21.698Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cc30b3a516b0b7f8b819",
@@ -2643,7 +2789,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:40:16.649Z",
-    "updatedAt": "2026-05-01T17:43:52.916Z"
+    "updatedAt": "2026-05-01T17:43:52.916Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cc58b3a516b0b7f8b820",
@@ -2661,7 +2808,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:40:56.954Z",
-    "updatedAt": "2026-03-28T12:40:56.954Z"
+    "updatedAt": "2026-03-28T12:40:56.954Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cc98b3a516b0b7f8b82c",
@@ -2679,7 +2827,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:42:00.345Z",
-    "updatedAt": "2026-03-28T12:42:00.345Z"
+    "updatedAt": "2026-03-28T12:42:00.345Z",
+    "isDeleted": false
   },
   {
     "id": "69c7ccb6b3a516b0b7f8b832",
@@ -2697,7 +2846,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:42:30.505Z",
-    "updatedAt": "2026-03-28T12:54:25.959Z"
+    "updatedAt": "2026-03-28T12:54:25.959Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cce2b3a516b0b7f8b838",
@@ -2715,7 +2865,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:43:14.318Z",
-    "updatedAt": "2026-03-28T12:43:14.318Z"
+    "updatedAt": "2026-03-28T12:43:14.318Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cd03b3a516b0b7f8b83e",
@@ -2733,7 +2884,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:43:47.851Z",
-    "updatedAt": "2026-04-14T20:11:06.691Z"
+    "updatedAt": "2026-04-14T20:11:06.691Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cd3ab3a516b0b7f8b844",
@@ -2751,7 +2903,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:44:42.368Z",
-    "updatedAt": "2026-03-28T12:44:42.368Z"
+    "updatedAt": "2026-03-28T12:44:42.368Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cd69b3a516b0b7f8b84a",
@@ -2769,7 +2922,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:45:29.080Z",
-    "updatedAt": "2026-03-28T12:45:29.080Z"
+    "updatedAt": "2026-03-28T12:45:29.080Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cdafb3a516b0b7f8b851",
@@ -2787,7 +2941,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:46:39.164Z",
-    "updatedAt": "2026-03-28T12:46:39.164Z"
+    "updatedAt": "2026-03-28T12:46:39.164Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cdf8b3a516b0b7f8b857",
@@ -2805,7 +2960,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:47:52.990Z",
-    "updatedAt": "2026-03-28T12:47:52.990Z"
+    "updatedAt": "2026-03-28T12:47:52.990Z",
+    "isDeleted": false
   },
   {
     "id": "69c7ce27b3a516b0b7f8b85d",
@@ -2823,7 +2979,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:48:39.859Z",
-    "updatedAt": "2026-03-28T12:48:39.859Z"
+    "updatedAt": "2026-03-28T12:48:39.859Z",
+    "isDeleted": false
   },
   {
     "id": "69c7ce56b3a516b0b7f8b863",
@@ -2841,7 +2998,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:49:26.773Z",
-    "updatedAt": "2026-03-28T12:49:26.773Z"
+    "updatedAt": "2026-03-28T12:49:26.773Z",
+    "isDeleted": false
   },
   {
     "id": "69c7ce8cb3a516b0b7f8b869",
@@ -2859,7 +3017,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:50:20.850Z",
-    "updatedAt": "2026-03-28T12:55:23.067Z"
+    "updatedAt": "2026-03-28T12:55:23.067Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cec6b3a516b0b7f8b870",
@@ -2877,7 +3036,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:51:18.306Z",
-    "updatedAt": "2026-03-28T12:51:18.306Z"
+    "updatedAt": "2026-03-28T12:51:18.306Z",
+    "isDeleted": false
   },
   {
     "id": "69c7ceffb3a516b0b7f8b876",
@@ -2895,7 +3055,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:52:15.902Z",
-    "updatedAt": "2026-03-28T12:52:15.902Z"
+    "updatedAt": "2026-03-28T12:52:15.902Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cf2cb3a516b0b7f8b87c",
@@ -2913,7 +3074,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:53:00.656Z",
-    "updatedAt": "2026-03-28T12:55:46.307Z"
+    "updatedAt": "2026-03-28T12:55:46.307Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cf58b3a516b0b7f8b882",
@@ -2931,7 +3093,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-28T12:53:45.000Z",
-    "updatedAt": "2026-05-01T17:47:09.471Z"
+    "updatedAt": "2026-05-01T17:47:09.471Z",
+    "isDeleted": false
   },
   {
     "id": "69c8d01a921fbe18a3963508",
@@ -2949,7 +3112,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-29T07:09:14.444Z",
-    "updatedAt": "2026-04-14T20:09:17.810Z"
+    "updatedAt": "2026-04-14T20:09:17.810Z",
+    "isDeleted": false
   },
   {
     "id": "69cba5e33a2884d91ebd44e9",
@@ -2967,7 +3131,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-03-31T10:45:55.069Z",
-    "updatedAt": "2026-03-31T10:45:55.069Z"
+    "updatedAt": "2026-03-31T10:45:55.069Z",
+    "isDeleted": false
   },
   {
     "id": "69cfca50924f7bf075f491b9",
@@ -2985,7 +3150,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-04-03T14:10:24.026Z",
-    "updatedAt": "2026-04-28T03:58:24.006Z"
+    "updatedAt": "2026-04-28T03:58:24.006Z",
+    "isDeleted": false
   },
   {
     "id": "69cfcaa47bc0377d2ff46cb4",
@@ -3003,7 +3169,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-04-03T14:11:48.128Z",
-    "updatedAt": "2026-04-28T03:59:21.970Z"
+    "updatedAt": "2026-04-28T03:59:21.970Z",
+    "isDeleted": false
   },
   {
     "id": "69cfcad5924f7bf075f491cb",
@@ -3021,7 +3188,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-04-03T14:12:37.499Z",
-    "updatedAt": "2026-04-28T03:59:47.373Z"
+    "updatedAt": "2026-04-28T03:59:47.373Z",
+    "isDeleted": false
   },
   {
     "id": "69cfcb07924f7bf075f491df",
@@ -3039,7 +3207,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-04-03T14:13:27.387Z",
-    "updatedAt": "2026-04-28T04:00:01.813Z"
+    "updatedAt": "2026-04-28T04:00:01.813Z",
+    "isDeleted": false
   },
   {
     "id": "69cfcbbb8261f91a3b6742e2",
@@ -3057,7 +3226,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-04-03T14:16:27.455Z",
-    "updatedAt": "2026-04-14T20:04:46.140Z"
+    "updatedAt": "2026-04-14T20:04:46.140Z",
+    "isDeleted": false
   },
   {
     "id": "69d0ae52b275d8fb2efd5908",
@@ -3075,7 +3245,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-04-04T06:23:14.861Z",
-    "updatedAt": "2026-04-14T20:04:23.450Z"
+    "updatedAt": "2026-04-14T20:04:23.450Z",
+    "isDeleted": false
   },
   {
     "id": "69d0ae84b275d8fb2efd590e",
@@ -3093,7 +3264,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-04-04T06:24:04.209Z",
-    "updatedAt": "2026-04-14T20:03:59.738Z"
+    "updatedAt": "2026-04-14T20:03:59.738Z",
+    "isDeleted": false
   },
   {
     "id": "69df8c2946124a2bf7aa39da",
@@ -3111,7 +3283,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-04-15T13:01:29.588Z",
-    "updatedAt": "2026-04-21T09:49:51.157Z"
+    "updatedAt": "2026-04-21T09:49:51.157Z",
+    "isDeleted": false
   },
   {
     "id": "69e747f7c24ab8fc7572cd7d",
@@ -3129,7 +3302,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-04-21T09:48:39.456Z",
-    "updatedAt": "2026-04-26T15:22:28.024Z"
+    "updatedAt": "2026-04-26T15:22:28.024Z",
+    "isDeleted": false
   },
   {
     "id": "69e91dc32ced9cda943bec47",
@@ -3147,7 +3321,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-04-22T19:13:07.719Z",
-    "updatedAt": "2026-04-22T19:13:07.719Z"
+    "updatedAt": "2026-04-22T19:13:07.719Z",
+    "isDeleted": false
   },
   {
     "id": "69eb129f04ab35628cb5e1ab",
@@ -3165,7 +3340,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-04-24T06:50:07.122Z",
-    "updatedAt": "2026-04-24T14:26:51.630Z"
+    "updatedAt": "2026-04-24T14:26:51.630Z",
+    "isDeleted": false
   },
   {
     "id": "69eb7e1bab7feac3de9e6c3b",
@@ -3183,7 +3359,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-04-24T14:28:43.625Z",
-    "updatedAt": "2026-04-24T14:31:23.751Z"
+    "updatedAt": "2026-04-24T14:31:23.751Z",
+    "isDeleted": false
   },
   {
     "id": "69ebc2ad0fe162d0aef980c3",
@@ -3201,7 +3378,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-04-24T19:21:17.137Z",
-    "updatedAt": "2026-04-24T19:21:17.137Z"
+    "updatedAt": "2026-04-24T19:21:17.137Z",
+    "isDeleted": false
   },
   {
     "id": "69ebc3719f6620576413caef",
@@ -3219,7 +3397,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-04-24T19:24:33.587Z",
-    "updatedAt": "2026-04-25T17:03:44.910Z"
+    "updatedAt": "2026-04-25T17:03:44.910Z",
+    "isDeleted": false
   },
   {
     "id": "69ebc4696f7689dc308e98cd",
@@ -3237,7 +3416,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-04-24T19:28:41.468Z",
-    "updatedAt": "2026-04-25T17:03:15.432Z"
+    "updatedAt": "2026-04-25T17:03:15.432Z",
+    "isDeleted": false
   },
   {
     "id": "69ecee05718738f63e6b6d35",
@@ -3255,7 +3435,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-04-25T16:38:29.346Z",
-    "updatedAt": "2026-04-25T16:48:31.171Z"
+    "updatedAt": "2026-04-25T16:48:31.171Z",
+    "isDeleted": false
   },
   {
     "id": "69ecee3e718738f63e6b6d6e",
@@ -3273,7 +3454,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-04-25T16:39:26.081Z",
-    "updatedAt": "2026-04-25T16:49:54.353Z"
+    "updatedAt": "2026-04-25T16:49:54.353Z",
+    "isDeleted": false
   },
   {
     "id": "69ecf1b2ad289f1fbbe4b285",
@@ -3291,7 +3473,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-04-25T16:54:10.590Z",
-    "updatedAt": "2026-04-25T17:01:38.740Z"
+    "updatedAt": "2026-04-25T17:01:38.740Z",
+    "isDeleted": false
   },
   {
     "id": "69ecf2e4710ad5d38da22a45",
@@ -3309,7 +3492,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-04-25T16:59:16.394Z",
-    "updatedAt": "2026-04-25T17:00:30.004Z"
+    "updatedAt": "2026-04-25T17:00:30.004Z",
+    "isDeleted": false
   },
   {
     "id": "69ede375e96e0d387b165eef",
@@ -3327,7 +3511,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-04-26T10:05:41.036Z",
-    "updatedAt": "2026-04-26T10:05:41.036Z"
+    "updatedAt": "2026-04-26T10:05:41.036Z",
+    "isDeleted": false
   },
   {
     "id": "69ee2d3a92723319333ed22e",
@@ -3345,7 +3530,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-04-26T15:20:26.022Z",
-    "updatedAt": "2026-04-26T15:21:47.480Z"
+    "updatedAt": "2026-04-26T15:21:47.480Z",
+    "isDeleted": false
   },
   {
     "id": "69ee52433a00724e20c15376",
@@ -3363,7 +3549,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-04-26T17:58:27.042Z",
-    "updatedAt": "2026-04-26T17:58:27.042Z"
+    "updatedAt": "2026-04-26T17:58:27.042Z",
+    "isDeleted": false
   },
   {
     "id": "69ee53fba656dc8ed880a919",
@@ -3381,7 +3568,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-04-26T18:05:47.008Z",
-    "updatedAt": "2026-04-26T18:05:47.008Z"
+    "updatedAt": "2026-04-26T18:05:47.008Z",
+    "isDeleted": false
   },
   {
     "id": "69ee5446adba7a47bcd7da2a",
@@ -3399,7 +3587,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-04-26T18:07:02.268Z",
-    "updatedAt": "2026-04-26T18:07:02.268Z"
+    "updatedAt": "2026-04-26T18:07:02.268Z",
+    "isDeleted": false
   },
   {
     "id": "69ee5e5f34c19b8c97e5ea4a",
@@ -3417,7 +3606,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-04-26T18:50:07.468Z",
-    "updatedAt": "2026-04-27T04:30:58.553Z"
+    "updatedAt": "2026-04-27T04:30:58.553Z",
+    "isDeleted": false
   },
   {
     "id": "69ee5ec76f5fed306842cc05",
@@ -3435,7 +3625,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-04-26T18:51:51.417Z",
-    "updatedAt": "2026-04-27T04:31:13.595Z"
+    "updatedAt": "2026-04-27T04:31:13.595Z",
+    "isDeleted": false
   },
   {
     "id": "69ee60a766a8c3f15df7fe88",
@@ -3453,7 +3644,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-04-26T18:59:51.244Z",
-    "updatedAt": "2026-04-26T18:59:51.244Z"
+    "updatedAt": "2026-04-26T18:59:51.244Z",
+    "isDeleted": false
   },
   {
     "id": "69f050f47e4e0870c0fb2f4c",
@@ -3471,7 +3663,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-04-28T06:17:24.338Z",
-    "updatedAt": "2026-04-28T06:23:37.063Z"
+    "updatedAt": "2026-04-28T06:23:37.063Z",
+    "isDeleted": false
   },
   {
     "id": "69f053387e4e0870c0fb300c",
@@ -3489,7 +3682,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-04-28T06:27:04.682Z",
-    "updatedAt": "2026-04-28T06:28:40.138Z"
+    "updatedAt": "2026-04-28T06:28:40.138Z",
+    "isDeleted": false
   },
   {
     "id": "69f05a1584766395baf264c9",
@@ -3507,7 +3701,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-04-28T06:56:21.446Z",
-    "updatedAt": "2026-04-28T06:57:11.537Z"
+    "updatedAt": "2026-04-28T06:57:11.537Z",
+    "isDeleted": false
   },
   {
     "id": "69f361387d6d3aea0fb2ef92",
@@ -3525,7 +3720,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-04-30T14:03:36.874Z",
-    "updatedAt": "2026-04-30T14:03:36.874Z"
+    "updatedAt": "2026-04-30T14:03:36.874Z",
+    "isDeleted": false
   },
   {
     "id": "69f57cbab67396ab08496c63",
@@ -3543,7 +3739,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-05-02T04:25:30.825Z",
-    "updatedAt": "2026-05-02T04:25:30.825Z"
+    "updatedAt": "2026-05-02T04:25:30.825Z",
+    "isDeleted": false
   },
   {
     "id": "69f57d46b67396ab08496c7b",
@@ -3561,7 +3758,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-05-02T04:27:50.411Z",
-    "updatedAt": "2026-05-02T04:27:50.411Z"
+    "updatedAt": "2026-05-02T04:27:50.411Z",
+    "isDeleted": false
   },
   {
     "id": "69f57d99b67396ab08496c88",
@@ -3579,7 +3777,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-05-02T04:29:13.388Z",
-    "updatedAt": "2026-05-02T04:29:13.388Z"
+    "updatedAt": "2026-05-02T04:29:13.388Z",
+    "isDeleted": false
   },
   {
     "id": "69f57df8db107fef95f80b23",
@@ -3597,7 +3796,8 @@
     "isVIP": false,
     "tier": "standard",
     "createdAt": "2026-05-02T04:30:48.284Z",
-    "updatedAt": "2026-05-02T04:30:48.284Z"
+    "updatedAt": "2026-05-02T04:30:48.284Z",
+    "isDeleted": false
   },
   {
     "id": "69ada302d661b3f94ac72f82",
@@ -3615,7 +3815,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:25:34.393Z",
-    "updatedAt": "2026-04-09T12:17:03.418Z"
+    "updatedAt": "2026-04-09T12:17:03.418Z",
+    "isDeleted": false
   },
   {
     "id": "69ada304d661b3f94ac72f8a",
@@ -3633,7 +3834,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:25:35.688Z",
-    "updatedAt": "2026-03-31T12:58:05.478Z"
+    "updatedAt": "2026-03-31T12:58:05.478Z",
+    "isDeleted": false
   },
   {
     "id": "69ada305d661b3f94ac72f96",
@@ -3651,7 +3853,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:25:37.636Z",
-    "updatedAt": "2026-03-27T16:27:03.060Z"
+    "updatedAt": "2026-03-27T16:27:03.060Z",
+    "isDeleted": false
   },
   {
     "id": "69ada308d661b3f94ac72fa3",
@@ -3669,7 +3872,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:25:39.735Z",
-    "updatedAt": "2026-03-27T16:24:58.549Z"
+    "updatedAt": "2026-03-27T16:24:58.549Z",
+    "isDeleted": false
   },
   {
     "id": "69ada308d661b3f94ac72fa5",
@@ -3687,7 +3891,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:25:40.059Z",
-    "updatedAt": "2026-03-31T12:53:06.665Z"
+    "updatedAt": "2026-03-31T12:53:06.665Z",
+    "isDeleted": false
   },
   {
     "id": "69ada309d661b3f94ac72fac",
@@ -3705,7 +3910,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:25:41.200Z",
-    "updatedAt": "2026-03-31T12:58:26.371Z"
+    "updatedAt": "2026-03-31T12:58:26.371Z",
+    "isDeleted": false
   },
   {
     "id": "69ada30ad661b3f94ac72fb4",
@@ -3723,7 +3929,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:25:42.494Z",
-    "updatedAt": "2026-03-26T15:58:20.342Z"
+    "updatedAt": "2026-03-26T15:58:20.342Z",
+    "isDeleted": false
   },
   {
     "id": "69ada30ad661b3f94ac72fb5",
@@ -3741,7 +3948,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:25:42.653Z",
-    "updatedAt": "2026-03-26T15:58:20.342Z"
+    "updatedAt": "2026-03-26T15:58:20.342Z",
+    "isDeleted": false
   },
   {
     "id": "69ada302d661b3f94ac72f83",
@@ -3759,7 +3967,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:25:34.555Z",
-    "updatedAt": "2026-03-31T12:48:47.285Z"
+    "updatedAt": "2026-03-31T12:48:47.285Z",
+    "isDeleted": false
   },
   {
     "id": "69ada304d661b3f94ac72f8b",
@@ -3777,7 +3986,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:25:35.856Z",
-    "updatedAt": "2026-03-31T12:50:02.729Z"
+    "updatedAt": "2026-03-31T12:50:02.729Z",
+    "isDeleted": false
   },
   {
     "id": "69ada304d661b3f94ac72f8e",
@@ -3795,7 +4005,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:25:36.339Z",
-    "updatedAt": "2026-03-27T16:26:47.025Z"
+    "updatedAt": "2026-03-27T16:26:47.025Z",
+    "isDeleted": false
   },
   {
     "id": "69ada304d661b3f94ac72f8f",
@@ -3813,7 +4024,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:25:36.496Z",
-    "updatedAt": "2026-03-31T12:50:16.027Z"
+    "updatedAt": "2026-03-31T12:50:16.027Z",
+    "isDeleted": false
   },
   {
     "id": "69ada306d661b3f94ac72f9b",
@@ -3831,7 +4043,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:25:38.455Z",
-    "updatedAt": "2026-03-26T15:59:15.061Z"
+    "updatedAt": "2026-03-26T15:59:15.061Z",
+    "isDeleted": false
   },
   {
     "id": "69ada307d661b3f94ac72fa1",
@@ -3849,7 +4062,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:25:39.418Z",
-    "updatedAt": "2026-03-31T12:55:42.655Z"
+    "updatedAt": "2026-03-31T12:55:42.655Z",
+    "isDeleted": false
   },
   {
     "id": "69ada30ad661b3f94ac72fb1",
@@ -3867,7 +4081,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:25:42.002Z",
-    "updatedAt": "2026-03-31T12:52:13.146Z"
+    "updatedAt": "2026-03-31T12:52:13.146Z",
+    "isDeleted": false
   },
   {
     "id": "69ada30ad661b3f94ac72fb2",
@@ -3885,7 +4100,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:25:42.174Z",
-    "updatedAt": "2026-03-31T12:52:28.043Z"
+    "updatedAt": "2026-03-31T12:52:28.043Z",
+    "isDeleted": false
   },
   {
     "id": "69ada304d661b3f94ac72f8d",
@@ -3903,7 +4119,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:25:36.175Z",
-    "updatedAt": "2026-03-27T16:25:13.961Z"
+    "updatedAt": "2026-03-27T16:25:13.961Z",
+    "isDeleted": false
   },
   {
     "id": "69ada305d661b3f94ac72f92",
@@ -3921,7 +4138,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:25:36.976Z",
-    "updatedAt": "2026-03-31T12:50:59.513Z"
+    "updatedAt": "2026-03-31T12:50:59.513Z",
+    "isDeleted": false
   },
   {
     "id": "69ada305d661b3f94ac72f95",
@@ -3939,7 +4157,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:25:37.472Z",
-    "updatedAt": "2026-03-27T16:23:13.917Z"
+    "updatedAt": "2026-03-27T16:23:13.917Z",
+    "isDeleted": false
   },
   {
     "id": "69ada308d661b3f94ac72fa7",
@@ -3957,7 +4176,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:25:40.392Z",
-    "updatedAt": "2026-03-26T15:59:15.061Z"
+    "updatedAt": "2026-03-26T15:59:15.061Z",
+    "isDeleted": false
   },
   {
     "id": "69ada30ad661b3f94ac72faf",
@@ -3975,7 +4195,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:25:41.678Z",
-    "updatedAt": "2026-03-31T12:52:03.364Z"
+    "updatedAt": "2026-03-31T12:52:03.364Z",
+    "isDeleted": false
   },
   {
     "id": "69ada30ad661b3f94ac72fb3",
@@ -3993,7 +4214,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:25:42.335Z",
-    "updatedAt": "2026-03-26T15:58:20.342Z"
+    "updatedAt": "2026-03-26T15:58:20.342Z",
+    "isDeleted": false
   },
   {
     "id": "69ada30bd661b3f94ac72fb6",
@@ -4011,7 +4233,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:25:42.814Z",
-    "updatedAt": "2026-03-26T15:58:20.342Z"
+    "updatedAt": "2026-03-26T15:58:20.342Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38ad661b3f94ac72fc4",
@@ -4029,7 +4252,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:49.796Z",
-    "updatedAt": "2026-03-31T08:08:39.853Z"
+    "updatedAt": "2026-03-31T08:08:39.853Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38ad661b3f94ac72fc5",
@@ -4047,7 +4271,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:50.014Z",
-    "updatedAt": "2026-03-31T12:11:12.863Z"
+    "updatedAt": "2026-03-31T12:11:12.863Z",
+    "isDeleted": false
   },
   {
     "id": "69ada303d661b3f94ac72f84",
@@ -4065,7 +4290,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:25:34.715Z",
-    "updatedAt": "2026-03-31T12:48:58.600Z"
+    "updatedAt": "2026-03-31T12:48:58.600Z",
+    "isDeleted": false
   },
   {
     "id": "69ada303d661b3f94ac72f86",
@@ -4083,7 +4309,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:25:35.037Z",
-    "updatedAt": "2026-03-31T12:49:12.052Z"
+    "updatedAt": "2026-03-31T12:49:12.052Z",
+    "isDeleted": false
   },
   {
     "id": "69ada303d661b3f94ac72f87",
@@ -4101,7 +4328,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:25:35.197Z",
-    "updatedAt": "2026-03-31T12:49:23.699Z"
+    "updatedAt": "2026-03-31T12:49:23.699Z",
+    "isDeleted": false
   },
   {
     "id": "69ada303d661b3f94ac72f89",
@@ -4119,7 +4347,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:25:35.517Z",
-    "updatedAt": "2026-03-31T12:57:47.454Z"
+    "updatedAt": "2026-03-31T12:57:47.454Z",
+    "isDeleted": false
   },
   {
     "id": "69ada306d661b3f94ac72f98",
@@ -4137,7 +4366,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:25:37.958Z",
-    "updatedAt": "2026-03-31T12:50:33.303Z"
+    "updatedAt": "2026-03-31T12:50:33.303Z",
+    "isDeleted": false
   },
   {
     "id": "69ada307d661b3f94ac72f9e",
@@ -4155,7 +4385,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:25:38.938Z",
-    "updatedAt": "2026-03-31T12:58:15.684Z"
+    "updatedAt": "2026-03-31T12:58:15.684Z",
+    "isDeleted": false
   },
   {
     "id": "69ada308d661b3f94ac72fa4",
@@ -4173,7 +4404,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:25:39.894Z",
-    "updatedAt": "2026-04-09T12:16:46.950Z"
+    "updatedAt": "2026-04-09T12:16:46.950Z",
+    "isDeleted": false
   },
   {
     "id": "69ada309d661b3f94ac72fad",
@@ -4191,7 +4423,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:25:41.359Z",
-    "updatedAt": "2026-03-31T12:51:41.165Z"
+    "updatedAt": "2026-03-31T12:51:41.165Z",
+    "isDeleted": false
   },
   {
     "id": "69ada309d661b3f94ac72fae",
@@ -4209,7 +4442,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:25:41.518Z",
-    "updatedAt": "2026-03-31T12:51:51.890Z"
+    "updatedAt": "2026-03-31T12:51:51.890Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38ad661b3f94ac72fc7",
@@ -4227,7 +4461,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:50.419Z",
-    "updatedAt": "2026-03-31T12:12:16.537Z"
+    "updatedAt": "2026-03-31T12:12:16.537Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38fd661b3f94ac72fde",
@@ -4245,7 +4480,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:55.153Z",
-    "updatedAt": "2026-03-26T16:01:22.631Z"
+    "updatedAt": "2026-03-26T16:01:22.631Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38fd661b3f94ac72fdf",
@@ -4263,7 +4499,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:55.355Z",
-    "updatedAt": "2026-03-26T16:01:22.631Z"
+    "updatedAt": "2026-03-26T16:01:22.631Z",
+    "isDeleted": false
   },
   {
     "id": "69ada390d661b3f94ac72fe2",
@@ -4281,7 +4518,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:55.974Z",
-    "updatedAt": "2026-03-31T12:26:48.015Z"
+    "updatedAt": "2026-03-31T12:26:48.015Z",
+    "isDeleted": false
   },
   {
     "id": "69ada390d661b3f94ac72fe3",
@@ -4299,7 +4537,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:56.194Z",
-    "updatedAt": "2026-03-31T12:27:18.375Z"
+    "updatedAt": "2026-03-31T12:27:18.375Z",
+    "isDeleted": false
   },
   {
     "id": "69ada390d661b3f94ac72fe4",
@@ -4317,7 +4556,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:56.398Z",
-    "updatedAt": "2026-03-31T12:27:36.882Z"
+    "updatedAt": "2026-03-31T12:27:36.882Z",
+    "isDeleted": false
   },
   {
     "id": "69ada391d661b3f94ac72fe9",
@@ -4335,7 +4575,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:57.437Z",
-    "updatedAt": "2026-03-26T13:21:18.373Z"
+    "updatedAt": "2026-03-26T13:21:18.373Z",
+    "isDeleted": false
   },
   {
     "id": "69ada392d661b3f94ac72feb",
@@ -4353,7 +4594,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:57.875Z",
-    "updatedAt": "2026-03-26T13:21:58.172Z"
+    "updatedAt": "2026-03-26T13:21:58.172Z",
+    "isDeleted": false
   },
   {
     "id": "69ae3938f9fdbe9351c8169e",
@@ -4371,7 +4613,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-09T03:06:32.413Z",
-    "updatedAt": "2026-03-31T12:58:49.709Z"
+    "updatedAt": "2026-03-31T12:58:49.709Z",
+    "isDeleted": false
   },
   {
     "id": "69ae3b5ee4ec353f2d2c5ccd",
@@ -4389,7 +4632,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-09T03:15:42.530Z",
-    "updatedAt": "2026-03-31T12:53:30.829Z"
+    "updatedAt": "2026-03-31T12:53:30.829Z",
+    "isDeleted": false
   },
   {
     "id": "69ae3c17e4ec353f2d2c5cda",
@@ -4407,7 +4651,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-09T03:18:47.431Z",
-    "updatedAt": "2026-03-31T12:53:55.011Z"
+    "updatedAt": "2026-03-31T12:53:55.011Z",
+    "isDeleted": false
   },
   {
     "id": "69ae3c5de4ec353f2d2c5ce0",
@@ -4425,7 +4670,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-09T03:19:57.935Z",
-    "updatedAt": "2026-03-31T12:54:07.830Z"
+    "updatedAt": "2026-03-31T12:54:07.830Z",
+    "isDeleted": false
   },
   {
     "id": "69ae3edf05fbad0c0df5f159",
@@ -4443,7 +4689,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-09T03:30:39.097Z",
-    "updatedAt": "2026-03-26T15:59:15.061Z"
+    "updatedAt": "2026-03-26T15:59:15.061Z",
+    "isDeleted": false
   },
   {
     "id": "69b05e9976105045558f69f9",
@@ -4461,7 +4708,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-10T18:10:33.994Z",
-    "updatedAt": "2026-03-31T12:56:17.236Z"
+    "updatedAt": "2026-03-31T12:56:17.236Z",
+    "isDeleted": false
   },
   {
     "id": "69b061d58a5ac8d9f6c31562",
@@ -4479,7 +4727,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-10T18:24:21.696Z",
-    "updatedAt": "2026-03-31T12:56:51.332Z"
+    "updatedAt": "2026-03-31T12:56:51.332Z",
+    "isDeleted": false
   },
   {
     "id": "69b523e1665c578e006a78c0",
@@ -4497,7 +4746,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-14T09:01:21.491Z",
-    "updatedAt": "2026-03-31T12:57:05.740Z"
+    "updatedAt": "2026-03-31T12:57:05.740Z",
+    "isDeleted": false
   },
   {
     "id": "69c15512e8139ff0a561d667",
@@ -4515,7 +4765,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-23T14:58:26.669Z",
-    "updatedAt": "2026-03-31T12:24:23.649Z"
+    "updatedAt": "2026-03-31T12:24:23.649Z",
+    "isDeleted": false
   },
   {
     "id": "69c52d38dea98a88e765b166",
@@ -4533,7 +4784,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-26T12:57:28.890Z",
-    "updatedAt": "2026-03-26T12:57:28.890Z"
+    "updatedAt": "2026-03-26T12:57:28.890Z",
+    "isDeleted": false
   },
   {
     "id": "69c52ee4dea98a88e765b173",
@@ -4551,7 +4803,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-26T13:04:36.630Z",
-    "updatedAt": "2026-03-26T13:04:36.630Z"
+    "updatedAt": "2026-03-26T13:04:36.630Z",
+    "isDeleted": false
   },
   {
     "id": "69c52f1cdea98a88e765b179",
@@ -4569,7 +4822,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-26T13:05:32.071Z",
-    "updatedAt": "2026-03-26T13:05:32.071Z"
+    "updatedAt": "2026-03-26T13:05:32.071Z",
+    "isDeleted": false
   },
   {
     "id": "69c52f54dea98a88e765b17f",
@@ -4587,7 +4841,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-26T13:06:28.213Z",
-    "updatedAt": "2026-03-26T13:06:28.213Z"
+    "updatedAt": "2026-03-26T13:06:28.213Z",
+    "isDeleted": false
   },
   {
     "id": "69c530f6dea98a88e765b199",
@@ -4605,7 +4860,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-26T13:13:26.054Z",
-    "updatedAt": "2026-03-26T13:13:26.054Z"
+    "updatedAt": "2026-03-26T13:13:26.054Z",
+    "isDeleted": false
   },
   {
     "id": "69c6adf8140cb91738d3503a",
@@ -4623,7 +4879,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-27T16:19:04.782Z",
-    "updatedAt": "2026-03-27T16:22:17.429Z"
+    "updatedAt": "2026-03-27T16:22:17.429Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c6d41c6f5e8c1d6a3154",
@@ -4641,7 +4898,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:17:24.493Z",
-    "updatedAt": "2026-03-28T12:17:24.493Z"
+    "updatedAt": "2026-03-28T12:17:24.493Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c81cb3a516b0b7f8b7b0",
@@ -4659,7 +4917,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:22:52.374Z",
-    "updatedAt": "2026-03-28T12:22:52.374Z"
+    "updatedAt": "2026-03-28T12:22:52.374Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c97cb3a516b0b7f8b7c9",
@@ -4677,7 +4936,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:28:44.575Z",
-    "updatedAt": "2026-03-28T12:28:44.575Z"
+    "updatedAt": "2026-03-28T12:28:44.575Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c9e9b3a516b0b7f8b7d5",
@@ -4695,7 +4955,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:30:33.618Z",
-    "updatedAt": "2026-03-28T12:58:22.126Z"
+    "updatedAt": "2026-03-28T12:58:22.126Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cbaeb3a516b0b7f8b807",
@@ -4713,7 +4974,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:38:06.172Z",
-    "updatedAt": "2026-03-28T12:38:06.172Z"
+    "updatedAt": "2026-03-28T12:38:06.172Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cc30b3a516b0b7f8b819",
@@ -4731,7 +4993,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:40:16.649Z",
-    "updatedAt": "2026-03-28T12:40:16.649Z"
+    "updatedAt": "2026-03-28T12:40:16.649Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cc58b3a516b0b7f8b820",
@@ -4749,7 +5012,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:40:56.954Z",
-    "updatedAt": "2026-03-28T12:40:56.954Z"
+    "updatedAt": "2026-03-28T12:40:56.954Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cce2b3a516b0b7f8b838",
@@ -4767,7 +5031,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:43:14.318Z",
-    "updatedAt": "2026-03-28T12:43:14.318Z"
+    "updatedAt": "2026-03-28T12:43:14.318Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cf2cb3a516b0b7f8b87c",
@@ -4785,7 +5050,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:53:00.656Z",
-    "updatedAt": "2026-03-28T12:55:46.307Z"
+    "updatedAt": "2026-03-28T12:55:46.307Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38ad661b3f94ac72fc6",
@@ -4803,7 +5069,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:50.217Z",
-    "updatedAt": "2026-03-31T12:11:43.961Z"
+    "updatedAt": "2026-03-31T12:11:43.961Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38bd661b3f94ac72fcc",
@@ -4821,7 +5088,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:51.430Z",
-    "updatedAt": "2026-03-31T12:18:52.157Z"
+    "updatedAt": "2026-03-31T12:18:52.157Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38cd661b3f94ac72fcd",
@@ -4839,7 +5107,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:51.633Z",
-    "updatedAt": "2026-03-31T12:19:38.190Z"
+    "updatedAt": "2026-03-31T12:19:38.190Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38cd661b3f94ac72fce",
@@ -4857,7 +5126,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:51.843Z",
-    "updatedAt": "2026-03-31T12:20:26.567Z"
+    "updatedAt": "2026-03-31T12:20:26.567Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38cd661b3f94ac72fd1",
@@ -4875,7 +5145,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:52.460Z",
-    "updatedAt": "2026-03-31T12:21:28.968Z"
+    "updatedAt": "2026-03-31T12:21:28.968Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38fd661b3f94ac72fdd",
@@ -4893,7 +5164,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:54.952Z",
-    "updatedAt": "2026-03-26T13:23:18.572Z"
+    "updatedAt": "2026-03-26T13:23:18.572Z",
+    "isDeleted": false
   },
   {
     "id": "69ada391d661b3f94ac72fe5",
@@ -4911,7 +5183,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:56.622Z",
-    "updatedAt": "2026-03-31T12:27:55.096Z"
+    "updatedAt": "2026-03-31T12:27:55.096Z",
+    "isDeleted": false
   },
   {
     "id": "69ada392d661b3f94ac72fea",
@@ -4929,7 +5202,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:57.645Z",
-    "updatedAt": "2026-03-26T13:21:01.129Z"
+    "updatedAt": "2026-03-26T13:21:01.129Z",
+    "isDeleted": false
   },
   {
     "id": "69ada392d661b3f94ac72fed",
@@ -4947,7 +5221,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:58.294Z",
-    "updatedAt": "2026-03-26T13:26:45.443Z"
+    "updatedAt": "2026-03-26T13:26:45.443Z",
+    "isDeleted": false
   },
   {
     "id": "69ada393d661b3f94ac72fef",
@@ -4965,7 +5240,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:58.700Z",
-    "updatedAt": "2026-03-26T16:01:43.212Z"
+    "updatedAt": "2026-03-26T16:01:43.212Z",
+    "isDeleted": false
   },
   {
     "id": "69ae2fe57f9ee29e9baebfea",
@@ -4983,7 +5259,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-09T02:26:45.815Z",
-    "updatedAt": "2026-03-26T13:20:26.039Z"
+    "updatedAt": "2026-03-26T13:20:26.039Z",
+    "isDeleted": false
   },
   {
     "id": "69ae305b6af84bda007308cc",
@@ -5001,7 +5278,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-09T02:28:43.952Z",
-    "updatedAt": "2026-03-26T13:26:20.192Z"
+    "updatedAt": "2026-03-26T13:26:20.192Z",
+    "isDeleted": false
   },
   {
     "id": "69ae30b76af84bda007308d2",
@@ -5019,7 +5297,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-09T02:30:15.082Z",
-    "updatedAt": "2026-03-26T13:22:43.877Z"
+    "updatedAt": "2026-03-26T13:22:43.877Z",
+    "isDeleted": false
   },
   {
     "id": "69ae3904f9fdbe9351c81698",
@@ -5037,7 +5316,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-09T03:05:40.683Z",
-    "updatedAt": "2026-03-31T12:58:35.699Z"
+    "updatedAt": "2026-03-31T12:58:35.699Z",
+    "isDeleted": false
   },
   {
     "id": "69ae3bcae4ec353f2d2c5cd3",
@@ -5055,7 +5335,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-09T03:17:30.668Z",
-    "updatedAt": "2026-03-31T12:53:44.729Z"
+    "updatedAt": "2026-03-31T12:53:44.729Z",
+    "isDeleted": false
   },
   {
     "id": "69ae3cd7e4ec353f2d2c5ced",
@@ -5073,7 +5354,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-09T03:21:59.007Z",
-    "updatedAt": "2026-03-31T12:54:25.109Z"
+    "updatedAt": "2026-03-31T12:54:25.109Z",
+    "isDeleted": false
   },
   {
     "id": "69ae3df405fbad0c0df5f144",
@@ -5091,7 +5373,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-09T03:26:44.950Z",
-    "updatedAt": "2026-03-31T12:54:38.930Z"
+    "updatedAt": "2026-03-31T12:54:38.930Z",
+    "isDeleted": false
   },
   {
     "id": "69ae42ebee8d1cbfd731551a",
@@ -5109,7 +5392,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-09T03:47:55.064Z",
-    "updatedAt": "2026-03-31T12:59:33.600Z"
+    "updatedAt": "2026-03-31T12:59:33.600Z",
+    "isDeleted": false
   },
   {
     "id": "69b05edf76105045558f6a10",
@@ -5127,7 +5411,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-10T18:11:43.890Z",
-    "updatedAt": "2026-03-31T12:56:26.715Z"
+    "updatedAt": "2026-03-31T12:56:26.715Z",
+    "isDeleted": false
   },
   {
     "id": "69b062b28a5ac8d9f6c31595",
@@ -5145,7 +5430,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-10T18:28:02.523Z",
-    "updatedAt": "2026-03-31T12:54:49.569Z"
+    "updatedAt": "2026-03-31T12:54:49.569Z",
+    "isDeleted": false
   },
   {
     "id": "69c15561e8139ff0a561d675",
@@ -5163,7 +5449,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-23T14:59:45.832Z",
-    "updatedAt": "2026-03-31T12:25:28.465Z"
+    "updatedAt": "2026-03-31T12:25:28.465Z",
+    "isDeleted": false
   },
   {
     "id": "69c163f1d61af7f1f4d5d908",
@@ -5181,7 +5468,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-23T16:01:53.527Z",
-    "updatedAt": "2026-03-24T17:51:51.627Z"
+    "updatedAt": "2026-03-24T17:51:51.627Z",
+    "isDeleted": false
   },
   {
     "id": "69c50617cab647c064822766",
@@ -5199,7 +5487,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-26T10:10:31.965Z",
-    "updatedAt": "2026-03-26T10:10:31.965Z"
+    "updatedAt": "2026-03-26T10:10:31.965Z",
+    "isDeleted": false
   },
   {
     "id": "69c50746cab647c06482276f",
@@ -5217,7 +5506,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-26T10:15:34.044Z",
-    "updatedAt": "2026-03-26T10:15:34.044Z"
+    "updatedAt": "2026-03-26T10:15:34.044Z",
+    "isDeleted": false
   },
   {
     "id": "69c52c81dea98a88e765b153",
@@ -5235,7 +5525,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-26T12:54:25.027Z",
-    "updatedAt": "2026-03-26T12:54:25.027Z"
+    "updatedAt": "2026-03-26T12:54:25.027Z",
+    "isDeleted": false
   },
   {
     "id": "69c52ce4dea98a88e765b15f",
@@ -5253,7 +5544,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-26T12:56:04.165Z",
-    "updatedAt": "2026-03-26T12:56:04.165Z"
+    "updatedAt": "2026-03-26T12:56:04.165Z",
+    "isDeleted": false
   },
   {
     "id": "69c5308edea98a88e765b18d",
@@ -5271,7 +5563,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-26T13:11:42.503Z",
-    "updatedAt": "2026-03-26T13:11:42.503Z"
+    "updatedAt": "2026-03-26T13:11:42.503Z",
+    "isDeleted": false
   },
   {
     "id": "69c53157dea98a88e765b19f",
@@ -5289,7 +5582,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-26T13:15:03.421Z",
-    "updatedAt": "2026-03-26T13:15:03.421Z"
+    "updatedAt": "2026-03-26T13:15:03.421Z",
+    "isDeleted": false
   },
   {
     "id": "69c53194dea98a88e765b1a5",
@@ -5307,7 +5601,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-26T13:16:04.541Z",
-    "updatedAt": "2026-03-26T13:16:04.541Z"
+    "updatedAt": "2026-03-26T13:16:04.541Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c89cb3a516b0b7f8b7b6",
@@ -5325,7 +5620,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:25:00.989Z",
-    "updatedAt": "2026-03-28T12:25:00.989Z"
+    "updatedAt": "2026-03-28T12:25:00.989Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cabbb3a516b0b7f8b7e8",
@@ -5343,7 +5639,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:34:03.975Z",
-    "updatedAt": "2026-03-28T12:34:03.975Z"
+    "updatedAt": "2026-03-28T12:34:03.975Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cae4b3a516b0b7f8b7ee",
@@ -5361,7 +5658,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:34:44.981Z",
-    "updatedAt": "2026-03-28T12:34:44.981Z"
+    "updatedAt": "2026-03-28T12:34:44.981Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cb4cb3a516b0b7f8b7fb",
@@ -5379,7 +5677,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:36:28.572Z",
-    "updatedAt": "2026-03-28T12:36:28.572Z"
+    "updatedAt": "2026-03-28T12:36:28.572Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cc76b3a516b0b7f8b826",
@@ -5397,7 +5696,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:41:26.178Z",
-    "updatedAt": "2026-03-28T12:41:26.178Z"
+    "updatedAt": "2026-03-28T12:41:26.178Z",
+    "isDeleted": false
   },
   {
     "id": "69c7ce27b3a516b0b7f8b85d",
@@ -5415,7 +5715,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:48:39.859Z",
-    "updatedAt": "2026-03-28T12:48:39.859Z"
+    "updatedAt": "2026-03-28T12:48:39.859Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cec6b3a516b0b7f8b870",
@@ -5433,7 +5734,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:51:18.306Z",
-    "updatedAt": "2026-03-28T12:51:18.306Z"
+    "updatedAt": "2026-03-28T12:51:18.306Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cf58b3a516b0b7f8b882",
@@ -5451,7 +5753,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:53:45.000Z",
-    "updatedAt": "2026-03-28T12:56:09.907Z"
+    "updatedAt": "2026-03-28T12:56:09.907Z",
+    "isDeleted": false
   },
   {
     "id": "69c8d01a921fbe18a3963508",
@@ -5469,7 +5772,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-29T07:09:14.444Z",
-    "updatedAt": "2026-03-29T07:09:14.444Z"
+    "updatedAt": "2026-03-29T07:09:14.444Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38bd661b3f94ac72fcb",
@@ -5487,7 +5791,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:51.228Z",
-    "updatedAt": "2026-03-31T12:23:06.097Z"
+    "updatedAt": "2026-03-31T12:23:06.097Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38dd661b3f94ac72fd2",
@@ -5505,7 +5810,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:52.664Z",
-    "updatedAt": "2026-03-31T12:21:43.864Z"
+    "updatedAt": "2026-03-31T12:21:43.864Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38dd661b3f94ac72fd3",
@@ -5523,7 +5829,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:52.867Z",
-    "updatedAt": "2026-03-31T12:21:56.917Z"
+    "updatedAt": "2026-03-31T12:21:56.917Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38dd661b3f94ac72fd4",
@@ -5541,7 +5848,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:53.072Z",
-    "updatedAt": "2026-04-09T12:16:01.268Z"
+    "updatedAt": "2026-04-09T12:16:01.268Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38ed661b3f94ac72fda",
@@ -5559,7 +5867,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:54.328Z",
-    "updatedAt": "2026-03-26T13:20:10.493Z"
+    "updatedAt": "2026-03-26T13:20:10.493Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38fd661b3f94ac72fdc",
@@ -5577,7 +5886,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:54.744Z",
-    "updatedAt": "2026-03-26T13:21:36.581Z"
+    "updatedAt": "2026-03-26T13:21:36.581Z",
+    "isDeleted": false
   },
   {
     "id": "69ae3ad8e4ec353f2d2c5cc5",
@@ -5595,7 +5905,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-09T03:13:28.241Z",
-    "updatedAt": "2026-03-31T12:53:21.993Z"
+    "updatedAt": "2026-03-31T12:53:21.993Z",
+    "isDeleted": false
   },
   {
     "id": "69ae3f3205fbad0c0df5f160",
@@ -5613,7 +5924,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-09T03:32:02.013Z",
-    "updatedAt": "2026-03-26T15:59:15.061Z"
+    "updatedAt": "2026-03-26T15:59:15.061Z",
+    "isDeleted": false
   },
   {
     "id": "69ae58ec531c1b152b687ffa",
@@ -5631,7 +5943,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-09T05:21:48.089Z",
-    "updatedAt": "2026-03-26T13:20:46.123Z"
+    "updatedAt": "2026-03-26T13:20:46.123Z",
+    "isDeleted": false
   },
   {
     "id": "69b55a365261c7d302b5463a",
@@ -5649,7 +5962,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-14T12:53:10.034Z",
-    "updatedAt": "2026-03-31T12:59:01.049Z"
+    "updatedAt": "2026-03-31T12:59:01.049Z",
+    "isDeleted": false
   },
   {
     "id": "69c155bfe8139ff0a561d697",
@@ -5667,7 +5981,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-23T15:01:19.108Z",
-    "updatedAt": "2026-03-31T12:25:51.826Z"
+    "updatedAt": "2026-03-31T12:25:51.826Z",
+    "isDeleted": false
   },
   {
     "id": "69c3a290d83d54b684f9a4da",
@@ -5685,7 +6000,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-25T08:53:36.342Z",
-    "updatedAt": "2026-03-27T16:23:43.631Z"
+    "updatedAt": "2026-03-27T16:23:43.631Z",
+    "isDeleted": false
   },
   {
     "id": "69c505c3cab647c06482275f",
@@ -5703,7 +6019,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-26T10:09:07.541Z",
-    "updatedAt": "2026-03-26T10:09:07.541Z"
+    "updatedAt": "2026-03-26T10:09:07.541Z",
+    "isDeleted": false
   },
   {
     "id": "69c50ab7cab647c064822781",
@@ -5721,7 +6038,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-26T10:30:15.358Z",
-    "updatedAt": "2026-03-26T10:30:15.358Z"
+    "updatedAt": "2026-03-26T10:30:15.358Z",
+    "isDeleted": false
   },
   {
     "id": "69c52d6edea98a88e765b16c",
@@ -5739,7 +6057,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-26T12:58:22.858Z",
-    "updatedAt": "2026-03-26T12:58:22.858Z"
+    "updatedAt": "2026-03-26T12:58:22.858Z",
+    "isDeleted": false
   },
   {
     "id": "69c530bbdea98a88e765b193",
@@ -5757,7 +6076,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-26T13:12:27.375Z",
-    "updatedAt": "2026-03-26T13:12:27.375Z"
+    "updatedAt": "2026-03-26T13:12:27.375Z",
+    "isDeleted": false
   },
   {
     "id": "69c6b297d0b789ac7c90c8fb",
@@ -5775,7 +6095,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-27T16:38:47.577Z",
-    "updatedAt": "2026-03-27T16:39:27.616Z"
+    "updatedAt": "2026-03-27T16:39:27.616Z",
+    "isDeleted": false
   },
   {
     "id": "69c6b33ed28eb9fa5a1e25e2",
@@ -5793,7 +6114,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-27T16:41:34.273Z",
-    "updatedAt": "2026-03-27T16:42:04.646Z"
+    "updatedAt": "2026-03-27T16:42:04.646Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c7081c6f5e8c1d6a315a",
@@ -5811,7 +6133,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:18:16.924Z",
-    "updatedAt": "2026-03-28T12:18:16.924Z"
+    "updatedAt": "2026-03-28T12:18:16.924Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c74a1c6f5e8c1d6a3160",
@@ -5829,7 +6152,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:19:22.927Z",
-    "updatedAt": "2026-03-28T12:57:24.663Z"
+    "updatedAt": "2026-03-28T12:57:24.663Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c78b1c6f5e8c1d6a3167",
@@ -5847,7 +6171,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:20:27.837Z",
-    "updatedAt": "2026-03-28T12:20:27.837Z"
+    "updatedAt": "2026-03-28T12:20:27.837Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c8d7b3a516b0b7f8b7bd",
@@ -5865,7 +6190,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:25:59.679Z",
-    "updatedAt": "2026-03-28T12:25:59.679Z"
+    "updatedAt": "2026-03-28T12:25:59.679Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c931b3a516b0b7f8b7c3",
@@ -5883,7 +6209,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:27:29.265Z",
-    "updatedAt": "2026-03-28T12:58:03.899Z"
+    "updatedAt": "2026-03-28T12:58:03.899Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c9bcb3a516b0b7f8b7cf",
@@ -5901,7 +6228,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:29:48.137Z",
-    "updatedAt": "2026-03-28T12:29:48.137Z"
+    "updatedAt": "2026-03-28T12:29:48.137Z",
+    "isDeleted": false
   },
   {
     "id": "69c7ca34b3a516b0b7f8b7dc",
@@ -5919,7 +6247,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:31:48.080Z",
-    "updatedAt": "2026-03-28T12:58:46.206Z"
+    "updatedAt": "2026-03-28T12:58:46.206Z",
+    "isDeleted": false
   },
   {
     "id": "69c7ca79b3a516b0b7f8b7e2",
@@ -5937,7 +6266,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:32:57.142Z",
-    "updatedAt": "2026-03-28T12:32:57.142Z"
+    "updatedAt": "2026-03-28T12:32:57.142Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cbd1b3a516b0b7f8b80d",
@@ -5955,7 +6285,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:38:41.244Z",
-    "updatedAt": "2026-03-28T12:54:08.316Z"
+    "updatedAt": "2026-03-28T12:54:08.316Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cbf9b3a516b0b7f8b813",
@@ -5973,7 +6304,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:39:21.698Z",
-    "updatedAt": "2026-03-28T12:39:21.698Z"
+    "updatedAt": "2026-03-28T12:39:21.698Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cc98b3a516b0b7f8b82c",
@@ -5991,7 +6323,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:42:00.345Z",
-    "updatedAt": "2026-03-28T12:42:00.345Z"
+    "updatedAt": "2026-03-28T12:42:00.345Z",
+    "isDeleted": false
   },
   {
     "id": "69c7ccb6b3a516b0b7f8b832",
@@ -6009,7 +6342,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:42:30.505Z",
-    "updatedAt": "2026-03-28T12:54:25.959Z"
+    "updatedAt": "2026-03-28T12:54:25.959Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cd3ab3a516b0b7f8b844",
@@ -6027,7 +6361,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:44:42.368Z",
-    "updatedAt": "2026-03-28T12:44:42.368Z"
+    "updatedAt": "2026-03-28T12:44:42.368Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cdafb3a516b0b7f8b851",
@@ -6045,7 +6380,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:46:39.164Z",
-    "updatedAt": "2026-03-28T12:46:39.164Z"
+    "updatedAt": "2026-03-28T12:46:39.164Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cdf8b3a516b0b7f8b857",
@@ -6063,7 +6399,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:47:52.990Z",
-    "updatedAt": "2026-03-28T12:47:52.990Z"
+    "updatedAt": "2026-03-28T12:47:52.990Z",
+    "isDeleted": false
   },
   {
     "id": "69c7ce56b3a516b0b7f8b863",
@@ -6081,7 +6418,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:49:26.773Z",
-    "updatedAt": "2026-03-28T12:49:26.773Z"
+    "updatedAt": "2026-03-28T12:49:26.773Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38bd661b3f94ac72fc8",
@@ -6099,7 +6437,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:50.622Z",
-    "updatedAt": "2026-03-31T12:13:05.318Z"
+    "updatedAt": "2026-03-31T12:13:05.318Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38bd661b3f94ac72fc9",
@@ -6117,7 +6456,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:50.824Z",
-    "updatedAt": "2026-03-31T12:13:26.495Z"
+    "updatedAt": "2026-03-31T12:13:26.495Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38bd661b3f94ac72fca",
@@ -6135,7 +6475,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:51.027Z",
-    "updatedAt": "2026-03-31T12:13:43.108Z"
+    "updatedAt": "2026-03-31T12:13:43.108Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38cd661b3f94ac72fcf",
@@ -6153,7 +6494,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:52.047Z",
-    "updatedAt": "2026-03-31T12:20:55.317Z"
+    "updatedAt": "2026-03-31T12:20:55.317Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38cd661b3f94ac72fd0",
@@ -6171,7 +6513,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:52.251Z",
-    "updatedAt": "2026-03-31T12:21:13.126Z"
+    "updatedAt": "2026-03-31T12:21:13.126Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38dd661b3f94ac72fd5",
@@ -6189,7 +6532,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:53.276Z",
-    "updatedAt": "2026-03-26T16:00:40.202Z"
+    "updatedAt": "2026-03-26T16:00:40.202Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38dd661b3f94ac72fd6",
@@ -6207,7 +6551,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:53.483Z",
-    "updatedAt": "2026-03-26T15:58:45.507Z"
+    "updatedAt": "2026-03-26T15:58:45.507Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38fd661b3f94ac72fe0",
@@ -6225,7 +6570,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:55.557Z",
-    "updatedAt": "2026-03-26T16:01:22.631Z"
+    "updatedAt": "2026-03-26T16:01:22.631Z",
+    "isDeleted": false
   },
   {
     "id": "69ada390d661b3f94ac72fe1",
@@ -6243,7 +6589,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:55.769Z",
-    "updatedAt": "2026-03-26T16:01:22.631Z"
+    "updatedAt": "2026-03-26T16:01:22.631Z",
+    "isDeleted": false
   },
   {
     "id": "69ada391d661b3f94ac72fe6",
@@ -6261,7 +6608,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:56.830Z",
-    "updatedAt": "2026-03-26T16:01:43.212Z"
+    "updatedAt": "2026-03-26T16:01:43.212Z",
+    "isDeleted": false
   },
   {
     "id": "69ada391d661b3f94ac72fe7",
@@ -6279,7 +6627,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:57.032Z",
-    "updatedAt": "2026-03-26T16:01:43.212Z"
+    "updatedAt": "2026-03-26T16:01:43.212Z",
+    "isDeleted": false
   },
   {
     "id": "69ada391d661b3f94ac72fe8",
@@ -6297,7 +6646,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:57.234Z",
-    "updatedAt": "2026-03-26T16:01:43.212Z"
+    "updatedAt": "2026-03-26T16:01:43.212Z",
+    "isDeleted": false
   },
   {
     "id": "69ada392d661b3f94ac72fec",
@@ -6315,7 +6665,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-08T16:27:58.085Z",
-    "updatedAt": "2026-03-26T13:22:13.717Z"
+    "updatedAt": "2026-03-26T13:22:13.717Z",
+    "isDeleted": false
   },
   {
     "id": "69ae4ffa45ad6497474a028a",
@@ -6333,7 +6684,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-09T04:43:38.754Z",
-    "updatedAt": "2026-03-26T13:23:04.816Z"
+    "updatedAt": "2026-03-26T13:23:04.816Z",
+    "isDeleted": false
   },
   {
     "id": "69b05fe14f185ccba4c7e07c",
@@ -6351,7 +6703,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-10T18:16:01.398Z",
-    "updatedAt": "2026-03-31T12:56:39.931Z"
+    "updatedAt": "2026-03-31T12:56:39.931Z",
+    "isDeleted": false
   },
   {
     "id": "69b065ecfbbe31c2394f3c0a",
@@ -6369,7 +6722,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-10T18:41:48.557Z",
-    "updatedAt": "2026-03-31T12:52:51.890Z"
+    "updatedAt": "2026-03-31T12:52:51.890Z",
+    "isDeleted": false
   },
   {
     "id": "69b07c29600d3a2c233e9348",
@@ -6387,7 +6741,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-10T20:16:41.743Z",
-    "updatedAt": "2026-03-31T12:55:16.130Z"
+    "updatedAt": "2026-03-31T12:55:16.130Z",
+    "isDeleted": false
   },
   {
     "id": "69b4ef8beb7719eea4ff44b0",
@@ -6405,7 +6760,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-14T05:18:03.372Z",
-    "updatedAt": "2026-03-26T13:23:30.925Z"
+    "updatedAt": "2026-03-26T13:23:30.925Z",
+    "isDeleted": false
   },
   {
     "id": "69c15608e8139ff0a561d6a6",
@@ -6423,7 +6779,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-23T15:02:32.016Z",
-    "updatedAt": "2026-03-31T12:26:09.964Z"
+    "updatedAt": "2026-03-31T12:26:09.964Z",
+    "isDeleted": false
   },
   {
     "id": "69c52cbedea98a88e765b159",
@@ -6441,7 +6798,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-26T12:55:26.339Z",
-    "updatedAt": "2026-03-26T12:55:26.339Z"
+    "updatedAt": "2026-03-26T12:55:26.339Z",
+    "isDeleted": false
   },
   {
     "id": "69c53021dea98a88e765b186",
@@ -6459,7 +6817,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-26T13:09:53.295Z",
-    "updatedAt": "2026-03-26T13:09:53.295Z"
+    "updatedAt": "2026-03-26T13:09:53.295Z",
+    "isDeleted": false
   },
   {
     "id": "69c6adbb140cb91738d35034",
@@ -6477,7 +6836,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-27T16:18:03.702Z",
-    "updatedAt": "2026-03-27T16:21:17.957Z"
+    "updatedAt": "2026-03-27T16:21:17.957Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c7c9b3a516b0b7f8b7a4",
@@ -6495,7 +6855,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:21:29.396Z",
-    "updatedAt": "2026-03-28T12:21:29.396Z"
+    "updatedAt": "2026-03-28T12:21:29.396Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c7eeb3a516b0b7f8b7aa",
@@ -6513,7 +6874,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:22:06.614Z",
-    "updatedAt": "2026-03-28T12:22:06.614Z"
+    "updatedAt": "2026-03-28T12:22:06.614Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cb0bb3a516b0b7f8b7f4",
@@ -6531,7 +6893,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:35:23.694Z",
-    "updatedAt": "2026-03-28T12:35:23.694Z"
+    "updatedAt": "2026-03-28T12:35:23.694Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cb70b3a516b0b7f8b801",
@@ -6549,7 +6912,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:37:04.719Z",
-    "updatedAt": "2026-03-28T12:59:15.710Z"
+    "updatedAt": "2026-03-28T12:59:15.710Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cd03b3a516b0b7f8b83e",
@@ -6567,7 +6931,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:43:47.851Z",
-    "updatedAt": "2026-03-28T12:56:45.068Z"
+    "updatedAt": "2026-03-28T12:56:45.068Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cd69b3a516b0b7f8b84a",
@@ -6585,7 +6950,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:45:29.080Z",
-    "updatedAt": "2026-03-28T12:45:29.080Z"
+    "updatedAt": "2026-03-28T12:45:29.080Z",
+    "isDeleted": false
   },
   {
     "id": "69c7ce8cb3a516b0b7f8b869",
@@ -6603,7 +6969,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:50:20.850Z",
-    "updatedAt": "2026-03-28T12:55:23.067Z"
+    "updatedAt": "2026-03-28T12:55:23.067Z",
+    "isDeleted": false
   },
   {
     "id": "69c7ceffb3a516b0b7f8b876",
@@ -6621,7 +6988,8 @@
     "isVIP": true,
     "tier": "vip1",
     "createdAt": "2026-03-28T12:52:15.902Z",
-    "updatedAt": "2026-03-28T12:52:15.902Z"
+    "updatedAt": "2026-03-28T12:52:15.902Z",
+    "isDeleted": false
   },
   {
     "id": "69ada302d661b3f94ac72f83",
@@ -6639,7 +7007,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:25:34.555Z",
-    "updatedAt": "2026-03-31T13:49:31.287Z"
+    "updatedAt": "2026-03-31T13:49:31.287Z",
+    "isDeleted": false
   },
   {
     "id": "69ada303d661b3f94ac72f84",
@@ -6657,7 +7026,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:25:34.715Z",
-    "updatedAt": "2026-03-31T13:49:47.408Z"
+    "updatedAt": "2026-03-31T13:49:47.408Z",
+    "isDeleted": false
   },
   {
     "id": "69ada305d661b3f94ac72f96",
@@ -6675,7 +7045,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:25:37.636Z",
-    "updatedAt": "2026-03-27T16:27:03.060Z"
+    "updatedAt": "2026-03-27T16:27:03.060Z",
+    "isDeleted": false
   },
   {
     "id": "69ada304d661b3f94ac72f8a",
@@ -6693,7 +7064,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:25:35.688Z",
-    "updatedAt": "2026-03-31T13:50:51.126Z"
+    "updatedAt": "2026-03-31T13:50:51.126Z",
+    "isDeleted": false
   },
   {
     "id": "69ada304d661b3f94ac72f8b",
@@ -6711,7 +7083,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:25:35.856Z",
-    "updatedAt": "2026-03-31T13:51:06.436Z"
+    "updatedAt": "2026-03-31T13:51:06.436Z",
+    "isDeleted": false
   },
   {
     "id": "69ada304d661b3f94ac72f8f",
@@ -6729,7 +7102,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:25:36.496Z",
-    "updatedAt": "2026-03-31T13:51:17.134Z"
+    "updatedAt": "2026-03-31T13:51:17.134Z",
+    "isDeleted": false
   },
   {
     "id": "69ada305d661b3f94ac72f92",
@@ -6747,7 +7121,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:25:36.976Z",
-    "updatedAt": "2026-03-31T13:52:03.317Z"
+    "updatedAt": "2026-03-31T13:52:03.317Z",
+    "isDeleted": false
   },
   {
     "id": "69ada306d661b3f94ac72f9b",
@@ -6765,7 +7140,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:25:38.455Z",
-    "updatedAt": "2026-03-26T15:59:15.061Z"
+    "updatedAt": "2026-03-26T15:59:15.061Z",
+    "isDeleted": false
   },
   {
     "id": "69ada307d661b3f94ac72fa1",
@@ -6783,7 +7159,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:25:39.418Z",
-    "updatedAt": "2026-03-31T13:57:02.470Z"
+    "updatedAt": "2026-03-31T13:57:02.470Z",
+    "isDeleted": false
   },
   {
     "id": "69ada308d661b3f94ac72fa7",
@@ -6801,7 +7178,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:25:40.392Z",
-    "updatedAt": "2026-03-26T15:59:15.061Z"
+    "updatedAt": "2026-03-26T15:59:15.061Z",
+    "isDeleted": false
   },
   {
     "id": "69ada30ad661b3f94ac72fb1",
@@ -6819,7 +7197,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:25:42.002Z",
-    "updatedAt": "2026-03-31T13:58:00.437Z"
+    "updatedAt": "2026-03-31T13:58:00.437Z",
+    "isDeleted": false
   },
   {
     "id": "69ada30ad661b3f94ac72fb2",
@@ -6837,7 +7216,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:25:42.174Z",
-    "updatedAt": "2026-03-31T13:58:48.113Z"
+    "updatedAt": "2026-03-31T13:58:48.113Z",
+    "isDeleted": false
   },
   {
     "id": "69ada30ad661b3f94ac72fb4",
@@ -6855,7 +7235,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:25:42.494Z",
-    "updatedAt": "2026-03-26T15:58:20.342Z"
+    "updatedAt": "2026-03-26T15:58:20.342Z",
+    "isDeleted": false
   },
   {
     "id": "69ada30ad661b3f94ac72fb5",
@@ -6873,7 +7254,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:25:42.653Z",
-    "updatedAt": "2026-03-26T15:58:20.342Z"
+    "updatedAt": "2026-03-26T15:58:20.342Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38ad661b3f94ac72fc4",
@@ -6891,7 +7273,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:49.796Z",
-    "updatedAt": "2026-03-31T13:00:34.501Z"
+    "updatedAt": "2026-03-31T13:00:34.501Z",
+    "isDeleted": false
   },
   {
     "id": "69ada303d661b3f94ac72f86",
@@ -6909,7 +7292,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:25:35.037Z",
-    "updatedAt": "2026-03-31T13:50:05.008Z"
+    "updatedAt": "2026-03-31T13:50:05.008Z",
+    "isDeleted": false
   },
   {
     "id": "69ada303d661b3f94ac72f89",
@@ -6927,7 +7311,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:25:35.517Z",
-    "updatedAt": "2026-03-31T13:50:40.951Z"
+    "updatedAt": "2026-03-31T13:50:40.951Z",
+    "isDeleted": false
   },
   {
     "id": "69ada304d661b3f94ac72f8d",
@@ -6945,7 +7330,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:25:36.175Z",
-    "updatedAt": "2026-03-27T16:25:13.961Z"
+    "updatedAt": "2026-03-27T16:25:13.961Z",
+    "isDeleted": false
   },
   {
     "id": "69ada304d661b3f94ac72f8e",
@@ -6963,7 +7349,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:25:36.339Z",
-    "updatedAt": "2026-03-27T16:26:47.025Z"
+    "updatedAt": "2026-03-27T16:26:47.025Z",
+    "isDeleted": false
   },
   {
     "id": "69ada305d661b3f94ac72f95",
@@ -6981,7 +7368,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:25:37.472Z",
-    "updatedAt": "2026-03-27T16:23:13.917Z"
+    "updatedAt": "2026-03-27T16:23:13.917Z",
+    "isDeleted": false
   },
   {
     "id": "69ada306d661b3f94ac72f98",
@@ -6999,7 +7387,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:25:37.958Z",
-    "updatedAt": "2026-03-31T13:51:39.656Z"
+    "updatedAt": "2026-03-31T13:51:39.656Z",
+    "isDeleted": false
   },
   {
     "id": "69ada308d661b3f94ac72fa4",
@@ -7017,7 +7406,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:25:39.894Z",
-    "updatedAt": "2026-03-31T13:49:19.082Z"
+    "updatedAt": "2026-03-31T13:49:19.082Z",
+    "isDeleted": false
   },
   {
     "id": "69ada30ad661b3f94ac72faf",
@@ -7035,7 +7425,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:25:41.678Z",
-    "updatedAt": "2026-03-31T13:58:14.186Z"
+    "updatedAt": "2026-03-31T13:58:14.186Z",
+    "isDeleted": false
   },
   {
     "id": "69ada30ad661b3f94ac72fb3",
@@ -7053,7 +7444,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:25:42.335Z",
-    "updatedAt": "2026-03-26T15:58:20.342Z"
+    "updatedAt": "2026-03-26T15:58:20.342Z",
+    "isDeleted": false
   },
   {
     "id": "69ada30bd661b3f94ac72fb6",
@@ -7071,7 +7463,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:25:42.814Z",
-    "updatedAt": "2026-03-26T15:58:20.342Z"
+    "updatedAt": "2026-03-26T15:58:20.342Z",
+    "isDeleted": false
   },
   {
     "id": "69ada302d661b3f94ac72f82",
@@ -7089,7 +7482,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:25:34.393Z",
-    "updatedAt": "2026-03-31T13:49:08.919Z"
+    "updatedAt": "2026-03-31T13:49:08.919Z",
+    "isDeleted": false
   },
   {
     "id": "69ada303d661b3f94ac72f87",
@@ -7107,7 +7501,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:25:35.197Z",
-    "updatedAt": "2026-03-31T13:50:22.325Z"
+    "updatedAt": "2026-03-31T13:50:22.325Z",
+    "isDeleted": false
   },
   {
     "id": "69ada307d661b3f94ac72f9e",
@@ -7125,7 +7520,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:25:38.938Z",
-    "updatedAt": "2026-03-31T13:51:52.851Z"
+    "updatedAt": "2026-03-31T13:51:52.851Z",
+    "isDeleted": false
   },
   {
     "id": "69ada308d661b3f94ac72fa3",
@@ -7143,7 +7539,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:25:39.735Z",
-    "updatedAt": "2026-03-27T16:24:58.549Z"
+    "updatedAt": "2026-03-27T16:24:58.549Z",
+    "isDeleted": false
   },
   {
     "id": "69ada308d661b3f94ac72fa5",
@@ -7161,7 +7558,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:25:40.059Z",
-    "updatedAt": "2026-03-31T13:55:11.187Z"
+    "updatedAt": "2026-03-31T13:55:11.187Z",
+    "isDeleted": false
   },
   {
     "id": "69ada309d661b3f94ac72fac",
@@ -7179,7 +7577,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:25:41.200Z",
-    "updatedAt": "2026-03-31T13:53:50.531Z"
+    "updatedAt": "2026-03-31T13:53:50.531Z",
+    "isDeleted": false
   },
   {
     "id": "69ada309d661b3f94ac72fad",
@@ -7197,7 +7596,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:25:41.359Z",
-    "updatedAt": "2026-03-31T13:57:46.313Z"
+    "updatedAt": "2026-03-31T13:57:46.313Z",
+    "isDeleted": false
   },
   {
     "id": "69ada309d661b3f94ac72fae",
@@ -7215,7 +7615,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:25:41.518Z",
-    "updatedAt": "2026-03-31T13:58:29.117Z"
+    "updatedAt": "2026-03-31T13:58:29.117Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38ad661b3f94ac72fc5",
@@ -7233,7 +7634,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:50.014Z",
-    "updatedAt": "2026-03-31T13:00:59.009Z"
+    "updatedAt": "2026-03-31T13:00:59.009Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38bd661b3f94ac72fc8",
@@ -7251,7 +7653,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:50.622Z",
-    "updatedAt": "2026-03-31T13:02:39.040Z"
+    "updatedAt": "2026-03-31T13:02:39.040Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38bd661b3f94ac72fc9",
@@ -7269,7 +7672,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:50.824Z",
-    "updatedAt": "2026-03-31T13:02:52.319Z"
+    "updatedAt": "2026-03-31T13:02:52.319Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38bd661b3f94ac72fca",
@@ -7287,7 +7691,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:51.027Z",
-    "updatedAt": "2026-03-31T13:03:11.305Z"
+    "updatedAt": "2026-03-31T13:03:11.305Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38bd661b3f94ac72fcc",
@@ -7305,7 +7710,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:51.430Z",
-    "updatedAt": "2026-03-31T13:05:07.858Z"
+    "updatedAt": "2026-03-31T13:05:07.858Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38cd661b3f94ac72fce",
@@ -7323,7 +7729,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:51.843Z",
-    "updatedAt": "2026-03-31T13:06:02.347Z"
+    "updatedAt": "2026-03-31T13:06:02.347Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38cd661b3f94ac72fd0",
@@ -7341,7 +7748,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:52.251Z",
-    "updatedAt": "2026-03-31T13:06:41.467Z"
+    "updatedAt": "2026-03-31T13:06:41.467Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38cd661b3f94ac72fd1",
@@ -7359,7 +7767,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:52.460Z",
-    "updatedAt": "2026-03-31T13:06:53.021Z"
+    "updatedAt": "2026-03-31T13:06:53.021Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38dd661b3f94ac72fd3",
@@ -7377,7 +7786,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:52.867Z",
-    "updatedAt": "2026-03-31T13:45:15.033Z"
+    "updatedAt": "2026-03-31T13:45:15.033Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38dd661b3f94ac72fd6",
@@ -7395,7 +7805,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:53.483Z",
-    "updatedAt": "2026-03-26T15:58:45.507Z"
+    "updatedAt": "2026-03-26T15:58:45.507Z",
+    "isDeleted": false
   },
   {
     "id": "69ada390d661b3f94ac72fe1",
@@ -7413,7 +7824,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:55.769Z",
-    "updatedAt": "2026-03-26T16:01:22.631Z"
+    "updatedAt": "2026-03-26T16:01:22.631Z",
+    "isDeleted": false
   },
   {
     "id": "69ada391d661b3f94ac72fe8",
@@ -7431,7 +7843,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:57.234Z",
-    "updatedAt": "2026-03-26T16:01:43.212Z"
+    "updatedAt": "2026-03-26T16:01:43.212Z",
+    "isDeleted": false
   },
   {
     "id": "69ada392d661b3f94ac72fed",
@@ -7449,7 +7862,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:58.294Z",
-    "updatedAt": "2026-03-26T13:26:45.443Z"
+    "updatedAt": "2026-03-26T13:26:45.443Z",
+    "isDeleted": false
   },
   {
     "id": "69ae30b76af84bda007308d2",
@@ -7467,7 +7881,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-09T02:30:15.082Z",
-    "updatedAt": "2026-03-26T13:22:43.877Z"
+    "updatedAt": "2026-03-26T13:22:43.877Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38ad661b3f94ac72fc6",
@@ -7485,7 +7900,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:50.217Z",
-    "updatedAt": "2026-03-31T13:01:21.916Z"
+    "updatedAt": "2026-03-31T13:01:21.916Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38cd661b3f94ac72fcd",
@@ -7503,7 +7919,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:51.633Z",
-    "updatedAt": "2026-03-31T13:05:37.519Z"
+    "updatedAt": "2026-03-31T13:05:37.519Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38dd661b3f94ac72fd5",
@@ -7521,7 +7938,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:53.276Z",
-    "updatedAt": "2026-03-26T16:00:40.202Z"
+    "updatedAt": "2026-03-26T16:00:40.202Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38fd661b3f94ac72fe0",
@@ -7539,7 +7957,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:55.557Z",
-    "updatedAt": "2026-03-26T16:01:22.631Z"
+    "updatedAt": "2026-03-26T16:01:22.631Z",
+    "isDeleted": false
   },
   {
     "id": "69ada390d661b3f94ac72fe2",
@@ -7557,7 +7976,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:55.974Z",
-    "updatedAt": "2026-03-31T13:07:38.780Z"
+    "updatedAt": "2026-03-31T13:07:38.780Z",
+    "isDeleted": false
   },
   {
     "id": "69ada390d661b3f94ac72fe3",
@@ -7575,7 +7995,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:56.194Z",
-    "updatedAt": "2026-03-31T13:08:39.192Z"
+    "updatedAt": "2026-03-31T13:08:39.192Z",
+    "isDeleted": false
   },
   {
     "id": "69ada391d661b3f94ac72fe5",
@@ -7593,7 +8014,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:56.622Z",
-    "updatedAt": "2026-03-26T15:56:35.402Z"
+    "updatedAt": "2026-03-26T15:56:35.402Z",
+    "isDeleted": false
   },
   {
     "id": "69ada391d661b3f94ac72fe7",
@@ -7611,7 +8033,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:57.032Z",
-    "updatedAt": "2026-03-26T16:01:43.212Z"
+    "updatedAt": "2026-03-26T16:01:43.212Z",
+    "isDeleted": false
   },
   {
     "id": "69ada392d661b3f94ac72fea",
@@ -7629,7 +8052,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:57.645Z",
-    "updatedAt": "2026-03-26T13:21:01.129Z"
+    "updatedAt": "2026-03-26T13:21:01.129Z",
+    "isDeleted": false
   },
   {
     "id": "69ada392d661b3f94ac72feb",
@@ -7647,7 +8071,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:57.875Z",
-    "updatedAt": "2026-03-26T13:21:58.172Z"
+    "updatedAt": "2026-03-26T13:21:58.172Z",
+    "isDeleted": false
   },
   {
     "id": "69ada393d661b3f94ac72fef",
@@ -7665,7 +8090,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:58.700Z",
-    "updatedAt": "2026-03-26T16:01:43.212Z"
+    "updatedAt": "2026-03-26T16:01:43.212Z",
+    "isDeleted": false
   },
   {
     "id": "69ae2fe57f9ee29e9baebfea",
@@ -7683,7 +8109,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-09T02:26:45.815Z",
-    "updatedAt": "2026-03-26T13:20:26.039Z"
+    "updatedAt": "2026-03-26T13:20:26.039Z",
+    "isDeleted": false
   },
   {
     "id": "69ae3904f9fdbe9351c81698",
@@ -7701,7 +8128,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-09T03:05:40.683Z",
-    "updatedAt": "2026-03-31T13:54:01.580Z"
+    "updatedAt": "2026-03-31T13:54:01.580Z",
+    "isDeleted": false
   },
   {
     "id": "69ae3cd7e4ec353f2d2c5ced",
@@ -7719,7 +8147,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-09T03:21:59.007Z",
-    "updatedAt": "2026-03-31T13:56:22.765Z"
+    "updatedAt": "2026-03-31T13:56:22.765Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38ad661b3f94ac72fc7",
@@ -7737,7 +8166,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:50.419Z",
-    "updatedAt": "2026-03-31T13:01:43.227Z"
+    "updatedAt": "2026-03-31T13:01:43.227Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38fd661b3f94ac72fdd",
@@ -7755,7 +8185,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:54.952Z",
-    "updatedAt": "2026-03-26T13:23:18.572Z"
+    "updatedAt": "2026-03-26T13:23:18.572Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38fd661b3f94ac72fde",
@@ -7773,7 +8204,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:55.153Z",
-    "updatedAt": "2026-03-26T16:01:22.631Z"
+    "updatedAt": "2026-03-26T16:01:22.631Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38fd661b3f94ac72fdf",
@@ -7791,7 +8223,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:55.355Z",
-    "updatedAt": "2026-03-26T16:01:22.631Z"
+    "updatedAt": "2026-03-26T16:01:22.631Z",
+    "isDeleted": false
   },
   {
     "id": "69ada390d661b3f94ac72fe4",
@@ -7809,7 +8242,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:56.398Z",
-    "updatedAt": "2026-03-31T13:09:17.525Z"
+    "updatedAt": "2026-03-31T13:09:17.525Z",
+    "isDeleted": false
   },
   {
     "id": "69ae305b6af84bda007308cc",
@@ -7827,7 +8261,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-09T02:28:43.952Z",
-    "updatedAt": "2026-03-26T13:26:20.192Z"
+    "updatedAt": "2026-03-26T13:26:20.192Z",
+    "isDeleted": false
   },
   {
     "id": "69ae3938f9fdbe9351c8169e",
@@ -7845,7 +8280,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-09T03:06:32.413Z",
-    "updatedAt": "2026-03-31T13:54:12.818Z"
+    "updatedAt": "2026-03-31T13:54:12.818Z",
+    "isDeleted": false
   },
   {
     "id": "69ae3ad8e4ec353f2d2c5cc5",
@@ -7863,7 +8299,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-09T03:13:28.241Z",
-    "updatedAt": "2026-03-31T13:55:39.314Z"
+    "updatedAt": "2026-03-31T13:55:39.314Z",
+    "isDeleted": false
   },
   {
     "id": "69ae3bcae4ec353f2d2c5cd3",
@@ -7881,7 +8318,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-09T03:17:30.668Z",
-    "updatedAt": "2026-03-31T13:56:01.825Z"
+    "updatedAt": "2026-03-31T13:56:01.825Z",
+    "isDeleted": false
   },
   {
     "id": "69ae3c17e4ec353f2d2c5cda",
@@ -7899,7 +8337,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-09T03:18:47.431Z",
-    "updatedAt": "2026-03-31T13:55:50.946Z"
+    "updatedAt": "2026-03-31T13:55:50.946Z",
+    "isDeleted": false
   },
   {
     "id": "69ae3c5de4ec353f2d2c5ce0",
@@ -7917,7 +8356,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-09T03:19:57.935Z",
-    "updatedAt": "2026-03-31T13:56:12.418Z"
+    "updatedAt": "2026-03-31T13:56:12.418Z",
+    "isDeleted": false
   },
   {
     "id": "69ae3df405fbad0c0df5f144",
@@ -7935,7 +8375,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-09T03:26:44.950Z",
-    "updatedAt": "2026-03-31T13:56:35.794Z"
+    "updatedAt": "2026-03-31T13:56:35.794Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38bd661b3f94ac72fcb",
@@ -7953,7 +8394,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:51.228Z",
-    "updatedAt": "2026-03-31T13:03:28.701Z"
+    "updatedAt": "2026-03-31T13:03:28.701Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38cd661b3f94ac72fcf",
@@ -7971,7 +8413,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:52.047Z",
-    "updatedAt": "2026-03-31T13:06:22.158Z"
+    "updatedAt": "2026-03-31T13:06:22.158Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38dd661b3f94ac72fd2",
@@ -7989,7 +8432,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:52.664Z",
-    "updatedAt": "2026-03-31T13:07:05.531Z"
+    "updatedAt": "2026-03-31T13:07:05.531Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38dd661b3f94ac72fd4",
@@ -8007,7 +8451,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:53.072Z",
-    "updatedAt": "2026-03-26T15:59:00.470Z"
+    "updatedAt": "2026-03-26T15:59:00.470Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38ed661b3f94ac72fda",
@@ -8025,7 +8470,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:54.328Z",
-    "updatedAt": "2026-03-26T13:20:10.493Z"
+    "updatedAt": "2026-03-26T13:20:10.493Z",
+    "isDeleted": false
   },
   {
     "id": "69ada38fd661b3f94ac72fdc",
@@ -8043,7 +8489,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:54.744Z",
-    "updatedAt": "2026-03-26T13:21:36.581Z"
+    "updatedAt": "2026-03-26T13:21:36.581Z",
+    "isDeleted": false
   },
   {
     "id": "69ada391d661b3f94ac72fe6",
@@ -8061,7 +8508,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:56.830Z",
-    "updatedAt": "2026-03-26T16:01:43.212Z"
+    "updatedAt": "2026-03-26T16:01:43.212Z",
+    "isDeleted": false
   },
   {
     "id": "69ada391d661b3f94ac72fe9",
@@ -8079,7 +8527,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:57.437Z",
-    "updatedAt": "2026-03-26T13:21:18.373Z"
+    "updatedAt": "2026-03-26T13:21:18.373Z",
+    "isDeleted": false
   },
   {
     "id": "69ada392d661b3f94ac72fec",
@@ -8097,7 +8546,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-08T16:27:58.085Z",
-    "updatedAt": "2026-03-26T13:22:13.717Z"
+    "updatedAt": "2026-03-26T13:22:13.717Z",
+    "isDeleted": false
   },
   {
     "id": "69ae3b5ee4ec353f2d2c5ccd",
@@ -8115,7 +8565,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-09T03:15:42.530Z",
-    "updatedAt": "2026-03-31T13:55:27.652Z"
+    "updatedAt": "2026-03-31T13:55:27.652Z",
+    "isDeleted": false
   },
   {
     "id": "69ae3edf05fbad0c0df5f159",
@@ -8133,7 +8584,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-09T03:30:39.097Z",
-    "updatedAt": "2026-03-26T15:59:15.061Z"
+    "updatedAt": "2026-03-26T15:59:15.061Z",
+    "isDeleted": false
   },
   {
     "id": "69ae42ebee8d1cbfd731551a",
@@ -8151,7 +8603,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-09T03:47:55.064Z",
-    "updatedAt": "2026-03-31T13:54:42.992Z"
+    "updatedAt": "2026-03-31T13:54:42.992Z",
+    "isDeleted": false
   },
   {
     "id": "69b05fe14f185ccba4c7e07c",
@@ -8169,7 +8622,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-10T18:16:01.398Z",
-    "updatedAt": "2026-03-31T13:53:14.266Z"
+    "updatedAt": "2026-03-31T13:53:14.266Z",
+    "isDeleted": false
   },
   {
     "id": "69b061d58a5ac8d9f6c31562",
@@ -8187,7 +8641,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-10T18:24:21.696Z",
-    "updatedAt": "2026-03-31T13:53:01.384Z"
+    "updatedAt": "2026-03-31T13:53:01.384Z",
+    "isDeleted": false
   },
   {
     "id": "69b4ef8beb7719eea4ff44b0",
@@ -8205,7 +8660,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-14T05:18:03.372Z",
-    "updatedAt": "2026-03-26T13:23:30.925Z"
+    "updatedAt": "2026-03-26T13:23:30.925Z",
+    "isDeleted": false
   },
   {
     "id": "69c15512e8139ff0a561d667",
@@ -8223,7 +8679,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-23T14:58:26.669Z",
-    "updatedAt": "2026-03-31T13:45:54.443Z"
+    "updatedAt": "2026-03-31T13:45:54.443Z",
+    "isDeleted": false
   },
   {
     "id": "69c163f1d61af7f1f4d5d908",
@@ -8241,7 +8698,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-23T16:01:53.527Z",
-    "updatedAt": "2026-03-24T17:51:51.627Z"
+    "updatedAt": "2026-03-24T17:51:51.627Z",
+    "isDeleted": false
   },
   {
     "id": "69c50617cab647c064822766",
@@ -8259,7 +8717,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-26T10:10:31.965Z",
-    "updatedAt": "2026-03-26T10:10:31.965Z"
+    "updatedAt": "2026-03-26T10:10:31.965Z",
+    "isDeleted": false
   },
   {
     "id": "69c50746cab647c06482276f",
@@ -8277,7 +8736,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-26T10:15:34.044Z",
-    "updatedAt": "2026-03-26T10:15:34.044Z"
+    "updatedAt": "2026-03-26T10:15:34.044Z",
+    "isDeleted": false
   },
   {
     "id": "69c52ce4dea98a88e765b15f",
@@ -8295,7 +8755,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-26T12:56:04.165Z",
-    "updatedAt": "2026-03-26T12:56:04.165Z"
+    "updatedAt": "2026-03-26T12:56:04.165Z",
+    "isDeleted": false
   },
   {
     "id": "69c53157dea98a88e765b19f",
@@ -8313,7 +8774,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-26T13:15:03.421Z",
-    "updatedAt": "2026-03-26T13:15:03.421Z"
+    "updatedAt": "2026-03-26T13:15:03.421Z",
+    "isDeleted": false
   },
   {
     "id": "69c53194dea98a88e765b1a5",
@@ -8331,7 +8793,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-26T13:16:04.541Z",
-    "updatedAt": "2026-03-26T13:16:04.541Z"
+    "updatedAt": "2026-03-26T13:16:04.541Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c6d41c6f5e8c1d6a3154",
@@ -8349,7 +8812,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:17:24.493Z",
-    "updatedAt": "2026-03-28T12:17:24.493Z"
+    "updatedAt": "2026-03-28T12:17:24.493Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c89cb3a516b0b7f8b7b6",
@@ -8367,7 +8831,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:25:00.989Z",
-    "updatedAt": "2026-03-28T12:25:00.989Z"
+    "updatedAt": "2026-03-28T12:25:00.989Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cb4cb3a516b0b7f8b7fb",
@@ -8385,7 +8850,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:36:28.572Z",
-    "updatedAt": "2026-03-28T12:36:28.572Z"
+    "updatedAt": "2026-03-28T12:36:28.572Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cc76b3a516b0b7f8b826",
@@ -8403,7 +8869,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:41:26.178Z",
-    "updatedAt": "2026-03-28T12:41:26.178Z"
+    "updatedAt": "2026-03-28T12:41:26.178Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cec6b3a516b0b7f8b870",
@@ -8421,7 +8888,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:51:18.306Z",
-    "updatedAt": "2026-03-28T12:51:18.306Z"
+    "updatedAt": "2026-03-28T12:51:18.306Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cf2cb3a516b0b7f8b87c",
@@ -8439,7 +8907,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:53:00.656Z",
-    "updatedAt": "2026-03-28T12:55:46.307Z"
+    "updatedAt": "2026-03-28T12:55:46.307Z",
+    "isDeleted": false
   },
   {
     "id": "69c8d01a921fbe18a3963508",
@@ -8457,7 +8926,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-29T07:09:14.444Z",
-    "updatedAt": "2026-03-29T07:09:14.444Z"
+    "updatedAt": "2026-03-29T07:09:14.444Z",
+    "isDeleted": false
   },
   {
     "id": "69ae4ffa45ad6497474a028a",
@@ -8475,7 +8945,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-09T04:43:38.754Z",
-    "updatedAt": "2026-03-26T13:23:04.816Z"
+    "updatedAt": "2026-03-26T13:23:04.816Z",
+    "isDeleted": false
   },
   {
     "id": "69c15608e8139ff0a561d6a6",
@@ -8493,7 +8964,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-23T15:02:32.016Z",
-    "updatedAt": "2026-03-31T13:47:28.664Z"
+    "updatedAt": "2026-03-31T13:47:28.664Z",
+    "isDeleted": false
   },
   {
     "id": "69c505c3cab647c06482275f",
@@ -8511,7 +8983,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-26T10:09:07.541Z",
-    "updatedAt": "2026-03-26T10:09:07.541Z"
+    "updatedAt": "2026-03-26T10:09:07.541Z",
+    "isDeleted": false
   },
   {
     "id": "69c52c81dea98a88e765b153",
@@ -8529,7 +9002,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-26T12:54:25.027Z",
-    "updatedAt": "2026-03-26T12:54:25.027Z"
+    "updatedAt": "2026-03-26T12:54:25.027Z",
+    "isDeleted": false
   },
   {
     "id": "69c52cbedea98a88e765b159",
@@ -8547,7 +9021,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-26T12:55:26.339Z",
-    "updatedAt": "2026-03-26T12:55:26.339Z"
+    "updatedAt": "2026-03-26T12:55:26.339Z",
+    "isDeleted": false
   },
   {
     "id": "69c53021dea98a88e765b186",
@@ -8565,7 +9040,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-26T13:09:53.295Z",
-    "updatedAt": "2026-03-26T13:09:53.295Z"
+    "updatedAt": "2026-03-26T13:09:53.295Z",
+    "isDeleted": false
   },
   {
     "id": "69c6b297d0b789ac7c90c8fb",
@@ -8583,7 +9059,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-27T16:38:47.577Z",
-    "updatedAt": "2026-03-27T16:39:27.616Z"
+    "updatedAt": "2026-03-27T16:39:27.616Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c7c9b3a516b0b7f8b7a4",
@@ -8601,7 +9078,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:21:29.396Z",
-    "updatedAt": "2026-03-28T12:21:29.396Z"
+    "updatedAt": "2026-03-28T12:21:29.396Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cabbb3a516b0b7f8b7e8",
@@ -8619,7 +9097,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:34:03.975Z",
-    "updatedAt": "2026-03-28T12:34:03.975Z"
+    "updatedAt": "2026-03-28T12:34:03.975Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cb0bb3a516b0b7f8b7f4",
@@ -8637,7 +9116,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:35:23.694Z",
-    "updatedAt": "2026-03-28T12:35:23.694Z"
+    "updatedAt": "2026-03-28T12:35:23.694Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cb70b3a516b0b7f8b801",
@@ -8655,7 +9135,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:37:04.719Z",
-    "updatedAt": "2026-03-28T12:59:15.710Z"
+    "updatedAt": "2026-03-28T12:59:15.710Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cbd1b3a516b0b7f8b80d",
@@ -8673,7 +9154,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:38:41.244Z",
-    "updatedAt": "2026-03-28T12:54:08.316Z"
+    "updatedAt": "2026-03-28T12:54:08.316Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cbf9b3a516b0b7f8b813",
@@ -8691,7 +9173,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:39:21.698Z",
-    "updatedAt": "2026-03-28T12:39:21.698Z"
+    "updatedAt": "2026-03-28T12:39:21.698Z",
+    "isDeleted": false
   },
   {
     "id": "69c7ce8cb3a516b0b7f8b869",
@@ -8709,7 +9192,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:50:20.850Z",
-    "updatedAt": "2026-03-28T12:55:23.067Z"
+    "updatedAt": "2026-03-28T12:55:23.067Z",
+    "isDeleted": false
   },
   {
     "id": "69c7ceffb3a516b0b7f8b876",
@@ -8727,7 +9211,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:52:15.902Z",
-    "updatedAt": "2026-03-28T12:52:15.902Z"
+    "updatedAt": "2026-03-28T12:52:15.902Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cf58b3a516b0b7f8b882",
@@ -8745,7 +9230,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:53:45.000Z",
-    "updatedAt": "2026-03-28T12:56:09.907Z"
+    "updatedAt": "2026-03-28T12:56:09.907Z",
+    "isDeleted": false
   },
   {
     "id": "69b05edf76105045558f6a10",
@@ -8763,7 +9249,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-10T18:11:43.890Z",
-    "updatedAt": "2026-03-31T13:52:44.506Z"
+    "updatedAt": "2026-03-31T13:52:44.506Z",
+    "isDeleted": false
   },
   {
     "id": "69b062b28a5ac8d9f6c31595",
@@ -8781,7 +9268,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-10T18:28:02.523Z",
-    "updatedAt": "2026-03-31T13:56:49.559Z"
+    "updatedAt": "2026-03-31T13:56:49.559Z",
+    "isDeleted": false
   },
   {
     "id": "69b523e1665c578e006a78c0",
@@ -8799,7 +9287,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-14T09:01:21.491Z",
-    "updatedAt": "2026-03-31T13:53:26.125Z"
+    "updatedAt": "2026-03-31T13:53:26.125Z",
+    "isDeleted": false
   },
   {
     "id": "69b55a365261c7d302b5463a",
@@ -8817,7 +9306,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-14T12:53:10.034Z",
-    "updatedAt": "2026-03-31T13:54:23.354Z"
+    "updatedAt": "2026-03-31T13:54:23.354Z",
+    "isDeleted": false
   },
   {
     "id": "69c15561e8139ff0a561d675",
@@ -8835,7 +9325,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-23T14:59:45.832Z",
-    "updatedAt": "2026-03-31T13:46:48.531Z"
+    "updatedAt": "2026-03-31T13:46:48.531Z",
+    "isDeleted": false
   },
   {
     "id": "69c3a290d83d54b684f9a4da",
@@ -8853,7 +9344,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-25T08:53:36.342Z",
-    "updatedAt": "2026-03-27T16:23:43.631Z"
+    "updatedAt": "2026-03-27T16:23:43.631Z",
+    "isDeleted": false
   },
   {
     "id": "69c52d6edea98a88e765b16c",
@@ -8871,7 +9363,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-26T12:58:22.858Z",
-    "updatedAt": "2026-03-26T12:58:22.858Z"
+    "updatedAt": "2026-03-26T12:58:22.858Z",
+    "isDeleted": false
   },
   {
     "id": "69c52f1cdea98a88e765b179",
@@ -8889,7 +9382,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-26T13:05:32.071Z",
-    "updatedAt": "2026-03-26T13:05:32.071Z"
+    "updatedAt": "2026-03-26T13:05:32.071Z",
+    "isDeleted": false
   },
   {
     "id": "69c5308edea98a88e765b18d",
@@ -8907,7 +9401,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-26T13:11:42.503Z",
-    "updatedAt": "2026-03-26T13:11:42.503Z"
+    "updatedAt": "2026-03-26T13:11:42.503Z",
+    "isDeleted": false
   },
   {
     "id": "69c530f6dea98a88e765b199",
@@ -8925,7 +9420,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-26T13:13:26.054Z",
-    "updatedAt": "2026-03-26T13:13:26.054Z"
+    "updatedAt": "2026-03-26T13:13:26.054Z",
+    "isDeleted": false
   },
   {
     "id": "69c6adf8140cb91738d3503a",
@@ -8943,7 +9439,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-27T16:19:04.782Z",
-    "updatedAt": "2026-03-27T16:22:17.429Z"
+    "updatedAt": "2026-03-27T16:22:17.429Z",
+    "isDeleted": false
   },
   {
     "id": "69c6b33ed28eb9fa5a1e25e2",
@@ -8961,7 +9458,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-27T16:41:34.273Z",
-    "updatedAt": "2026-03-27T16:42:04.646Z"
+    "updatedAt": "2026-03-27T16:42:04.646Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c81cb3a516b0b7f8b7b0",
@@ -8979,7 +9477,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:22:52.374Z",
-    "updatedAt": "2026-03-28T12:22:52.374Z"
+    "updatedAt": "2026-03-28T12:22:52.374Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c931b3a516b0b7f8b7c3",
@@ -8997,7 +9496,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:27:29.265Z",
-    "updatedAt": "2026-03-28T12:58:03.899Z"
+    "updatedAt": "2026-03-28T12:58:03.899Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c9e9b3a516b0b7f8b7d5",
@@ -9015,7 +9515,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:30:33.618Z",
-    "updatedAt": "2026-03-28T12:58:22.126Z"
+    "updatedAt": "2026-03-28T12:58:22.126Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cae4b3a516b0b7f8b7ee",
@@ -9033,7 +9534,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:34:44.981Z",
-    "updatedAt": "2026-03-28T12:34:44.981Z"
+    "updatedAt": "2026-03-28T12:34:44.981Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cbaeb3a516b0b7f8b807",
@@ -9051,7 +9553,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:38:06.172Z",
-    "updatedAt": "2026-03-28T12:38:06.172Z"
+    "updatedAt": "2026-03-28T12:38:06.172Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cc30b3a516b0b7f8b819",
@@ -9069,7 +9572,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:40:16.649Z",
-    "updatedAt": "2026-03-28T12:40:16.649Z"
+    "updatedAt": "2026-03-28T12:40:16.649Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cdf8b3a516b0b7f8b857",
@@ -9087,7 +9591,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:47:52.990Z",
-    "updatedAt": "2026-03-28T12:47:52.990Z"
+    "updatedAt": "2026-03-28T12:47:52.990Z",
+    "isDeleted": false
   },
   {
     "id": "69c7ce27b3a516b0b7f8b85d",
@@ -9105,7 +9610,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:48:39.859Z",
-    "updatedAt": "2026-03-28T12:48:39.859Z"
+    "updatedAt": "2026-03-28T12:48:39.859Z",
+    "isDeleted": false
   },
   {
     "id": "69ae3f3205fbad0c0df5f160",
@@ -9123,7 +9629,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-09T03:32:02.013Z",
-    "updatedAt": "2026-03-26T15:59:15.061Z"
+    "updatedAt": "2026-03-26T15:59:15.061Z",
+    "isDeleted": false
   },
   {
     "id": "69ae58ec531c1b152b687ffa",
@@ -9141,7 +9648,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-09T05:21:48.089Z",
-    "updatedAt": "2026-03-26T13:20:46.123Z"
+    "updatedAt": "2026-03-26T13:20:46.123Z",
+    "isDeleted": false
   },
   {
     "id": "69b05e9976105045558f69f9",
@@ -9159,7 +9667,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-10T18:10:33.994Z",
-    "updatedAt": "2026-03-31T13:52:26.271Z"
+    "updatedAt": "2026-03-31T13:52:26.271Z",
+    "isDeleted": false
   },
   {
     "id": "69b065ecfbbe31c2394f3c0a",
@@ -9177,7 +9686,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-10T18:41:48.557Z",
-    "updatedAt": "2026-03-31T13:51:28.017Z"
+    "updatedAt": "2026-03-31T13:51:28.017Z",
+    "isDeleted": false
   },
   {
     "id": "69b07c29600d3a2c233e9348",
@@ -9195,7 +9705,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-10T20:16:41.743Z",
-    "updatedAt": "2026-03-31T13:57:14.080Z"
+    "updatedAt": "2026-03-31T13:57:14.080Z",
+    "isDeleted": false
   },
   {
     "id": "69c155bfe8139ff0a561d697",
@@ -9213,7 +9724,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-23T15:01:19.108Z",
-    "updatedAt": "2026-03-31T13:47:10.773Z"
+    "updatedAt": "2026-03-31T13:47:10.773Z",
+    "isDeleted": false
   },
   {
     "id": "69c50ab7cab647c064822781",
@@ -9231,7 +9743,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-26T10:30:15.358Z",
-    "updatedAt": "2026-03-26T10:30:15.358Z"
+    "updatedAt": "2026-03-26T10:30:15.358Z",
+    "isDeleted": false
   },
   {
     "id": "69c52d38dea98a88e765b166",
@@ -9249,7 +9762,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-26T12:57:28.890Z",
-    "updatedAt": "2026-03-26T12:57:28.890Z"
+    "updatedAt": "2026-03-26T12:57:28.890Z",
+    "isDeleted": false
   },
   {
     "id": "69c52ee4dea98a88e765b173",
@@ -9267,7 +9781,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-26T13:04:36.630Z",
-    "updatedAt": "2026-03-26T13:04:36.630Z"
+    "updatedAt": "2026-03-26T13:04:36.630Z",
+    "isDeleted": false
   },
   {
     "id": "69c52f54dea98a88e765b17f",
@@ -9285,7 +9800,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-26T13:06:28.213Z",
-    "updatedAt": "2026-03-26T13:06:28.213Z"
+    "updatedAt": "2026-03-26T13:06:28.213Z",
+    "isDeleted": false
   },
   {
     "id": "69c530bbdea98a88e765b193",
@@ -9303,7 +9819,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-26T13:12:27.375Z",
-    "updatedAt": "2026-03-26T13:12:27.375Z"
+    "updatedAt": "2026-03-26T13:12:27.375Z",
+    "isDeleted": false
   },
   {
     "id": "69c6adbb140cb91738d35034",
@@ -9321,7 +9838,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-27T16:18:03.702Z",
-    "updatedAt": "2026-03-27T16:21:17.957Z"
+    "updatedAt": "2026-03-27T16:21:17.957Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c7081c6f5e8c1d6a315a",
@@ -9339,7 +9857,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:18:16.924Z",
-    "updatedAt": "2026-03-28T12:18:16.924Z"
+    "updatedAt": "2026-03-28T12:18:16.924Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c74a1c6f5e8c1d6a3160",
@@ -9357,7 +9876,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:19:22.927Z",
-    "updatedAt": "2026-03-28T12:57:24.663Z"
+    "updatedAt": "2026-03-28T12:57:24.663Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c78b1c6f5e8c1d6a3167",
@@ -9375,7 +9895,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:20:27.837Z",
-    "updatedAt": "2026-03-28T12:20:27.837Z"
+    "updatedAt": "2026-03-28T12:20:27.837Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c7eeb3a516b0b7f8b7aa",
@@ -9393,7 +9914,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:22:06.614Z",
-    "updatedAt": "2026-03-28T12:22:06.614Z"
+    "updatedAt": "2026-03-28T12:22:06.614Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c8d7b3a516b0b7f8b7bd",
@@ -9411,7 +9933,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:25:59.679Z",
-    "updatedAt": "2026-03-28T12:25:59.679Z"
+    "updatedAt": "2026-03-28T12:25:59.679Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c97cb3a516b0b7f8b7c9",
@@ -9429,7 +9952,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:28:44.575Z",
-    "updatedAt": "2026-03-28T12:28:44.575Z"
+    "updatedAt": "2026-03-28T12:28:44.575Z",
+    "isDeleted": false
   },
   {
     "id": "69c7c9bcb3a516b0b7f8b7cf",
@@ -9447,7 +9971,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:29:48.137Z",
-    "updatedAt": "2026-03-28T12:29:48.137Z"
+    "updatedAt": "2026-03-28T12:29:48.137Z",
+    "isDeleted": false
   },
   {
     "id": "69c7ca34b3a516b0b7f8b7dc",
@@ -9465,7 +9990,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:31:48.080Z",
-    "updatedAt": "2026-03-28T12:58:46.206Z"
+    "updatedAt": "2026-03-28T12:58:46.206Z",
+    "isDeleted": false
   },
   {
     "id": "69c7ca79b3a516b0b7f8b7e2",
@@ -9483,7 +10009,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:32:57.142Z",
-    "updatedAt": "2026-03-28T12:32:57.142Z"
+    "updatedAt": "2026-03-28T12:32:57.142Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cc58b3a516b0b7f8b820",
@@ -9501,7 +10028,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:40:56.954Z",
-    "updatedAt": "2026-03-28T12:40:56.954Z"
+    "updatedAt": "2026-03-28T12:40:56.954Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cc98b3a516b0b7f8b82c",
@@ -9519,7 +10047,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:42:00.345Z",
-    "updatedAt": "2026-03-28T12:42:00.345Z"
+    "updatedAt": "2026-03-28T12:42:00.345Z",
+    "isDeleted": false
   },
   {
     "id": "69c7ccb6b3a516b0b7f8b832",
@@ -9537,7 +10066,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:42:30.505Z",
-    "updatedAt": "2026-03-28T12:54:25.959Z"
+    "updatedAt": "2026-03-28T12:54:25.959Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cce2b3a516b0b7f8b838",
@@ -9555,7 +10085,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:43:14.318Z",
-    "updatedAt": "2026-03-28T12:43:14.318Z"
+    "updatedAt": "2026-03-28T12:43:14.318Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cd03b3a516b0b7f8b83e",
@@ -9573,7 +10104,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:43:47.851Z",
-    "updatedAt": "2026-03-28T12:56:45.068Z"
+    "updatedAt": "2026-03-28T12:56:45.068Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cd3ab3a516b0b7f8b844",
@@ -9591,7 +10123,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:44:42.368Z",
-    "updatedAt": "2026-03-28T12:44:42.368Z"
+    "updatedAt": "2026-03-28T12:44:42.368Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cd69b3a516b0b7f8b84a",
@@ -9609,7 +10142,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:45:29.080Z",
-    "updatedAt": "2026-03-28T12:45:29.080Z"
+    "updatedAt": "2026-03-28T12:45:29.080Z",
+    "isDeleted": false
   },
   {
     "id": "69c7cdafb3a516b0b7f8b851",
@@ -9627,7 +10161,8 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:46:39.164Z",
-    "updatedAt": "2026-03-28T12:46:39.164Z"
+    "updatedAt": "2026-03-28T12:46:39.164Z",
+    "isDeleted": false
   },
   {
     "id": "69c7ce56b3a516b0b7f8b863",
@@ -9645,6 +10180,7 @@
     "isVIP": true,
     "tier": "vip2",
     "createdAt": "2026-03-28T12:49:26.773Z",
-    "updatedAt": "2026-03-28T12:49:26.773Z"
+    "updatedAt": "2026-03-28T12:49:26.773Z",
+    "isDeleted": false
   }
 ]

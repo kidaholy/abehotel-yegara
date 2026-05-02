@@ -36,12 +36,19 @@ export class JsonDB {
     async findMany(args?: any): Promise<any[]> {
         let data = this.read();
 
-        // 1. Where Filtering
+        // 1. Include (Joins) - CRITICAL: Must happen before filtering if filters depend on relations
+        if (args?.include) {
+            for (const item of data) {
+                await this.applyIncludes(item, args.include);
+            }
+        }
+
+        // 2. Where Filtering
         if (args?.where) {
             data = data.filter(item => this.matchCriteria(item, args.where));
         }
 
-        // 2. OrderBy
+        // 3. OrderBy
         if (args?.orderBy) {
             const orderByArr = Array.isArray(args.orderBy) ? args.orderBy : [args.orderBy];
             for (const order of orderByArr) {
@@ -54,16 +61,9 @@ export class JsonDB {
             }
         }
 
-        // 3. Take (Limit)
+        // 4. Take (Limit)
         if (args?.take !== undefined) {
             data = data.slice(0, args.take);
-        }
-
-        // 4. Include (Joins)
-        if (args?.include) {
-            for (const item of data) {
-                await this.applyIncludes(item, args.include);
-            }
         }
 
         return data;
@@ -92,6 +92,7 @@ export class JsonDB {
             id: rest.id || this.generateCuid(),
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
+            isDeleted: rest.isDeleted !== undefined ? rest.isDeleted : false,
             ...rest
         };
 

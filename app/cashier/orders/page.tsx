@@ -278,7 +278,7 @@ export default function CashierOrdersPage() {
                                 {order.floorNumber ? `Floor #${order.floorNumber}` : 'Global'}
                               </span>
                               <span className="inline-flex items-center px-2 py-0.5 rounded bg-blue-50 text-blue-700 text-[10px] font-black border border-blue-100 w-fit">
-                                Table {order.tableNumber}
+                                {order.floorNumber?.toLowerCase().includes("rooms") ? "Room" : "Table"} {order.tableNumber}
                               </span>
                               {order.batchNumber && (
                                 <span className="inline-flex items-center px-2 py-0.5 rounded bg-amber-50 text-amber-700 text-[10px] font-black border border-amber-100 w-fit">

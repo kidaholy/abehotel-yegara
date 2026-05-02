@@ -61,6 +61,10 @@ async function handleStatusUpdate(request: Request, context: any) {
         if (isAssigned || isDrinksForBar) {
           item.status = status
           itemUpdates.push({ id: item.id, status })
+        } else if (item.preparationTime === 0 && (status === 'served' || status === 'completed')) {
+          // Auto-complete other zero-prep items (drinks) if we are finalizing the order
+          item.status = status
+          itemUpdates.push({ id: item.id, status })
         }
         const isItemDone = 
           ['ready', 'served', 'completed', 'cancelled'].includes(item.status) ||
@@ -80,7 +84,13 @@ async function handleStatusUpdate(request: Request, context: any) {
       } else {
         let newOverallStatus = orderToUpdate.status
         if (allItemsReady) {
-          newOverallStatus = status === 'completed' ? 'completed' : 'ready'
+          // If all items are ready/served, we can advance to the requested status 
+          // providing it is one of the terminal statuses (ready/served/completed)
+          if (['ready', 'served', 'completed'].includes(status)) {
+            newOverallStatus = status
+          } else {
+            newOverallStatus = 'ready'
+          }
         } else if (anyItemPreparing || status === 'preparing') {
           newOverallStatus = 'preparing'
         }
@@ -112,6 +122,19 @@ async function handleStatusUpdate(request: Request, context: any) {
 
     const now = new Date()
     const orderUpdateData: any = { status: updatedOrderStatus }
+
+    // Refetch to get latest item statuses (including the ones we just updated)
+    const currentOrderWithItems = await prisma.order.findUnique({
+      where: { id: orderToUpdate.id },
+      include: { items: true }
+    })
+
+    if (currentOrderWithItems) {
+      orderUpdateData.items = currentOrderWithItems.items.map((it: any) => ({
+        ...it,
+        updatedAt: now.toISOString()
+      }))
+    }
 
     if (status === "preparing" && previousStatus !== "preparing") {
       orderUpdateData.kitchenAcceptedAt = now

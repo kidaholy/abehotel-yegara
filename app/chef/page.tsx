@@ -448,7 +448,7 @@ function OrderCard({
               )}
               {order.tableNumber && (
                 <span className="text-[9px] font-black text-gray-400 bg-white/5 px-2 py-0.5 rounded uppercase tracking-tighter border border-white/10">
-                  {order.tableNumber}
+                  {order.floorNumber?.toLowerCase().includes("rooms") ? "Room" : "Table"} {order.tableNumber}
                 </span>
               )}
               <p className="text-[10px] text-gray-500 flex items-center gap-1">

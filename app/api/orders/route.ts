@@ -19,7 +19,7 @@ export async function GET(request: Request) {
     const decoded = await validateSession(request)
     await connectDB()
 
-    const where: any = includeDeleted ? {} : { isDeleted: false }
+    const where: any = includeDeleted ? {} : { isDeleted: { not: true } }
 
     if (period === "today") {
       where.createdAt = { gte: getStartOfTodayUTC3() }
@@ -30,7 +30,15 @@ export async function GET(request: Request) {
     }
 
     if (decoded.role === "cashier") {
-      where.createdById = decoded.id
+      const assignedFloors = await prisma.floor.findMany({
+        where: { roomServiceCashierId: decoded.id },
+        select: { id: true }
+      })
+      const floorIds = assignedFloors.map(f => f.id)
+      where.OR = [
+        { createdById: decoded.id },
+        { floorId: { in: floorIds } }
+      ]
     } else if (decoded.role === "display") {
       if (!decoded.floorId) return NextResponse.json([])
       const floorTables = await prisma.table.findMany({
@@ -129,16 +137,16 @@ export async function POST(request: Request) {
 
     for (const [stockId, requiredAmount] of stockConsumptionMap) {
       const stockItem = stockMap.get(stockId)
-      if (stockItem && stockItem.trackQuantity) {
-        const availableStock = stockItem.quantity || 0
+      if (stockItem && (stockItem as any).trackQuantity) {
+        const availableStock = (stockItem as any).quantity || 0
         if (availableStock <= 0 || availableStock < requiredAmount) {
           return NextResponse.json(
             {
               message:
                 availableStock <= 0
-                  ? `Order Failed: ${stockItem.name} is completely out of stock.`
-                  : `Insufficient stock: ${stockItem.name}. Required: ${requiredAmount} ${stockItem.unit}, Available: ${availableStock} ${stockItem.unit}`,
-              insufficientStock: stockItem.name,
+                  ? `Order Failed: ${(stockItem as any).name} is completely out of stock.`
+                  : `Insufficient stock: ${(stockItem as any).name}. Required: ${requiredAmount} ${(stockItem as any).unit}, Available: ${availableStock} ${(stockItem as any).unit}`,
+              insufficientStock: (stockItem as any).name,
             },
             { status: 400 },
           )
@@ -198,19 +206,20 @@ export async function POST(request: Request) {
               create: items
                 .map((item: any) => {
                   const menu = menuMap.get(item.menuItemId)
+                  const isDrink = (menu as any)?.mainCategory?.toLowerCase() === "drinks"
                   return {
                     menuItemId: item.menuItemId,
-                    menuId: menu?.menuId,
-                    name: menu?.name || item.name || "",
+                    menuId: (menu as any)?.menuId,
+                    name: (menu as any)?.name || item.name || "",
                     quantity: Number(item.quantity || 1),
-                    price: Number(item.price ?? menu?.price ?? 0),
+                    price: Number(item.price ?? (menu as any)?.price ?? 0),
                     status: isBuyAndGo ? "completed" : "pending",
                     modifiers: item.modifiers || [],
                     notes: item.notes || "",
-                    category: menu?.category,
-                    mainCategory: menu?.mainCategory,
-                    menuTier: (item.menuTier || menu?.tier || "standard") as any,
-                    preparationTime: menu?.preparationTime || null,
+                    category: (menu as any)?.category,
+                    mainCategory: (menu as any)?.mainCategory,
+                    menuTier: (item.menuTier || (menu as any)?.tier || "standard") as any,
+                    preparationTime: isDrink ? 0 : ((menu as any)?.preparationTime || 0),
                   }
                 })
                 .sort((a: any, b: any) => (a.menuId || "").localeCompare(b.menuId || "", undefined, { numeric: true, sensitivity: "base" })),
@@ -218,6 +227,25 @@ export async function POST(request: Request) {
           },
           include: { items: true },
         })
+
+        // AUTO-COMPLETE PURE DRINK ORDERS:
+        // If it's 100% drinks (prepTime 0), we don't want it to show up as "Cooking" in the Admin
+        const allItemsInstant = created.items.every((it: any) => it.preparationTime === 0)
+        if (allItemsInstant && created.status !== "completed") {
+          const finalStatus = "served" // Drinks are ready immediately
+          await prisma.orderItem.updateMany({
+            where: { orderId: created.id },
+            data: { status: finalStatus }
+          })
+          created = await prisma.order.update({
+            where: { id: created.id },
+            data: { 
+              status: finalStatus,
+              items: created.items.map((it: any) => ({ ...it, status: finalStatus }))
+            },
+            include: { items: true }
+          })
+        }
         break
       } catch (e: any) {
         if (e.code === "P2002") {

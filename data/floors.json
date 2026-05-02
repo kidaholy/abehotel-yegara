@@ -10,7 +10,8 @@
     "roomServiceCashierId": "69c506a6733d5342b5d87c57",
     "roomServiceMenuTier": "standard",
     "createdAt": "2026-03-27T15:53:06.786Z",
-    "updatedAt": "2026-04-15T17:55:55.860Z"
+    "updatedAt": "2026-04-15T17:55:55.860Z",
+    "isDeleted": false
   },
   {
     "id": "69c6a7f5140cb91738d34fe7",
@@ -23,7 +24,8 @@
     "roomServiceCashierId": null,
     "roomServiceMenuTier": null,
     "createdAt": "2026-03-27T15:53:25.696Z",
-    "updatedAt": "2026-03-27T15:53:25.696Z"
+    "updatedAt": "2026-03-27T15:53:25.696Z",
+    "isDeleted": false
   },
   {
     "id": "69c6a7fe140cb91738d34fea",
@@ -36,7 +38,8 @@
     "roomServiceCashierId": null,
     "roomServiceMenuTier": null,
     "createdAt": "2026-03-27T15:53:34.543Z",
-    "updatedAt": "2026-03-27T15:53:34.543Z"
+    "updatedAt": "2026-03-27T15:53:34.543Z",
+    "isDeleted": false
   },
   {
     "id": "69c6a807140cb91738d34fed",
@@ -49,7 +52,8 @@
     "roomServiceCashierId": "69c66d83658d6f717f557cd5",
     "roomServiceMenuTier": null,
     "createdAt": "2026-03-27T15:53:43.276Z",
-    "updatedAt": "2026-05-02T16:57:22.089Z"
+    "updatedAt": "2026-05-02T16:57:22.089Z",
+    "isDeleted": false
   },
   {
     "id": "69c6a80d140cb91738d34ff0",
@@ -62,7 +66,8 @@
     "roomServiceCashierId": "69c66d83658d6f717f557cd5",
     "roomServiceMenuTier": null,
     "createdAt": "2026-03-27T15:53:49.266Z",
-    "updatedAt": "2026-05-02T16:57:41.065Z"
+    "updatedAt": "2026-05-02T16:57:41.065Z",
+    "isDeleted": false
   },
   {
     "id": "69c6a813140cb91738d34ff3",
@@ -75,6 +80,7 @@
     "roomServiceCashierId": null,
     "roomServiceMenuTier": null,
     "createdAt": "2026-03-27T15:53:55.765Z",
-    "updatedAt": "2026-03-27T15:53:55.765Z"
+    "updatedAt": "2026-03-27T15:53:55.765Z",
+    "isDeleted": false
   }
 ]

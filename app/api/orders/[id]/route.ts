@@ -123,33 +123,27 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
             )
         }
 
-        // Sync item statuses if this is an approval. This is necessary because 
-        // the JsonDB stores a denormalized copy of items inside the Order object.
-        if (status === "pending") {
-            const updatedItems = order.items.map((item: any) => {
-                const isDrink = item.mainCategory === "Drinks";
-                return {
-                    ...item,
-                    status: isDrink ? "completed" : "pending",
-                    updatedAt: now.toISOString()
-                };
-            });
-            updateData.items = updatedItems;
+        // Refetch order to get latest item statuses (including the ones we just updated via updateMany)
+        const currentOrder = await prisma.order.findUnique({
+            where: { id },
+            include: { items: true }
+        })
+        
+        if (!currentOrder) throw new Error("Order lost during sync")
 
-            // If ALL items are now completed (e.g. pure drink order), skip "pending" and go straight to "completed"
-            // This prevents "Cooking" label from appearing in Admin for drinks.
+        const updatedItems = currentOrder.items.map((item: any) => ({
+            ...item,
+            updatedAt: now.toISOString()
+        }));
+        updateData.items = updatedItems;
+
+        // If ALL items are now completed (e.g. pure drink order), skip "pending" and go straight to "completed"
+        // This prevents "Cooking" label from appearing in Admin for drinks.
+        if (status === "pending") {
             const hasPendingItems = updatedItems.some(i => i.status === "pending");
             if (!hasPendingItems) {
                 updateData.status = "completed";
             }
-        } else {
-            // For other status updates (served, cancelled), update the embedded items to match the order status
-            const updatedItems = order.items.map((item: any) => ({
-                ...item,
-                status: status,
-                updatedAt: now.toISOString()
-            }));
-            updateData.items = updatedItems;
         }
 
         const updatedOrder = await prisma.order.update({
