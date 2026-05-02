@@ -4,6 +4,29 @@ import { addNotification } from "@/lib/notifications"
 import { calculateStockConsumption, applyStockAdjustment } from "@/lib/stock-logic"
 import { validateSession } from "@/lib/auth"
 
+/** Derive order header status from line items after chef/bar item updates (DB truth). */
+function deriveOrderStatusFromItems(
+  items: any[],
+  requestedStatus: string,
+  previousOrderStatus: string,
+): string {
+  if (requestedStatus === "cancelled") return "cancelled"
+
+  const isItemDone = (item: any) =>
+    ["ready", "served", "completed", "cancelled"].includes(item.status) ||
+    (item.preparationTime === 0 && (item.status === "pending" || item.status === "unconfirmed"))
+
+  const allItemsReady = items.length === 0 || items.every(isItemDone)
+  const anyItemPreparing = items.some((item: any) => item.status === "preparing")
+
+  if (allItemsReady) {
+    if (["ready", "served", "completed"].includes(requestedStatus)) return requestedStatus
+    return "ready"
+  }
+  if (anyItemPreparing || requestedStatus === "preparing") return "preparing"
+  return previousOrderStatus
+}
+
 export async function PUT(request: Request, context: any) {
   return await handleStatusUpdate(request, context)
 }
@@ -55,10 +78,18 @@ async function handleStatusUpdate(request: Request, context: any) {
 
       updatedItems.forEach((item: any) => {
         const itemCat = (item.category || "").trim().normalize("NFC").toLowerCase()
-        const isAssigned = normalizedAssigned.includes(itemCat)
-        const isDrinksForBar = decoded.role === 'bar' && item.mainCategory === 'Drinks'
+        const mainCatLower = String(item.mainCategory || "").trim().toLowerCase()
+        const hasAssigned = normalizedAssigned.length > 0
+        const categoryMatches = hasAssigned && normalizedAssigned.includes(itemCat)
+        // Kitchen board shows Food when the chef has no assignedCategories; API must match that.
+        const inChefKitchen =
+          decoded.role === "chef" &&
+          (!hasAssigned ? mainCatLower === "food" : categoryMatches)
+        const inBarStation =
+          decoded.role === "bar" &&
+          (!hasAssigned ? mainCatLower === "drinks" : categoryMatches || mainCatLower === "drinks")
 
-        if (isAssigned || isDrinksForBar) {
+        if (inChefKitchen || inBarStation) {
           item.status = status
           itemUpdates.push({ id: item.id, status })
         } else if (item.preparationTime === 0 && (status === 'served' || status === 'completed')) {
@@ -120,14 +151,26 @@ async function handleStatusUpdate(request: Request, context: any) {
       await applyStockAdjustment(stockConsumptionMap, 1)
     }
 
-    const now = new Date()
-    const orderUpdateData: any = { status: updatedOrderStatus }
-
-    // Refetch to get latest item statuses (including the ones we just updated)
     const currentOrderWithItems = await prisma.order.findUnique({
       where: { id: orderToUpdate.id },
       include: { items: true }
     })
+
+    let finalOrderStatus = updatedOrderStatus
+    if (
+      (decoded.role === "chef" || decoded.role === "bar") &&
+      status !== "cancelled" &&
+      currentOrderWithItems
+    ) {
+      finalOrderStatus = deriveOrderStatusFromItems(
+        currentOrderWithItems.items,
+        status,
+        orderToUpdate.status,
+      )
+    }
+
+    const now = new Date()
+    const orderUpdateData: any = { status: finalOrderStatus }
 
     if (currentOrderWithItems) {
       orderUpdateData.items = currentOrderWithItems.items.map((it: any) => ({
@@ -144,9 +187,11 @@ async function handleStatusUpdate(request: Request, context: any) {
       orderUpdateData.readyAt = now
     }
 
-    if ((status === "served" || status === "completed") &&
-      (previousStatus !== "served" && previousStatus !== "completed")) {
-
+    if (
+      (finalOrderStatus === "served" || finalOrderStatus === "completed") &&
+      previousStatus !== "served" &&
+      previousStatus !== "completed"
+    ) {
       orderUpdateData.servedAt = now
       const createdAt = new Date(orderToUpdate.createdAt)
       const durationMs = now.getTime() - createdAt.getTime()
