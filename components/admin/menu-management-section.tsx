@@ -826,8 +826,8 @@ export function MenuManagementSection({
             )}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-              {paginatedItems.map((item) => (
-                <div key={item._id} className="bg-[#0f1110] rounded-[2rem] overflow-hidden border border-white/5 hover:border-[#d4af37]/30 hover:shadow-[0_0_30px_rgba(212,175,55,0.05)] transition-all group flex flex-col relative">
+              {paginatedItems.map((item, index) => (
+                <div key={`${item._id || 'item'}-${index}`} className="bg-[#0f1110] rounded-[2rem] overflow-hidden border border-white/5 hover:border-[#d4af37]/30 hover:shadow-[0_0_30px_rgba(212,175,55,0.05)] transition-all group flex flex-col relative">
                   {/* Item Image */}
                   <div className="h-44 md:h-52 bg-[#1a1c1b] relative overflow-hidden">
                     {item.image ? (
