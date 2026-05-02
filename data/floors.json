@@ -46,10 +46,10 @@
     "isVIP": true,
     "type": "standard",
     "status": "active",
-    "roomServiceCashierId": null,
+    "roomServiceCashierId": "69c66d83658d6f717f557cd5",
     "roomServiceMenuTier": null,
     "createdAt": "2026-03-27T15:53:43.276Z",
-    "updatedAt": "2026-04-29T04:07:23.925Z"
+    "updatedAt": "2026-05-02T16:57:22.089Z"
   },
   {
     "id": "69c6a80d140cb91738d34ff0",
@@ -59,10 +59,10 @@
     "isVIP": true,
     "type": "standard",
     "status": "active",
-    "roomServiceCashierId": null,
+    "roomServiceCashierId": "69c66d83658d6f717f557cd5",
     "roomServiceMenuTier": null,
     "createdAt": "2026-03-27T15:53:49.266Z",
-    "updatedAt": "2026-04-29T04:07:34.075Z"
+    "updatedAt": "2026-05-02T16:57:41.065Z"
   },
   {
     "id": "69c6a813140cb91738d34ff3",

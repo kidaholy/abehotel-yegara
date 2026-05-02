@@ -1,1 +1,38 @@
-[]
+[
+  {
+    "id": "ifagj5mm4lsio1fcr8remc",
+    "createdAt": "2026-05-02T17:04:05.211Z",
+    "updatedAt": "2026-05-02T17:04:05.211Z",
+    "menuItemId": "69ada38ad661b3f94ac72fc4",
+    "menuId": "2",
+    "name": "TRE/ጥሬ 1 ኪ.ግ",
+    "quantity": 2,
+    "price": 2800,
+    "status": "pending",
+    "modifiers": [],
+    "notes": "",
+    "category": "TRE/ቁርጥ",
+    "mainCategory": "Food",
+    "menuTier": "standard",
+    "preparationTime": 10,
+    "orderId": "hyxzxtdpwth2wab0g85ur9"
+  },
+  {
+    "id": "na7g04alzuuigd2rv2lmk",
+    "createdAt": "2026-05-02T17:05:02.484Z",
+    "updatedAt": "2026-05-02T17:05:02.484Z",
+    "menuItemId": "69ada38bd661b3f94ac72fc8",
+    "menuId": "6",
+    "name": "TIBS/ስላሽ ጥብስ 1 ኪ.ግ",
+    "quantity": 1,
+    "price": 2800,
+    "status": "pending",
+    "modifiers": [],
+    "notes": "",
+    "category": "TIBS/ስላሽ ጥብስ",
+    "mainCategory": "Food",
+    "menuTier": "standard",
+    "preparationTime": 10,
+    "orderId": "5pra41ckuwabi2o0t88bw"
+  }
+]

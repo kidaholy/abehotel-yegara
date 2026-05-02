@@ -338,4 +338,9 @@ export const db = {
     storeLog: new JsonDB('storeLogs'),
     dailyExpense: new JsonDB('dailyExpenses'),
     auditLog: new JsonDB('auditLogs'),
+    $transaction: async (fn: (tx: any) => Promise<any>) => {
+        // Simple mock of Prisma transaction that just passes the db object
+        // NOTE: Does not provide real rollback guarantees!
+        return await fn(db);
+    }
 };

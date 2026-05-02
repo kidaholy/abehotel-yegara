@@ -65,8 +65,8 @@ export async function PUT(
                 await tx.stock.update({
                     where: { id: stockItem.id },
                     data: {
-                        storeQuantity: { decrement: transferReq.quantity },
-                        quantity: { increment: transferReq.quantity }
+                        storeQuantity: Number(stockItem.storeQuantity || 0) - Number(transferReq.quantity || 0),
+                        quantity: Number(stockItem.quantity || 0) + Number(transferReq.quantity || 0)
                     }
                 })
 
@@ -109,5 +109,26 @@ export async function PUT(
 
     } catch (error: any) {
         return NextResponse.json({ message: error.message }, { status: error.message.includes("Unauthorized") ? 401 : 500 })
+    }
+}
+
+export async function DELETE(
+    request: Request,
+    { params }: { params: Promise<{ id: string }> }
+) {
+    try {
+        const user = await validateSession(request)
+        if (user.role !== 'admin') {
+            return NextResponse.json({ message: "Only admins can delete transfers" }, { status: 403 })
+        }
+
+        const { id } = await params
+        await prisma.transferRequest.delete({
+            where: { id: id }
+        })
+
+        return NextResponse.json({ success: true })
+    } catch (error: any) {
+        return NextResponse.json({ message: error.message }, { status: 500 })
     }
 }

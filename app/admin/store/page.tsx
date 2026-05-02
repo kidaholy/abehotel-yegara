@@ -819,6 +819,23 @@ export default function StorePage() {
         } catch (e) { console.error(`Error during ${action}`, e) }
     }
 
+    const deleteTransferRequest = async (id: string) => {
+        if (!window.confirm("Are you sure you want to delete this transfer request?")) return
+        try {
+            const res = await fetch(`/api/admin/inventory/transfers/${id}`, {
+                method: "DELETE",
+                headers: { Authorization: `Bearer ${token}` }
+            })
+            if (res.ok) {
+                fetchTransferRequests()
+                notify({ title: "Deleted", message: "Transfer request deleted.", type: "success" })
+            } else {
+                const err = await res.json()
+                notify({ title: "Error", message: err.message, type: "error" })
+            }
+        } catch (e) { console.error('Error deleting request', e) }
+    }
+
     const openTransferModal = (item: StockItem) => {
         setTransferringItem(item)
         setTransferAmount("")
@@ -1219,7 +1236,7 @@ export default function StorePage() {
                                                         </td>
                                                         <td className="py-5 text-right pr-4">
                                                             <div className="flex justify-end gap-2">
-                                                                {(user?.role === "admin" || hasPermission("store:transfer")) && (
+                                                                {(user?.role === "admin" || user?.role === "store_keeper" || hasPermission("store:transfer")) && (
                                                                     <button
                                                                         onClick={() => openTransferModal(item)}
                                                                         disabled={(item.storeQuantity || 0) <= 0}
@@ -1573,6 +1590,11 @@ export default function StorePage() {
                                     <div className="space-y-6">
                                         <div className="flex justify-between items-center mb-6">
                                             <h3 className="text-lg font-playfair italic text-[#f3cf7a]">Transfer Requests</h3>
+                                            {user?.role === "store_keeper" && (
+                                                <button onClick={() => setActiveTab('inventory')} className="bg-[#151716] text-[#f3cf7a] border border-[#d4af37]/30 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest hover:bg-[#1a1c1b] transition-all">
+                                                    + New Request
+                                                </button>
+                                            )}
                                         </div>
                                         {transfersLoading ? (
                                             <div className="text-center py-20 text-[#f3cf7a] text-[10px] font-bold uppercase tracking-widest animate-pulse">Loading requests...</div>
@@ -1626,6 +1648,11 @@ export default function StorePage() {
                                                                 <p className="text-[9px] text-gray-500 font-bold uppercase tracking-widest">
                                                                     {req.handledBy ? `Handled by ${req.handledBy.name}` : ''}
                                                                 </p>
+                                                            )}
+                                                            {user?.role === "admin" && (
+                                                                <button onClick={() => deleteTransferRequest(req._id)} className="p-2 hover:bg-red-950/50 rounded-lg text-gray-400 hover:text-red-500 transition-colors border border-transparent hover:border-red-500/30" title="Delete record permanently">
+                                                                    <Trash2 size={16} />
+                                                                </button>
                                                             )}
                                                         </div>
                                                     </div>

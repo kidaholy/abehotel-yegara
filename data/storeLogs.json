@@ -1551,5 +1551,63 @@
     "totalPrice": 499,
     "userId": "69c45a78ba1175fcacd0abd3",
     "notes": "Restocked 100 pcs for total cost 499 Br"
+  },
+  {
+    "id": "6p57u2rw879d5ahlknxee",
+    "createdAt": "2026-05-02T17:05:52.526Z",
+    "updatedAt": "2026-05-02T17:05:52.526Z",
+    "stockId": "69ada903d661b3f94ac7308e",
+    "type": "TRANSFER_OUT",
+    "quantity": 50,
+    "unit": "pcs",
+    "userId": "69c45a78ba1175fcacd0abd3",
+    "notes": "Internal Transfer (Approved Request: 1w3kkre7xh6juwoasbtxvf). Transfer of 50 pcs to stock",
+    "date": "2026-05-02T17:05:52.525Z"
+  },
+  {
+    "id": "jelsx3n7zl9tno21br3nq9",
+    "createdAt": "2026-05-02T17:10:46.865Z",
+    "updatedAt": "2026-05-02T17:10:46.865Z",
+    "stockId": "69ada903d661b3f94ac7308e",
+    "type": "TRANSFER_OUT",
+    "quantity": 50,
+    "unit": "pcs",
+    "userId": "69c45a78ba1175fcacd0abd3",
+    "notes": "Internal Transfer (Approved Request: ar282y77ucpl0ma6sleq5e). Transfer of 50 pcs to stock",
+    "date": "2026-05-02T17:10:46.864Z"
+  },
+  {
+    "id": "riucyg152478t1u172n7u4",
+    "createdAt": "2026-05-02T17:16:33.958Z",
+    "updatedAt": "2026-05-02T17:16:33.958Z",
+    "stockId": "69ada903d661b3f94ac7308e",
+    "type": "TRANSFER_OUT",
+    "quantity": 10,
+    "unit": "pcs",
+    "userId": "69c45a78ba1175fcacd0abd3",
+    "notes": "Internal Transfer (Approved Request: zlypvc57qnupw4quxy5xc). Transfer of 10 pcs to stock",
+    "date": "2026-05-02T17:16:33.957Z"
+  },
+  {
+    "id": "5cqtt6w2ar5j91ymgsdmn",
+    "createdAt": "2026-05-02T17:18:07.366Z",
+    "updatedAt": "2026-05-02T17:18:07.366Z",
+    "stockId": "69ada903d661b3f94ac7308e",
+    "type": "TRANSFER_OUT",
+    "quantity": 10,
+    "unit": "pcs",
+    "user": "69c45a78ba1175fcacd0abd3",
+    "notes": "Transfer of 10 pcs to stock"
+  },
+  {
+    "id": "drcnfiog38vfeq4k8drusg",
+    "createdAt": "2026-05-02T17:18:30.473Z",
+    "updatedAt": "2026-05-02T17:18:30.473Z",
+    "stockId": "69ada903d661b3f94ac7308e",
+    "type": "TRANSFER_OUT",
+    "quantity": 10,
+    "unit": "pcs",
+    "user": "69c45a78ba1175fcacd0abd3",
+    "notes": "Transfer of 10 pcs to stock"
   }
 ]
