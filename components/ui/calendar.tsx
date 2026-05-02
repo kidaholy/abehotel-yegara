@@ -29,7 +29,7 @@ function Calendar({
     <DayPicker
       showOutsideDays={showOutsideDays}
       className={cn(
-        'bg-white group/calendar p-3 [--cell-size:--spacing(8)] border border-gray-200 rounded-xl shadow-xl',
+        'bg-[#151716] group/calendar p-3 [--cell-size:--spacing(8)] border border-[#d4af37]/30 rounded-xl shadow-2xl text-white',
         String.raw`rtl:**:[.rdp-button\_next>svg]:rotate-180`,
         String.raw`rtl:**:[.rdp-button\_previous>svg]:rotate-180`,
         className,
@@ -70,11 +70,11 @@ function Calendar({
           defaultClassNames.dropdowns,
         ),
         dropdown_root: cn(
-          'relative has-focus:border-ring border border-input shadow-xs has-focus:ring-ring/50 has-focus:ring-[3px] rounded-md',
+          'relative has-focus:border-[#d4af37] border border-[#d4af37]/30 shadow-xs has-focus:ring-[#d4af37]/50 has-focus:ring-[3px] rounded-md',
           defaultClassNames.dropdown_root,
         ),
         dropdown: cn(
-          'absolute bg-popover inset-0 opacity-0',
+          'absolute bg-[#0f1110] inset-0 opacity-0 text-white',
           defaultClassNames.dropdown,
         ),
         caption_label: cn(
@@ -87,7 +87,7 @@ function Calendar({
         table: 'w-full border-collapse',
         weekdays: cn('flex', defaultClassNames.weekdays),
         weekday: cn(
-          'text-muted-foreground rounded-md flex-1 font-normal text-[0.8rem] select-none',
+          'text-[#d4af37] rounded-md flex-1 font-bold text-[0.8rem] select-none uppercase tracking-widest',
           defaultClassNames.weekday,
         ),
         week: cn('flex w-full mt-2', defaultClassNames.week),
@@ -110,15 +110,15 @@ function Calendar({
         range_middle: cn('rounded-none', defaultClassNames.range_middle),
         range_end: cn('rounded-r-md bg-accent', defaultClassNames.range_end),
         today: cn(
-          'bg-accent text-accent-foreground rounded-md data-[selected=true]:rounded-none',
+          'bg-[#d4af37]/20 text-[#f3cf7a] rounded-md border border-[#d4af37]/40 data-[selected=true]:rounded-none',
           defaultClassNames.today,
         ),
         outside: cn(
-          'text-muted-foreground aria-selected:text-muted-foreground',
+          'text-gray-600 aria-selected:text-gray-500',
           defaultClassNames.outside,
         ),
         disabled: cn(
-          'text-muted-foreground opacity-50',
+          'text-gray-600 opacity-50',
           defaultClassNames.disabled,
         ),
         hidden: cn('invisible', defaultClassNames.hidden),

@@ -102,7 +102,8 @@ export async function GET(request: Request) {
         reviewedBy: true,
         reviewNote: true,
         createdAt: true,
-        updatedAt: true
+        updatedAt: true,
+        originalCheckOut: true
       }
     })
 

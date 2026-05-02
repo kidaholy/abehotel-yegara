@@ -12,7 +12,7 @@ import { format } from "date-fns"
 import {
   RefreshCw, ConciergeBell, Hotel, Key, Utensils, Megaphone,
   Calendar, MessageSquare, DoorOpen, Users, Phone, IdCard,
-  CheckCircle2, XCircle, Clock, Banknote, Eye, X, Search, Smartphone, Link2, AlertTriangle
+  CheckCircle2, XCircle, Clock, Banknote, Eye, X, Search, Smartphone, Link2, AlertTriangle, History as HistoryIcon
 } from "lucide-react"
 
 const STATUS_STYLES: Record<string, string> = {
@@ -375,7 +375,13 @@ export default function AdminReceptionPage() {
                             </div>
                             <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[10px] text-gray-500 font-bold">
                               <div className="flex items-center gap-1.5"><Users size={12} /><span>{r.guests || 1} guests</span></div>
-                              <div className="flex items-center gap-1.5"><Calendar size={12} /><span>{r.checkIn} → {r.checkOut || "???"}</span></div>
+                              <div className="flex items-center gap-1.5"><Calendar size={12} /><span>{(r.checkIn || "").split('T')[0]} → {(r.checkOut || "???").split('T')[0]}</span></div>
+                              {r.status === "EXTEND_PENDING" && r.originalCheckOut && (
+                                <div className="flex items-center gap-1.5 text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded border border-blue-500/20">
+                                  <HistoryIcon size={10} />
+                                  <span>Original: {r.originalCheckOut.split('T')[0]}</span>
+                                </div>
+                              )}
                             </div>
                           </div>
 
@@ -451,10 +457,11 @@ export default function AdminReceptionPage() {
                                      handleAction(
                                        r._id,
                                        r.status === "EXTEND_PENDING"
-                                         ? "CHECKIN_APPROVED"
+                                         ? "REJECTED"
                                          : r.inquiryType === "check_out"
                                            ? "CHECKIN_APPROVED_DENY_CHECKOUT"
-                                           : "REJECTED"
+                                           : "REJECTED",
+                                       r.status === "EXTEND_PENDING" ? { checkOut: r.originalCheckOut } : {}
                                      )
                                    }
                                    disabled={actioning}
@@ -524,7 +531,9 @@ export default function AdminReceptionPage() {
                     value: (() => {
                       const checkOutDate = selectedCheckOut || selected.checkOut;
                       if (!selected.checkIn || !checkOutDate) return "1";
-                      return Math.max(1, Math.round((new Date(checkOutDate).getTime() - new Date(selected.checkIn).getTime()) / (1000 * 60 * 60 * 24))).toString();
+                      const ci = String(selected.checkIn).split('T')[0];
+                      const co = String(checkOutDate).split('T')[0];
+                      return Math.max(1, Math.round((new Date(co).getTime() - new Date(ci).getTime()) / (1000 * 60 * 60 * 24))).toString();
                     })()
                   },
                   { 
@@ -533,7 +542,9 @@ export default function AdminReceptionPage() {
                       const roomPrice = Number(selected.roomPrice) || 0;
                       const checkOutDate = selectedCheckOut || selected.checkOut;
                       if (!selected.checkIn || !checkOutDate) return `${roomPrice.toLocaleString()} ETB`;
-                      const nights = Math.max(1, Math.round((new Date(checkOutDate).getTime() - new Date(selected.checkIn).getTime()) / (1000 * 60 * 60 * 24)));
+                      const ci = String(selected.checkIn).split('T')[0];
+                      const co = String(checkOutDate).split('T')[0];
+                      const nights = Math.max(1, Math.round((new Date(co).getTime() - new Date(ci).getTime()) / (1000 * 60 * 60 * 24)));
                       return `${(roomPrice * nights).toLocaleString()} ETB`;
                     })()
                   },

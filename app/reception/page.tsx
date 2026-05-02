@@ -69,7 +69,7 @@ const EMPTY_FORM = {
   idPhotoFront: "", idPhotoBack: "", roomPrice: "", paymentReference: "", transactionUrl: "", photoUrl: "",
 }
 
-function GuestCard({ s, rooms, token, notify, fetchSubmissions, setExtendGuest, setNewCheckOut }: { s: any; rooms: any[]; token: string | null; notify: any; fetchSubmissions: () => void; setExtendGuest: (s: any) => void; setNewCheckOut: (d: string) => void }) {
+function GuestCard({ s, rooms, token, notify, fetchSubmissions, setExtendGuest, setNewCheckOut, setExtendDays }: { s: any; rooms: any[]; token: string | null; notify: any; fetchSubmissions: () => void; setExtendGuest: (s: any) => void; setNewCheckOut: (d: string) => void; setExtendDays: (d: string) => void }) {
   const [actionLoading, setActionLoading] = useState<string | null>(null)
   
   const STATUS_STYLES: Record<string, string> = {
@@ -87,13 +87,23 @@ function GuestCard({ s, rooms, token, notify, fetchSubmissions, setExtendGuest, 
     if (!s.checkIn || !s.checkOut) return null
     const inDate  = new Date(`${s.checkIn}T${s.checkInTime || "12:00"}`)
     const outDate = new Date(`${s.checkOut}T${s.checkOutTime || "12:00"}`)
+    
+    // Safety check for invalid dates
+    if (isNaN(inDate.getTime()) || isNaN(outDate.getTime())) return null
+
     const diffMs  = outDate.getTime() - inDate.getTime()
-    if (diffMs <= 0) return null
+    if (diffMs <= 0 || isNaN(diffMs)) return null
+    
     const nights = Math.ceil(diffMs / (1000 * 60 * 60 * 24))
+    if (isNaN(nights)) return null
+
     const savedPrice = parseFloat(s.roomPrice || "0")
     const roomFromList = rooms.find(r => r.roomNumber === s.roomNumber)
     const pricePerNight = savedPrice > 0 ? savedPrice : (roomFromList?.price || 0)
     const total = nights * pricePerNight
+    
+    if (isNaN(total)) return null
+    
     return { nights, total, pricePerNight }
   }
   const gd = calcGuestDuration()
@@ -103,8 +113,13 @@ function GuestCard({ s, rooms, token, notify, fetchSubmissions, setExtendGuest, 
     if (!s.checkOut || !["CHECKIN_APPROVED", "check_in", "guests", "ACTIVE"].includes(s.status)) return null
     const now = new Date()
     const outDate = new Date(`${s.checkOut}T${s.checkOutTime || "12:00"}`)
+    
+    if (isNaN(outDate.getTime())) return null
+
     const diffMs = outDate.getTime() - now.getTime()
-    return Math.ceil(diffMs / (1000 * 60 * 60 * 24))
+    const result = Math.ceil(diffMs / (1000 * 60 * 60 * 24))
+    
+    return isNaN(result) ? null : result
   }
   const remainingDays = calcRemainingDays()
 
@@ -197,7 +212,7 @@ function GuestCard({ s, rooms, token, notify, fetchSubmissions, setExtendGuest, 
               <div className="p-1.5 bg-[#1a1c1b] rounded-lg border border-white/5">
                  <Calendar size={12} className="text-[#d4af37]" />
               </div>
-              <span className="text-[10px] font-bold text-gray-300">{s.checkIn} → {s.checkOut || "?"}</span>
+              <span className="text-[10px] font-bold text-gray-300">{(s.checkIn || "").split('T')[0]} → {(s.checkOut || "?").split('T')[0]}</span>
               {s.guests && (
                 <span className="ml-auto text-[9px] font-black px-2 py-0.5 bg-[#1a1c1b] text-gray-500 rounded uppercase tracking-widest border border-white/5">
                   {s.guests} Guest{parseInt(s.guests) > 1 ? "s" : ""}
@@ -224,7 +239,7 @@ function GuestCard({ s, rooms, token, notify, fetchSubmissions, setExtendGuest, 
                 <span className={`text-lg font-black ${
                   remainingDays < 0 ? "text-red-400" : remainingDays === 0 ? "text-amber-400" : remainingDays <= 2 ? "text-orange-300" : "text-emerald-400"
                 }`}>
-                  {remainingDays < 0 ? Math.abs(remainingDays) : remainingDays}
+                  {remainingDays && !isNaN(remainingDays) && (remainingDays < 0 ? Math.abs(remainingDays) : remainingDays)}
                   <span className={`text-[10px] ml-1 font-bold ${
                     remainingDays < 0 ? "text-red-600" : remainingDays === 0 ? "text-amber-600" : "text-emerald-700"
                   }`}>
@@ -349,7 +364,7 @@ function SubmissionCard({ s }: { s: any }) {
       {s.checkIn && (
         <div className="mt-3 flex items-center gap-2 text-[9px] font-black text-gray-500 uppercase tracking-widest bg-[#151716] p-2 rounded-lg border border-white/5">
           <Calendar size={12} className="text-gray-700" />
-          <span>{s.checkIn} → {s.checkOut || "?"}</span>
+          <span>{(s.checkIn || "").split('T')[0]} → {(s.checkOut || "?").split('T')[0]}</span>
         </div>
       )}
 
@@ -532,6 +547,7 @@ export default function ReceptionDashboard() {
           status: "EXTEND_PENDING",
           reviewNote: `Extension requested: +${daysToAdd} day(s), new check-out ${computedCheckOut}`,
           checkOut: computedCheckOut,
+          originalCheckOut: extendGuest.checkOut,
         }),
       })
       if (res.ok) {
@@ -965,15 +981,17 @@ export default function ReceptionDashboard() {
 
                   {/* ── Revenue Summary ── */}
                   {(() => {
-                    const approved = filteredSubmissions.filter((s: any) => ["CHECKIN_APPROVED", "guests", "check_in", "ACTIVE"].includes(s.status))
+                    const approved = filteredSubmissions.filter((s: any) => ["CHECKIN_APPROVED", "guests", "check_in", "ACTIVE", "EXTEND_PENDING"].includes(s.status))
+                    const checkedOut = filteredSubmissions.filter((s: any) => ["CHECKED_OUT", "CHECKOUT_APPROVED", "check_out"].includes(s.status))
+                    const allRevenue = [...approved, ...checkedOut]
                     const calcNights = (checkIn?: string, checkOut?: string) => {
                       if (!checkIn || !checkOut) return 1
                       const diff = Math.round((new Date(checkOut).getTime() - new Date(checkIn).getTime()) / 86400000)
                       return diff > 0 ? diff : 1
                     }
-                    const totalRevenue = approved.reduce((sum, s) => sum + (Number(s.roomPrice) || 0) * calcNights(s.checkIn, s.checkOut), 0)
-                    const totalNights  = approved.reduce((sum, s) => sum + calcNights(s.checkIn, s.checkOut), 0)
-                    const avgNights    = approved.length > 0 ? (totalNights / approved.length).toFixed(1) : "—"
+                    const totalRevenue = allRevenue.reduce((sum, s) => sum + (Number(s.roomPrice) || 0) * calcNights(s.checkIn, s.checkOut), 0)
+                    const totalNights  = allRevenue.reduce((sum, s) => sum + calcNights(s.checkIn, s.checkOut), 0)
+                    const avgNights    = allRevenue.length > 0 ? (totalNights / allRevenue.length).toFixed(1) : "—"
                     const periodLabel  = dateFilter === "all" ? "All Time" : dateFilter === "today" ? "Today" : dateFilter === "week" ? "This Week" : dateFilter === "year" ? "This Year" : customDate || "Custom"
                     return (
                       <div className="grid grid-cols-3 gap-3">
@@ -1054,6 +1072,7 @@ export default function ReceptionDashboard() {
                                 fetchSubmissions={fetchSubmissions}
                                 setExtendGuest={setExtendGuest}
                                 setNewCheckOut={setNewCheckOut}
+                                setExtendDays={setExtendDays}
                               />
                             ) : (
                               <SubmissionCard key={s._id} s={s} />
@@ -1084,6 +1103,7 @@ export default function ReceptionDashboard() {
                               fetchSubmissions={fetchSubmissions}
                               setExtendGuest={setExtendGuest}
                               setNewCheckOut={setNewCheckOut}
+                              setExtendDays={setExtendDays}
                             />
                           ))}
                         </div>
@@ -1111,6 +1131,7 @@ export default function ReceptionDashboard() {
                               fetchSubmissions={fetchSubmissions}
                               setExtendGuest={setExtendGuest}
                               setNewCheckOut={setNewCheckOut}
+                              setExtendDays={setExtendDays}
                             />
                           ))}
                         </div>

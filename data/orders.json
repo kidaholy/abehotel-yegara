@@ -2,12 +2,12 @@
   {
     "id": "cc599x9norahdh6kyxcxk7",
     "createdAt": "2026-05-02T17:24:50.845Z",
-    "updatedAt": "2026-05-02T17:24:50.845Z",
+    "updatedAt": "2026-05-02T18:34:45.560Z",
     "orderNumber": "001",
     "totalAmount": 3400,
     "subtotal": 3148.148148148148,
     "tax": 251.8518518518522,
-    "status": "completed",
+    "status": "cancelled",
     "paymentMethod": "cash",
     "customerName": "Table Buy&Go",
     "tableNumber": "Buy&Go",
@@ -36,6 +36,7 @@
         "preparationTime": 10,
         "orderId": "cc599x9norahdh6kyxcxk7"
       }
-    ]
+    ],
+    "isDeleted": true
   }
 ]

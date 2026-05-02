@@ -35,16 +35,41 @@ export async function GET(request: Request) {
     const dateFilter: any = { gte: startDate }
     if (endDate) dateFilter.lte = endDate
 
-    const bookings = await prisma.receptionRequest.findMany({
+    // Fetch active/pending bookings by creation date
+    const activeBookings = await prisma.receptionRequest.findMany({
       where: {
         status: { in: [
-          "CHECKIN_APPROVED", "ACTIVE", "CHECKOUT_PENDING", "CHECKOUT_APPROVED", "CHECKED_OUT",
-          "guests" as any, "check_in" as any, "check_out" as any
+          "CHECKIN_APPROVED", "ACTIVE", "CHECKOUT_PENDING", "CHECKOUT_APPROVED",
+          "guests" as any, "check_in" as any
         ]},
         inquiryType: { in: ["check_in", "check_out", "reservation"] },
         createdAt: dateFilter,
       }
     })
+
+    // Fetch CHECKED_OUT bookings by checkOut date (revenue realized on departure)
+    const checkedOutBookings = await prisma.receptionRequest.findMany({
+      where: {
+        status: { in: ["CHECKED_OUT", "check_out" as any] },
+        inquiryType: { in: ["check_in", "check_out", "reservation"] },
+      }
+    })
+
+    // Filter checked-out bookings to the selected period using their checkOut date
+    const filteredCheckedOut = checkedOutBookings.filter((b: any) => {
+      if (!b.checkOut) return false
+      const checkOutDate = new Date(b.checkOut)
+      if (checkOutDate < startDate) return false
+      if (endDate && checkOutDate > endDate) return false
+      return true
+    })
+
+    // Merge, de-duplicating by id
+    const checkedOutIds = new Set(filteredCheckedOut.map((b: any) => b.id))
+    const bookings = [
+      ...activeBookings.filter((b: any) => !checkedOutIds.has(b.id)),
+      ...filteredCheckedOut
+    ]
 
     const calcNights = (checkIn?: string, checkOut?: string): number => {
       if (!checkIn || !checkOut) return 1

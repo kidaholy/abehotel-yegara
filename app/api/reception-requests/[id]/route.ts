@@ -19,6 +19,17 @@ export async function GET(request: Request, context: any) {
   }
 }
 
+const formatDate = (d: any) => {
+  if (!d) return d
+  try {
+    const date = new Date(d)
+    if (isNaN(date.getTime())) return d
+    return date.toISOString().split('T')[0]
+  } catch {
+    return d
+  }
+}
+
 export async function PUT(request: Request, context: any) {
   try {
     const { id } = await context.params
@@ -36,7 +47,8 @@ export async function PUT(request: Request, context: any) {
 
       const update: any = {
         reviewNote: reviewNote || "",
-        ...(checkOut ? { checkOut: new Date(checkOut) } : {}),
+        ...(checkOut ? { checkOut: formatDate(checkOut) } : {}),
+        ...(body.originalCheckOut ? { originalCheckOut: formatDate(body.originalCheckOut) } : {}),
       }
 
       if (isCheckoutRequest) {
@@ -85,14 +97,25 @@ export async function PUT(request: Request, context: any) {
     }
 
     let targetStatus = status
+    let finalCheckOut = checkOut
+
+    // Handle Extension Denial - Auto-revert checkOut
+    if (currentRequest.status === "EXTEND_PENDING") {
+      if (status === "REJECTED" || status === "rejected") {
+        targetStatus = "CHECKIN_APPROVED";
+        // Always try to revert to original check-out if we are denying the extension
+        if (currentRequest.originalCheckOut) {
+          finalCheckOut = currentRequest.originalCheckOut;
+        }
+      } else if (status === "CHECKIN_APPROVED") {
+        targetStatus = "CHECKIN_APPROVED";
+        // On approval, we don't set finalCheckOut to originalCheckOut,
+        // so it stays as the new date already in the record.
+      }
+    }
 
     if (currentRequest.status === "CHECKOUT_PENDING") {
       if (status === "CHECKOUT_APPROVED") targetStatus = "CHECKED_OUT"
-      if (status === "REJECTED" || status === "rejected") targetStatus = "CHECKIN_APPROVED"
-    }
-
-    if (currentRequest.status === "EXTEND_PENDING") {
-      if (status === "CHECKIN_APPROVED") targetStatus = "CHECKIN_APPROVED"
       if (status === "REJECTED" || status === "rejected") targetStatus = "CHECKIN_APPROVED"
     }
 
@@ -101,7 +124,8 @@ export async function PUT(request: Request, context: any) {
       reviewNote: reviewNote || "",
       reviewedBy: decoded.id,
       ...(inquiryType ? { inquiryType } : {}),
-      ...(checkOut ? { checkOut: new Date(checkOut) } : {}),
+      ...(finalCheckOut ? { checkOut: formatDate(finalCheckOut) } : {}),
+      ...(body.originalCheckOut ? { originalCheckOut: formatDate(body.originalCheckOut) } : {}),
     }
 
     const updated = await prisma.receptionRequest.update({ where: { id }, data: updateAdmin })
