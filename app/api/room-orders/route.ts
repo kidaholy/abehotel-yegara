@@ -7,7 +7,13 @@ export const dynamic = 'force-dynamic'
 export async function GET(request: Request) {
   try {
     const decoded = await validateSession(request)
-    if (decoded.role !== 'cashier' && decoded.role !== 'admin' && decoded.role !== 'super-admin') {
+    const canAccess = 
+      decoded.role === 'cashier' || 
+      decoded.role === 'admin' || 
+      decoded.role === 'super-admin' ||
+      (decoded.role === 'custom' && decoded.permissions?.includes("cashier:access"))
+
+    if (!canAccess) {
       return NextResponse.json({ message: "Forbidden" }, { status: 403 })
     }
 

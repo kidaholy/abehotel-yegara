@@ -34,6 +34,7 @@ export async function POST(request: Request) {
           mainCategory: true,
           preparationTime: true,
           name: true,
+          tier: true,
         },
       }),
       prisma.stock.findMany({ where: { id: { in: stockIds } } }),
@@ -76,9 +77,10 @@ export async function POST(request: Request) {
           price: Number(item.price ?? 0),
           category: menu?.category,
           mainCategory: menu?.mainCategory,
-          menuTier: 'standard',
+          menuTier: menu?.tier || 'standard',
           preparationTime: isDrink ? 0 : (menu?.preparationTime || 0),
           status: "unconfirmed",
+          isDeleted: false,
           modifiers: item.modifiers || [],
           notes: item.notes || ""
         }
@@ -122,6 +124,7 @@ export async function POST(request: Request) {
             createdById: orderData.createdById,
             thresholdMinutes: orderData.thresholdMinutes,
             createdAt: orderData.createdAt,
+            isDeleted: false,
             items: {
               create: orderData.items
             }
@@ -150,7 +153,7 @@ export async function POST(request: Request) {
           const cashierId = roomData?.floor?.roomServiceCashierId
           
           if (cashierId) {
-            addNotification("info", message, undefined, cashierId.toString())
+            addNotification("info", message, "cashier", cashierId.toString())
           } else {
             addNotification("info", message, "cashier")
           }

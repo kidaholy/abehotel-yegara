@@ -23,9 +23,9 @@
     "price": 2500,
     "status": "available",
     "isActive": true,
-    "roomServiceMenuTier": "vip1",
+    "roomServiceMenuTier": "standard",
     "createdAt": "2026-03-27T16:00:37.239Z",
-    "updatedAt": "2026-05-01T05:20:19.307Z"
+    "updatedAt": "2026-05-02T19:32:52.866Z"
   },
   {
     "id": "69c6a9c4140cb91738d35014",

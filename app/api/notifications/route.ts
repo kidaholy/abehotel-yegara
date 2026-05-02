@@ -16,7 +16,7 @@ export async function GET(request: Request) {
     try {
       const decoded = await validateSession(request)
       // Get notifications for the user's role
-      const userNotifications = getNotifications(decoded.role, decoded.id)
+      const userNotifications = getNotifications(decoded.role, decoded.id, decoded.permissions || [])
       return NextResponse.json(userNotifications)
     } catch (sessionError: any) {
       // If token is invalid or deactivated, return empty array for notifications
@@ -50,7 +50,7 @@ export async function PATCH(request: Request) {
     const { notificationId, all } = await request.json()
 
     if (all) {
-      const userNotifications = getNotifications(decoded.role, decoded.id)
+      const userNotifications = getNotifications(decoded.role, decoded.id, decoded.permissions || [])
       userNotifications.forEach(n => markAsRead(n.id))
       return NextResponse.json({ message: "All notifications marked as read" })
     }

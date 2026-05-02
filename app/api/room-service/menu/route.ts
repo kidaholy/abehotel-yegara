@@ -22,7 +22,7 @@ export async function GET(req: Request) {
     const items = await prisma.menuItem.findMany({
       where: {
         available: true,
-        menuTier: menuTier // Matched with lib/json-db.ts field name
+        tier: menuTier
       }
     })
     

@@ -29,7 +29,20 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
         const previousStatus = order.status
 
         // Global update (admin/cashier). Fine-grained updates live in /[id]/status and /[id]/item-status.
-        await prisma.orderItem.updateMany({ where: { orderId: id }, data: { status } })
+        // Unified update for items. If this is an approval (status transition to pending), 
+        // we auto-complete drinks to streamline room service.
+        if (status === "pending") {
+            await prisma.orderItem.updateMany({ 
+                where: { orderId: id, mainCategory: "Drinks" }, 
+                data: { status: "completed" } 
+            })
+            await prisma.orderItem.updateMany({ 
+                where: { orderId: id, mainCategory: { not: "Drinks" } }, 
+                data: { status: "pending" } 
+            })
+        } else {
+            await prisma.orderItem.updateMany({ where: { orderId: id }, data: { status } })
+        }
 
         // 🔗 BUSINESS LOGIC: Restore stock if order is cancelled
         if (status === "cancelled" && previousStatus !== "cancelled" && previousStatus !== "unconfirmed") {
@@ -108,6 +121,35 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
                 `💰 Order #${order.orderNumber} ${status} - Revenue: ${order.totalAmount} Br`,
                 "admin"
             )
+        }
+
+        // Sync item statuses if this is an approval. This is necessary because 
+        // the JsonDB stores a denormalized copy of items inside the Order object.
+        if (status === "pending") {
+            const updatedItems = order.items.map((item: any) => {
+                const isDrink = item.mainCategory === "Drinks";
+                return {
+                    ...item,
+                    status: isDrink ? "completed" : "pending",
+                    updatedAt: now.toISOString()
+                };
+            });
+            updateData.items = updatedItems;
+
+            // If ALL items are now completed (e.g. pure drink order), skip "pending" and go straight to "completed"
+            // This prevents "Cooking" label from appearing in Admin for drinks.
+            const hasPendingItems = updatedItems.some(i => i.status === "pending");
+            if (!hasPendingItems) {
+                updateData.status = "completed";
+            }
+        } else {
+            // For other status updates (served, cancelled), update the embedded items to match the order status
+            const updatedItems = order.items.map((item: any) => ({
+                ...item,
+                status: status,
+                updatedAt: now.toISOString()
+            }));
+            updateData.items = updatedItems;
         }
 
         const updatedOrder = await prisma.order.update({

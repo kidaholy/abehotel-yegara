@@ -62,7 +62,10 @@ async function handleStatusUpdate(request: Request, context: any) {
           item.status = status
           itemUpdates.push({ id: item.id, status })
         }
-        const isItemDone = ['ready', 'served', 'completed', 'cancelled'].includes(item.status)
+        const isItemDone = 
+          ['ready', 'served', 'completed', 'cancelled'].includes(item.status) ||
+          (item.preparationTime === 0 && (item.status === 'pending' || item.status === 'unconfirmed'));
+          
         if (!isItemDone) allItemsReady = false
         if (item.status === 'preparing') anyItemPreparing = true
       })
