@@ -23,15 +23,10 @@ const io = new SocketIOServer(server, {
 app.use(cors())
 app.use(express.json())
 
-// Connect Database
-connectDB()
-
 // Setup Socket handlers
 setupSocketHandlers(io)
 
 // Routes
-app.use("/api/auth", authRoutes)
-app.use("/api/orders", ordersRoutes)
 app.use("/api/auth", authRoutes)
 app.use("/api/orders", ordersRoutes)
 app.use("/api/menu", menuRoutes)

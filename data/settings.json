@@ -1,0 +1,6 @@
+[
+  { "key": "app_name", "value": "Abe Hotel" },
+  { "key": "app_tagline", "value": "Hotel Management System" },
+  { "key": "logo_url", "value": "/icon.svg" },
+  { "key": "favicon_url", "value": "/icon.svg" }
+]

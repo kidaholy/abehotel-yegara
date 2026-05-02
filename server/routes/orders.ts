@@ -1,30 +1,27 @@
 import express, { type Request, type Response } from "express"
 import { authenticate, authorize } from "../middleware/auth"
-import Order from "../../lib/models/order"
+import { prisma } from "../../lib/prisma"
 
 const router = express.Router()
 
-const generateOrderNumber = () => {
-  return "ORD-" + Date.now()
-}
-
 router.post("/", authenticate, authorize("cashier"), async (req: Request, res: Response) => {
   try {
-    const { items, totalAmount, paymentMethod, tableNumber, notes } = req.body
+    const { items, totalAmount, paymentMethod, tableNumber } = req.body
 
-    const order = new Order({
-      orderNumber: generateOrderNumber(),
-      items,
-      totalAmount,
-      paymentMethod,
-      tableNumber,
-      notes,
-      cashierId: req.userId,
-      status: "pending",
-      paymentStatus: "paid",
+    const order = await prisma.order.create({
+      data: {
+        orderNumber: "ORD-" + Date.now(),
+        totalAmount,
+        paymentMethod,
+        tableNumber,
+        status: "pending",
+        createdById: req.userId,
+        items: {
+          create: items
+        }
+      }
     })
 
-    await order.save()
     res.status(201).json(order)
   } catch (error) {
     res.status(500).json({ message: "Failed to create order" })
@@ -33,11 +30,15 @@ router.post("/", authenticate, authorize("cashier"), async (req: Request, res: R
 
 router.get("/", authenticate, async (req: Request, res: Response) => {
   try {
-    const query: any = {}
+    const where: any = {}
     if (req.role === "chef") {
-      query.status = { $ne: "completed" }
+      where.status = { not: "completed" }
     }
-    const orders = await Order.find(query).sort({ createdAt: -1 })
+    const orders = await prisma.order.findMany({
+      where,
+      orderBy: { createdAt: "desc" },
+      include: { items: true }
+    })
     res.json(orders)
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch orders" })
@@ -47,7 +48,10 @@ router.get("/", authenticate, async (req: Request, res: Response) => {
 router.put("/:id/status", authenticate, async (req: Request, res: Response) => {
   try {
     const { status } = req.body
-    const order = await Order.findByIdAndUpdate(req.params.id, { status }, { new: true })
+    const order = await prisma.order.update({
+      where: { id: req.params.id },
+      data: { status }
+    })
     res.json(order)
   } catch (error) {
     res.status(500).json({ message: "Failed to update order status" })

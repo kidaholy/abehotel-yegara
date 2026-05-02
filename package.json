@@ -10,9 +10,7 @@
     "server": "ts-node server/server.ts",
     "server-dev": "nodemon --watch server server/server.ts",
     "server-build": "tsc -p server/tsconfig.json",
-    "server-start": "node server/dist/server.js",
-    "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev"
+    "server-start": "node server/dist/server.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -62,9 +60,6 @@
     "jspdf": "^4.2.0",
     "jspdf-autotable": "^5.0.7",
     "lucide-react": "^0.454.0",
-    "mongoose": "^8.8.0",
-    "@prisma/client": "^6.16.0",
-    "pg": "^8.16.3",
     "next": "^16.1.6",
     "next-themes": "^0.4.3",
     "qrcode": "^1.5.4",
@@ -96,7 +91,6 @@
     "eslint-config-next": "^16.1.6",
     "nodemon": "^3.1.14",
     "postcss": "^8.4.47",
-    "prisma": "^6.16.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3"
   }

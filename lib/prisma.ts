@@ -1,12 +1,4 @@
-import { PrismaClient } from "@prisma/client"
+import { db } from "./json-db";
 
-const globalForPrisma = global as unknown as { prisma?: PrismaClient }
-
-export const prisma =
-  globalForPrisma.prisma ??
-  new PrismaClient({
-    log: process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],
-  })
-
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma
+export const prisma = db as any; // Cast as 'any' to avoid massive TS errors while transitioning
 
