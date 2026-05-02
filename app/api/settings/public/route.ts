@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
+import { prisma } from "@/lib/db"
 
 export const dynamic = "force-dynamic"
-import { prisma } from "@/lib/prisma"
 
 export async function GET(request: Request) {
   try {
@@ -16,11 +16,10 @@ export async function GET(request: Request) {
     ]
 
     const publicSettings = await prisma.settings.findMany({
-      where: { key: { in: publicSettingKeys } },
-      select: { key: true, value: true },
+      where: { key: { in: publicSettingKeys } }
     })
 
-    const settingsObject = publicSettings.reduce((acc, setting) => {
+    const settingsObject = publicSettings.reduce((acc: any, setting: any) => {
       acc[setting.key] = setting.value
       return acc
     }, {} as Record<string, string>)
@@ -29,8 +28,8 @@ export async function GET(request: Request) {
     const defaultSettings = {
       logo_url: "",
       favicon_url: "",
-      app_name: "Prime Addis",
-      app_tagline: "Coffee Management",
+      app_name: "Abe Hotel",
+      app_tagline: "Hotel Management System",
       enable_cashier_printing: "true",
       enable_cashier_today_revenue: "false",
       ...settingsObject
@@ -42,8 +41,10 @@ export async function GET(request: Request) {
     // Return defaults on error
     return NextResponse.json({
       logo_url: "",
-      app_name: "Prime Addis",
-      app_tagline: "Coffee Management"
+      app_name: "Abe Hotel",
+      app_tagline: "Hotel Management System",
+      enable_cashier_printing: "true",
+      enable_cashier_today_revenue: "false"
     })
   }
 }

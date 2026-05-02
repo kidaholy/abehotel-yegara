@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server"
-import { MenuTier } from "@prisma/client"
 import { prisma } from "@/lib/db"
 
 export const dynamic = 'force-dynamic'
@@ -9,12 +8,11 @@ export async function GET(req: Request) {
     const { searchParams } = new URL(req.url)
     const roomNumber = searchParams.get("roomNumber")
 
-    let menuTier: MenuTier = "standard"
+    let menuTier = "standard"
 
     if (roomNumber) {
         const room = await prisma.room.findUnique({
-          where: { roomNumber },
-          select: { roomServiceMenuTier: true }
+          where: { roomNumber }
         })
         if (room) {
             menuTier = room.roomServiceMenuTier || "standard"
@@ -24,7 +22,7 @@ export async function GET(req: Request) {
     const items = await prisma.menuItem.findMany({
       where: {
         available: true,
-        tier: menuTier
+        menuTier: menuTier // Matched with lib/json-db.ts field name
       }
     })
     
@@ -32,8 +30,8 @@ export async function GET(req: Request) {
       ...item,
       _id: item.id
     })).sort((a: any, b: any) => {
-      const idA = a.menuId || ""
-      const idB = b.menuId || ""
+      const idA = String(a.menuId || "")
+      const idB = String(b.menuId || "")
       return idA.localeCompare(idB, undefined, { numeric: true, sensitivity: 'base' })
     })
 
