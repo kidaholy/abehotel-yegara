@@ -33,9 +33,15 @@ export async function POST(request: Request) {
         }
 
         let servedCount = 0
+        const orderIdsToUpdate = activeOrders.map(o => o.id)
 
-        const updates: any[] = []
+        // 1. Batch update orderItems first
+        await prisma.orderItem.updateMany({
+            where: { orderId: { in: orderIdsToUpdate } },
+            data: { status: "served", updatedAt: now.toISOString() }
+        })
 
+        // 2. Prepare order updates in memory
         for (const order of activeOrders) {
             const createdAt = new Date(order.createdAt)
             const durationMs = now.getTime() - createdAt.getTime()
@@ -57,35 +63,24 @@ export async function POST(request: Request) {
 
             const excessDelay = Math.max(0, totalMinutes - (dynamicThreshold || globalFallback))
 
-            updates.push(
-                prisma.order.update({
-                    where: { id: order.id },
-                    data: {
-                        status: "served",
-                        servedAt: now,
-                        totalPreparationTime: totalMinutes,
-                        thresholdMinutes: dynamicThreshold,
-                        delayMinutes: excessDelay,
-                        items: {
-                            updateMany: {
-                                where: { orderId: order.id },
-                                data: { status: "served" },
-                            },
-                        },
-                    },
-                }),
-            )
+            // Fetch latest items for this specific order to ensure embedded snapshot is perfect
+            const items = await prisma.orderItem.findMany({ where: { orderId: order.id } })
+
+            await prisma.order.update({
+                where: { id: order.id },
+                data: {
+                    status: "served",
+                    servedAt: now,
+                    totalPreparationTime: totalMinutes,
+                    thresholdMinutes: dynamicThreshold,
+                    delayMinutes: excessDelay,
+                    items: items.map((it: any) => ({ ...it, updatedAt: now.toISOString() }))
+                }
+            })
 
             servedCount++
-
-            addNotification(
-                "success",
-                `💰 Order #${order.orderNumber} served - Revenue: ${order.totalAmount} Br`,
-                "admin"
-            )
+            addNotification("success", `💰 Order #${order.orderNumber} served - Revenue: ${order.totalAmount} Br`, "admin")
         }
-
-        await prisma.$transaction(updates)
 
         addNotification(
             "info",

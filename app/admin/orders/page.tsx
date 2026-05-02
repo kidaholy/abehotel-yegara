@@ -318,12 +318,19 @@ export default function AdminOrdersPage() {
 
       if (response.ok) {
         const result = await response.json()
-        setOrders(prevOrders => prevOrders.map(o =>
-          (!o.isDeleted && o.status !== 'cancelled' && o.status !== 'served' && o.status !== 'completed')
-            ? { ...o, status: 'served' }
-            : o
-        ))
-        notify({ title: "All Orders Served", message: result.message, type: "success" })
+        const count = typeof result.servedCount === "number" ? result.servedCount : 0
+        if (count > 0) {
+          setOrders(prevOrders => prevOrders.map(o =>
+            (!o.isDeleted && o.status !== 'cancelled' && o.status !== 'served' && o.status !== 'completed')
+              ? { ...o, status: 'served' }
+              : o
+          ))
+        }
+        notify({
+          title: count > 0 ? "All Orders Served" : "No Change",
+          message: result.message,
+          type: count > 0 ? "success" : "info",
+        })
       } else {
         const error = await response.json()
         notify({ title: "Failed", message: error.message || "Failed to mark orders as served", type: "error" })

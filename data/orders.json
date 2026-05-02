@@ -2,13 +2,13 @@
   {
     "id": "wmfbv48j342229oge8ds2",
     "createdAt": "2026-05-02T22:54:56.153Z",
-    "updatedAt": "2026-05-02T22:54:56.153Z",
+    "updatedAt": "2026-05-02T23:48:27.486Z",
     "isDeleted": false,
     "orderNumber": "001",
     "totalAmount": 2800,
     "subtotal": 2592.5925925925926,
     "tax": 207.4074074074074,
-    "status": "preparing",
+    "status": "served",
     "paymentMethod": "cash",
     "customerName": "Table T#15",
     "tableNumber": "T#15",
@@ -22,14 +22,14 @@
       {
         "id": "fe4ia7tuo4id6byzsdrpxj",
         "createdAt": "2026-05-02T22:54:56.154Z",
-        "updatedAt": "2026-05-02T22:54:56.154Z",
+        "updatedAt": "2026-05-02T23:48:27.440Z",
         "isDeleted": false,
         "menuItemId": "69ada38ad661b3f94ac72fc4",
         "menuId": "2",
         "name": "TRE/ጥሬ 1 ኪ.ግ",
         "quantity": 1,
         "price": 2800,
-        "status": "pending",
+        "status": "served",
         "modifiers": [],
         "notes": "",
         "category": "TRE/ቁርጥ",
@@ -38,7 +38,11 @@
         "preparationTime": 10,
         "orderId": "wmfbv48j342229oge8ds2"
       }
-    ]
+    ],
+    "servedAt": "2026-05-02T23:48:27.440Z",
+    "totalPreparationTime": 53,
+    "thresholdMinutes": 10,
+    "delayMinutes": 43
   },
   {
     "id": "jpxekheey2n2eo117o11z",

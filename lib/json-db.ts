@@ -226,6 +226,7 @@ export class JsonDB {
             if (val && typeof val === 'object') {
                 if ('equals' in val) return itemVal === val.equals;
                 if ('in' in val) return val.in.includes(itemVal);
+                if ('notIn' in val) return !val.notIn.includes(itemVal);
                 if ('gte' in val) return new Date(itemVal) >= new Date(val.gte);
                 if ('lte' in val) return new Date(itemVal) <= new Date(val.lte);
                 if ('gt' in val) return new Date(itemVal) > new Date(val.gt);
@@ -339,9 +340,18 @@ export const db = {
     storeLog: new JsonDB('storeLogs'),
     dailyExpense: new JsonDB('dailyExpenses'),
     auditLog: new JsonDB('auditLogs'),
-    $transaction: async (fn: (tx: any) => Promise<any>) => {
-        // Simple mock of Prisma transaction that just passes the db object
-        // NOTE: Does not provide real rollback guarantees!
-        return await fn(db);
+    $transaction: async (input: any) => {
+        // Support both function and array styles of transactions
+        if (typeof input === 'function') {
+            return await input(db);
+        } else if (Array.isArray(input)) {
+            // Must run sequentially to avoid JSON file write race conditions
+            const results = [];
+            for (const promise of input) {
+                results.push(await promise);
+            }
+            return results;
+        }
+        return input;
     }
 };
