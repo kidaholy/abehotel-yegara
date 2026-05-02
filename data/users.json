@@ -7,9 +7,9 @@
     "role": "admin",
     "isActive": true,
     "createdAt": "2026-03-25T21:58:16.817Z",
-    "updatedAt": "2026-05-02T15:12:04.102Z",
-    "lastLoginAt": "2026-05-02T15:12:04.102Z",
-    "lastLogoutAt": "2026-04-21T16:10:13.325Z",
+    "updatedAt": "2026-05-02T15:54:31.246Z",
+    "lastLoginAt": "2026-05-02T15:54:31.246Z",
+    "lastLogoutAt": "2026-05-02T15:54:01.804Z",
     "assignedCategories": [],
     "floorId": null,
     "permissions": {
@@ -113,10 +113,10 @@
     "assignedCategories": [],
     "canManageReception": false,
     "createdAt": "2026-03-27T11:44:03.116Z",
-    "updatedAt": "2026-05-01T09:21:32.351Z",
+    "updatedAt": "2026-05-02T16:44:15.557Z",
     "floorId": "69c6a7f5140cb91738d34fe7",
-    "lastLoginAt": "2026-05-01T09:21:32.349Z",
-    "lastLogoutAt": "2026-04-25T16:47:37.093Z",
+    "lastLoginAt": "2026-05-02T15:54:12.539Z",
+    "lastLogoutAt": "2026-05-02T16:44:15.557Z",
     "id": "69c66d83658d6f717f557cd5"
   },
   {
@@ -175,8 +175,8 @@
     "assignedCategories": [],
     "canManageReception": false,
     "createdAt": "2026-04-07T18:46:25.743Z",
-    "updatedAt": "2026-04-20T12:11:11.512Z",
-    "lastLoginAt": "2026-04-20T12:11:06.311Z",
+    "updatedAt": "2026-05-02T16:44:25.549Z",
+    "lastLoginAt": "2026-05-02T16:44:25.549Z",
     "lastLogoutAt": "2026-04-20T12:11:11.512Z",
     "id": "69d55101c6263ab35c06be51"
   },

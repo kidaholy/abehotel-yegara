@@ -1,1 +1,80 @@
-[]
+[
+  {
+    "id": "69c6a7e2140cb91738d34fe3",
+    "floorNumber": "GROUND",
+    "order": 0,
+    "isActive": true,
+    "isVIP": false,
+    "type": "standard",
+    "status": "active",
+    "roomServiceCashierId": "69c506a6733d5342b5d87c57",
+    "roomServiceMenuTier": "standard",
+    "createdAt": "2026-03-27T15:53:06.786Z",
+    "updatedAt": "2026-04-15T17:55:55.860Z"
+  },
+  {
+    "id": "69c6a7f5140cb91738d34fe7",
+    "floorNumber": "01",
+    "order": 0,
+    "isActive": true,
+    "isVIP": false,
+    "type": "standard",
+    "status": "active",
+    "roomServiceCashierId": null,
+    "roomServiceMenuTier": null,
+    "createdAt": "2026-03-27T15:53:25.696Z",
+    "updatedAt": "2026-03-27T15:53:25.696Z"
+  },
+  {
+    "id": "69c6a7fe140cb91738d34fea",
+    "floorNumber": "02",
+    "order": 0,
+    "isActive": true,
+    "isVIP": false,
+    "type": "standard",
+    "status": "active",
+    "roomServiceCashierId": null,
+    "roomServiceMenuTier": null,
+    "createdAt": "2026-03-27T15:53:34.543Z",
+    "updatedAt": "2026-03-27T15:53:34.543Z"
+  },
+  {
+    "id": "69c6a807140cb91738d34fed",
+    "floorNumber": "03 Rooms",
+    "order": 0,
+    "isActive": true,
+    "isVIP": true,
+    "type": "standard",
+    "status": "active",
+    "roomServiceCashierId": null,
+    "roomServiceMenuTier": null,
+    "createdAt": "2026-03-27T15:53:43.276Z",
+    "updatedAt": "2026-04-29T04:07:23.925Z"
+  },
+  {
+    "id": "69c6a80d140cb91738d34ff0",
+    "floorNumber": "04 Rooms",
+    "order": 0,
+    "isActive": true,
+    "isVIP": true,
+    "type": "standard",
+    "status": "active",
+    "roomServiceCashierId": null,
+    "roomServiceMenuTier": null,
+    "createdAt": "2026-03-27T15:53:49.266Z",
+    "updatedAt": "2026-04-29T04:07:34.075Z"
+  },
+  {
+    "id": "69c6a813140cb91738d34ff3",
+    "floorNumber": "05",
+    "order": 0,
+    "isActive": true,
+    "isVIP": false,
+    "type": "standard",
+    "status": "active",
+    "roomServiceCashierId": null,
+    "roomServiceMenuTier": null,
+    "createdAt": "2026-03-27T15:53:55.765Z",
+    "updatedAt": "2026-03-27T15:53:55.765Z"
+  }
+]
