@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server"
-import { connectDB } from "@/lib/db"
-import Stock from "@/lib/models/stock"
-import StoreLog from "@/lib/models/store-log"
+import { prisma } from "@/lib/db"
 import { validateSession } from "@/lib/auth"
 
 export async function POST(request: Request) {
@@ -11,50 +9,49 @@ export async function POST(request: Request) {
             return NextResponse.json({ message: "Forbidden" }, { status: 403 })
         }
 
-        await connectDB()
-
         const { stockId, quantity, notes } = await request.json()
 
         if (!stockId || !quantity || quantity <= 0) {
             return NextResponse.json({ message: "Invalid parameters" }, { status: 400 })
         }
 
-        const stockItem = await Stock.findById(stockId)
+        const stockItem = await prisma.stock.findUnique({ where: { id: stockId } })
         if (!stockItem) {
             return NextResponse.json({ message: "Stock item not found" }, { status: 404 })
         }
 
-        if (stockItem.storeQuantity < quantity) {
+        if ((stockItem.storeQuantity || 0) < quantity) {
             return NextResponse.json({
-                message: `Insufficient store quantity. Available: ${stockItem.storeQuantity}`
+                message: `Insufficient store quantity. Available: ${stockItem.storeQuantity || 0}`
             }, { status: 400 })
         }
 
         // Perform transfer
-        stockItem.storeQuantity -= quantity
-        stockItem.quantity += quantity
-
-        // Ensure status is updated if it was out of stock
-        if (stockItem.quantity > 0 && stockItem.status === 'out_of_stock') {
-            stockItem.status = 'active'
-        }
-
-        await stockItem.save()
+        const updatedStock = await prisma.stock.update({
+            where: { id: stockId },
+            data: {
+                storeQuantity: (stockItem.storeQuantity || 0) - quantity,
+                quantity: (stockItem.quantity || 0) + quantity,
+                status: ((stockItem.quantity || 0) + quantity) > 0 ? "active" : stockItem.status
+            }
+        })
 
         // Log transfer
-        await StoreLog.create({
-            stockId: stockItem._id,
-            type: 'TRANSFER_OUT',
-            quantity: quantity,
-            unit: stockItem.unit,
-            user: decoded.id,
-            notes: notes || "Manual transfer to stock"
+        await prisma.storeLog.create({
+            data: {
+                stockId: stockItem.id,
+                type: 'TRANSFER_OUT',
+                quantity: quantity,
+                unit: stockItem.unit,
+                user: decoded.id,
+                notes: notes || "Manual transfer to stock"
+            }
         })
 
         return NextResponse.json({
             message: "Transfer successful",
-            stockQuantity: stockItem.quantity,
-            storeQuantity: stockItem.storeQuantity
+            stockQuantity: updatedStock.quantity,
+            storeQuantity: updatedStock.storeQuantity
         })
 
     } catch (error: any) {

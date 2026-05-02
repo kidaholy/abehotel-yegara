@@ -1,16 +1,13 @@
 import { NextResponse } from "next/server"
-import { connectDB } from "@/lib/db"
-import Order from "@/lib/models/order"
-import Stock from "@/lib/models/stock"
+import { prisma } from "@/lib/db"
 import { validateSession } from "@/lib/auth"
 
 export async function GET(request: Request) {
   try {
     const decoded = await validateSession(request)
-    await connectDB()
 
     // Inventory insights
-    const allStock = await Stock.find().lean()
+    const allStock = await prisma.stock.findMany()
 
     const lowStockItems = allStock.filter(item =>
       item.trackQuantity &&
