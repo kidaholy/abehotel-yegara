@@ -1,6 +1,6 @@
 import express, { type Request, type Response } from "express"
 import { authenticate, authorize } from "../middleware/auth"
-import { prisma } from "../../lib/prisma"
+import { prisma } from "../../lib/db"
 
 const router = express.Router()
 

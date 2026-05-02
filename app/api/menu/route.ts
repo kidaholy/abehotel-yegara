@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { prisma } from "@/lib/prisma"
+import { prisma } from "@/lib/db"
 import { validateSession } from "@/lib/auth"
 
 export async function GET(request: Request) {
@@ -50,8 +50,8 @@ export async function GET(request: Request) {
       _id: item.id,
       stockItemId: item.stockItemId || null
     })).sort((a: any, b: any) => {
-      const idA = a.menuId || ""
-      const idB = b.menuId || ""
+      const idA = String(a.menuId || "")
+      const idB = String(b.menuId || "")
       return idA.localeCompare(idB, undefined, { numeric: true, sensitivity: 'base' })
     })
 

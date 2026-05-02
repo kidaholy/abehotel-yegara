@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { prisma } from "@/lib/prisma"
+import { prisma } from "@/lib/db"
 
 export async function GET() {
   try {
@@ -14,18 +14,12 @@ export async function GET() {
     })
 
     const serializedItems = filteredItems.map((item: any) => ({
+      ...item,
       _id: item.id,
-      menuId: item.menuId,
-      name: item.name,
-      description: item.description,
       mainCategory: item.mainCategory || 'Food',
-      category: item.category,
-      price: item.price,
-      image: item.image,
-      preparationTime: item.preparationTime,
     })).sort((a: any, b: any) => {
-      const idA = a.menuId || ""
-      const idB = b.menuId || ""
+      const idA = String(a.menuId || "")
+      const idB = String(b.menuId || "")
       return idA.localeCompare(idB, undefined, { numeric: true, sensitivity: 'base' })
     })
 

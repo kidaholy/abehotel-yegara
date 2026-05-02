@@ -1,6 +1,6 @@
 import express, { type Request, type Response } from "express"
 import { signToken } from "../../lib/auth"
-import { prisma } from "../../lib/prisma"
+import { prisma } from "../../lib/db"
 import bcrypt from "bcryptjs"
 
 const router = express.Router()

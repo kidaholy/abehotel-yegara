@@ -1,6 +1,6 @@
 import express, { type Request, type Response } from "express"
 import { authenticate, authorize } from "../middleware/auth"
-import { prisma } from "../../lib/prisma"
+import { prisma } from "../../lib/db"
 
 const router = express.Router()
 
@@ -15,15 +15,14 @@ router.post("/", authenticate, authorize("cashier"), async (req: Request, res: R
         paymentMethod,
         tableNumber,
         status: "pending",
-        createdById: req.userId,
-        items: {
-          create: items
-        }
+        createdById: (req as any).userId,
+        items: items.map((i: any) => ({ ...i, id: undefined })) // JsonDB expects flatten items or handled by create
       }
     })
 
     res.status(201).json(order)
   } catch (error) {
+    console.error("Order creation error:", error)
     res.status(500).json({ message: "Failed to create order" })
   }
 })
@@ -31,7 +30,7 @@ router.post("/", authenticate, authorize("cashier"), async (req: Request, res: R
 router.get("/", authenticate, async (req: Request, res: Response) => {
   try {
     const where: any = {}
-    if (req.role === "chef") {
+    if ((req as any).role === "chef") {
       where.status = { not: "completed" }
     }
     const orders = await prisma.order.findMany({

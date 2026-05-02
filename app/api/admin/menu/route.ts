@@ -1,82 +1,52 @@
 import { NextResponse } from "next/server"
-import { prisma } from "@/lib/prisma"
+import { prisma } from "@/lib/db"
 import { validateSession } from "@/lib/auth"
 
-// Get all menu items (admin only)
 export async function GET(request: Request) {
   try {
     const decoded = await validateSession(request)
-    console.log("📋 Admin fetching menu items:", decoded.email || decoded.id)
-
     if (decoded.role !== "admin" && decoded.role !== "super-admin") {
       return NextResponse.json({ message: "Forbidden" }, { status: 403 })
     }
 
-    console.log("📊 Database connected for menu retrieval")
-
-    // Fetch all items without expensive DB-side regex
     const allItems = await prisma.menuItem.findMany({
-      include: {
-        stockItem: {
-          select: { name: true, unit: true, status: true }
-        }
-      }
+      include: { stockItem: true }
     })
     
-    // STRICT SEPARATION: Filter out VIP items in memory
-    const menuItems = allItems.filter((item: any) => {
-        const isVipCat = item.category && item.category.toLowerCase().includes('vip');
-        const isVipName = item.name && item.name.toLowerCase().includes('vip');
-        return !isVipCat && !isVipName && item.isVIP !== true;
-    });
-
-    console.log(`🍽️ Found ${menuItems.length} standard menu items`)
-
-    // Convert ObjectId to string for frontend compatibility
-    const serializedItems = menuItems.map((item: any) => ({
+    const serializedItems = allItems.map((item: any) => ({
       ...item,
       _id: item.id,
       stockItemId: item.stockItem ? { ...item.stockItem, _id: item.stockItemId } : item.stockItemId
     })).sort((a: any, b: any) => {
-      const idA = a.menuId || ""
-      const idB = b.menuId || ""
+      const idA = String(a.menuId || "")
+      const idB = String(b.menuId || "")
       return idA.localeCompare(idB, undefined, { numeric: true, sensitivity: 'base' })
     })
 
     return NextResponse.json(serializedItems)
   } catch (error: any) {
     console.error("❌ Get menu items error:", error)
-    const status = error.message?.includes("Unauthorized") ? 401 : 500
-    return NextResponse.json({ message: "Failed to get menu items" }, { status })
+    return NextResponse.json({ message: "Failed to get menu items" }, { status: 500 })
   }
 }
 
-// Create new menu item (admin only)
 export async function POST(request: Request) {
   try {
     const decoded = await validateSession(request)
-    console.log("🔐 Admin creating menu item:", decoded.email || decoded.id)
-
     if (decoded.role !== "admin" && decoded.role !== "super-admin") {
       return NextResponse.json({ message: "Forbidden" }, { status: 403 })
     }
 
-    console.log("📊 Database connected for menu item creation")
-
-    const { menuId, name, mainCategory, category, price, description, image, preparationTime, available, stockItemId, stockConsumption, isVIP } = await request.json()
-    console.log("📝 Menu item data received:", { menuId, name, mainCategory, category, price, stockItemId, isVIP })
+    const { menuId, name, mainCategory, category, price, description, image, preparationTime, available, stockItemId, stockConsumption, isVIP, tier } = await request.json()
 
     if (!name || !price) {
       return NextResponse.json({ message: "Name and price are required" }, { status: 400 })
     }
 
-    // Check if menuId is provided, if not auto-generate
     let finalMenuId = menuId ? menuId.toString().trim() : ""
     if (!finalMenuId) {
-      // Find the items and extract the highest number
-      const allItems = await prisma.menuItem.findMany({ select: { menuId: true } })
+      const allItems = await prisma.menuItem.findMany()
       let maxId = 0
-
       allItems.forEach((item: any) => {
         if (item.menuId) {
           const match = item.menuId.match(/\d+/)
@@ -86,55 +56,15 @@ export async function POST(request: Request) {
           }
         }
       })
-
       finalMenuId = (maxId + 1).toString()
     }
 
-    // Logic for shifting IDs: When an ID is specified (or auto-gen), 
-    // any existing items with numeric ID >= finalMenuId will be incremented.
-    const numericId = parseInt(finalMenuId, 10)
-    if (!isNaN(numericId)) {
-      // Find all menu items, sort them by numeric menuId
-      const allItems = await prisma.menuItem.findMany()
-
-      // Get all items that need to be shifted (>= numericId)
-      // Sort in DESCENDING order so we process higher IDs first (safest)
-      const itemsToShift = allItems.filter((item: any) => {
-        const itemNumericId = parseInt(item.menuId, 10)
-        return !isNaN(itemNumericId) && itemNumericId >= numericId
-      }).sort((a: any, b: any) => parseInt(b.menuId, 10) - parseInt(a.menuId, 10))
-
-      // Multi-step shift process to avoid duplicate key errors (index: menuId_1)
-      // Step 1: Shift everything to unique temporary IDs
-      for (const item of itemsToShift) {
-        await prisma.menuItem.update({
-          where: { id: item.id },
-          data: { menuId: `TEMP_POST_${item.id}_${Date.now()}` }
-        })
-      }
-
-      // Step 2: Assign new numeric IDs (original + 1)
-      for (const item of itemsToShift) {
-        const originalNumericId = parseInt(item.menuId, 10)
-        await prisma.menuItem.update({
-          where: { id: item.id },
-          data: { menuId: (originalNumericId + 1).toString() }
-        })
-      }
-    }
-
-    // STRICT SEPARATION: Ensure new standard items don't have VIP flags
-    if (category?.toUpperCase().includes("VIP") || name?.toUpperCase().includes("VIP") || isVIP) {
-        return NextResponse.json({ message: "Cannot create VIP items in Standard Menu. Please use the VIP tabs." }, { status: 400 })
-    }
-
-    // Create menu item
     const menuItem = await prisma.menuItem.create({
       data: {
         menuId: finalMenuId,
         name: name.trim(),
-        mainCategory: (mainCategory || 'Food') as any,
-        category: category ? category.trim().normalize("NFC") : undefined,
+        mainCategory: mainCategory || 'Food',
+        category: category ? category.trim() : undefined,
         price: Number(price),
         description,
         image,
@@ -143,10 +73,9 @@ export async function POST(request: Request) {
         stockItemId: stockItemId || null,
         stockConsumption: stockConsumption ? Number(stockConsumption) : 0,
         isVIP: isVIP || false,
+        tier: tier || (isVIP ? 'vip1' : 'standard')
       }
     })
-
-    console.log("✅ Menu item created successfully:", menuItem.id)
 
     return NextResponse.json({
       message: "Menu item created successfully",
@@ -154,7 +83,6 @@ export async function POST(request: Request) {
     })
   } catch (error: any) {
     console.error("❌ Create menu item error:", error)
-    const status = error.message?.includes("Unauthorized") ? 401 : 500
-    return NextResponse.json({ message: "Failed to create menu item" }, { status })
+    return NextResponse.json({ message: "Failed to create menu item" }, { status: 500 })
   }
 }
