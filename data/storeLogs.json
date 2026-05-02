@@ -1538,5 +1538,18 @@
     "date": "2026-05-02T09:25:10.347Z",
     "createdAt": "2026-05-02T09:25:10.348Z",
     "updatedAt": "2026-05-02T09:25:10.348Z"
+  },
+  {
+    "id": "914kelmf788amlvnuimu",
+    "createdAt": "2026-05-02T16:50:15.344Z",
+    "updatedAt": "2026-05-02T16:50:15.344Z",
+    "stockId": "69ada903d661b3f94ac7308e",
+    "type": "PURCHASE",
+    "quantity": 100,
+    "unit": "pcs",
+    "pricePerUnit": 4.99,
+    "totalPrice": 499,
+    "userId": "69c45a78ba1175fcacd0abd3",
+    "notes": "Restocked 100 pcs for total cost 499 Br"
   }
 ]

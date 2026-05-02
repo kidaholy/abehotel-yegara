@@ -2045,19 +2045,19 @@
     "name": "7 up",
     "category": "Drinks",
     "quantity": 0,
-    "storeQuantity": 0,
+    "storeQuantity": 100,
     "unit": "pcs",
     "unitType": "count",
     "minLimit": 5,
     "storeMinLimit": 10,
-    "averagePurchasePrice": 20,
+    "averagePurchasePrice": 5,
     "unitCost": 0,
     "trackQuantity": true,
     "showStatus": true,
     "status": "out_of_stock",
-    "totalPurchased": 54,
+    "totalPurchased": 154,
     "totalConsumed": 6,
-    "totalInvestment": 960,
+    "totalInvestment": 500,
     "sellUnitEquivalent": 1,
     "isVIP": false,
     "vipLevel": 1,
@@ -2100,7 +2100,7 @@
       }
     ],
     "createdAt": "2026-03-08T16:51:10.743Z",
-    "updatedAt": "2026-04-26T16:44:29.198Z"
+    "updatedAt": "2026-05-02T16:50:29.966Z"
   },
   {
     "id": "69ada904d661b3f94ac73095",

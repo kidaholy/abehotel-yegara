@@ -10,7 +10,7 @@ export async function GET(request: Request) {
     }
 
     const allItems = await prisma.menuItem.findMany({
-      where: { tier: 'standard' },
+      where: { tier: 'vip2' },
       include: { stockItem: true }
     })
     
@@ -73,8 +73,8 @@ export async function POST(request: Request) {
         available: available !== false,
         stockItemId: stockItemId || null,
         stockConsumption: stockConsumption ? Number(stockConsumption) : 0,
-        isVIP: isVIP || false,
-        tier: tier || (isVIP ? 'vip1' : 'standard')
+        isVIP: true,
+        tier: 'vip2'
       }
     })
 
