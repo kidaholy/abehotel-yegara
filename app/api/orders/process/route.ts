@@ -93,7 +93,7 @@ export async function POST(request: Request) {
                 }
             }
         })
-        const orderNumber = `ORD-${dateStr}-${String(orderCount + 1).padStart(3, '0')}`
+        const orderNumber = String(orderCount + 1).padStart(3, '0')
 
         // Step 3: Create order object
         const orderData: any = {

@@ -176,7 +176,7 @@ export async function POST(request: Request) {
 
     let created: any = null
     for (let attempt = 0; attempt < 5; attempt++) {
-      const orderNumber = `ORD-${today.toISOString().slice(0, 10).replace(/-/g, "")}-${String(seq).padStart(3, "0")}`
+      const orderNumber = String(seq).padStart(3, "0")
       try {
         created = await prisma.order.create({
           data: {
