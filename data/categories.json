@@ -1,0 +1,970 @@
+[
+  {
+    "id": "69ad9d48065bcfd7df20b934",
+    "name": "AYIB/አይብ",
+    "type": "menu",
+    "description": "",
+    "createdAt": "2026-03-08T16:01:12.097Z",
+    "updatedAt": "2026-03-26T15:58:45.277Z"
+  },
+  {
+    "id": "69ad9d87065bcfd7df20b93d",
+    "name": "hollando/ሆላንዶ/ትቢት",
+    "type": "menu",
+    "description": "",
+    "createdAt": "2026-03-08T16:02:15.552Z",
+    "updatedAt": "2026-03-26T10:28:14.025Z"
+  },
+  {
+    "id": "69ada302d661b3f94ac72f80",
+    "name": "Alcoholic(አልኮል መጠጥ)",
+    "type": "menu",
+    "description": "Alcoholic menu items",
+    "createdAt": "2026-03-08T16:25:34.055Z",
+    "updatedAt": "2026-03-08T16:52:25.117Z"
+  },
+  {
+    "id": "69ada902d661b3f94ac73089",
+    "name": "Meat",
+    "type": "stock",
+    "description": "Fresh and raw meat items",
+    "createdAt": "2026-03-08T16:51:09.949Z",
+    "updatedAt": "2026-03-08T16:51:09.949Z"
+  },
+  {
+    "id": "69ada902d661b3f94ac7308a",
+    "name": "Grains & Flour",
+    "type": "stock",
+    "description": "Injera, flour, and grain products",
+    "createdAt": "2026-03-08T16:51:10.105Z",
+    "updatedAt": "2026-03-08T16:51:10.105Z"
+  },
+  {
+    "id": "69ada9a35f09e072120def29",
+    "name": "Nonalcoholic (ከአልኮል ነፃ መጠጦች)",
+    "type": "menu",
+    "description": "",
+    "createdAt": "2026-03-08T16:53:55.535Z",
+    "updatedAt": "2026-03-08T16:53:55.535Z"
+  },
+  {
+    "id": "69adab3a1909c94013fe8705",
+    "name": "WINE/ዋይን",
+    "type": "menu",
+    "description": "",
+    "createdAt": "2026-03-08T17:00:42.686Z",
+    "updatedAt": "2026-03-26T15:59:14.831Z"
+  },
+  {
+    "id": "69c257a70fe0f5cbf2d70a29",
+    "name": "ELECTRONICS",
+    "type": "fixed-asset",
+    "description": "",
+    "createdAt": "2026-03-24T09:21:43.668Z",
+    "updatedAt": "2026-03-24T09:21:43.668Z"
+  },
+  {
+    "id": "69c2595072227b3b6482a3dc",
+    "name": "SOCIAL COST",
+    "type": "expense",
+    "description": "",
+    "createdAt": "2026-03-24T09:28:48.940Z",
+    "updatedAt": "2026-03-24T09:28:48.940Z"
+  },
+  {
+    "id": "69ad9c778c067844dc60199c",
+    "name": "TIBS/ስላሽ ጥብስ",
+    "type": "menu",
+    "description": "",
+    "createdAt": "2026-03-08T15:57:43.992Z",
+    "updatedAt": "2026-03-26T15:56:52.776Z"
+  },
+  {
+    "id": "69ada902d661b3f94ac73088",
+    "name": "Drinks",
+    "type": "stock",
+    "description": "Bottled and canned beverages",
+    "createdAt": "2026-03-08T16:51:09.784Z",
+    "updatedAt": "2026-03-08T16:51:09.784Z"
+  },
+  {
+    "id": "69ada902d661b3f94ac7308c",
+    "name": "Vegetables",
+    "type": "stock",
+    "description": "Fresh vegetables and fasting ingredients",
+    "createdAt": "2026-03-08T16:51:10.416Z",
+    "updatedAt": "2026-03-08T16:51:10.416Z"
+  },
+  {
+    "id": "69ada902d661b3f94ac7308d",
+    "name": "Food",
+    "type": "stock",
+    "description": "Miscellaneous kitchen items",
+    "createdAt": "2026-03-08T16:51:10.575Z",
+    "updatedAt": "2026-03-24T09:01:03.530Z"
+  },
+  {
+    "id": "69adad746ded5d000be35750",
+    "name": "WHISKY/ዊስኪ",
+    "type": "menu",
+    "description": "",
+    "createdAt": "2026-03-08T17:10:12.985Z",
+    "updatedAt": "2026-03-26T15:55:12.872Z"
+  },
+  {
+    "id": "69add682dda82e3476d358b1",
+    "name": "CHIMARI/ጭማሪ",
+    "type": "menu",
+    "description": "",
+    "createdAt": "2026-03-08T20:05:22.379Z",
+    "updatedAt": "2026-03-26T16:01:42.975Z"
+  },
+  {
+    "id": "69c2537f2b0cf58d82407b15",
+    "name": "REDEMPTION COST",
+    "type": "expense",
+    "description": "",
+    "createdAt": "2026-03-24T09:03:59.542Z",
+    "updatedAt": "2026-03-24T09:03:59.542Z"
+  },
+  {
+    "id": "69c2574f0fe0f5cbf2d70a23",
+    "name": "UTILITY COST",
+    "type": "expense",
+    "description": "",
+    "createdAt": "2026-03-24T09:20:15.374Z",
+    "updatedAt": "2026-03-24T09:20:15.374Z"
+  },
+  {
+    "id": "69c257d8de3c3a50f238e9e4",
+    "name": "CHAIRS",
+    "type": "fixed-asset",
+    "description": "",
+    "createdAt": "2026-03-24T09:22:32.664Z",
+    "updatedAt": "2026-03-29T07:23:29.509Z"
+  },
+  {
+    "id": "69c258a172227b3b6482a3b1",
+    "name": "SANITERY MATERIAL COST",
+    "type": "expense",
+    "description": "",
+    "createdAt": "2026-03-24T09:25:53.973Z",
+    "updatedAt": "2026-03-24T09:25:53.973Z"
+  },
+  {
+    "id": "69c259da72227b3b6482a403",
+    "name": "LABOR COST",
+    "type": "expense",
+    "description": "",
+    "createdAt": "2026-03-24T09:31:06.512Z",
+    "updatedAt": "2026-03-24T09:31:06.512Z"
+  },
+  {
+    "id": "69ad9d224160ae1ed842f7c6",
+    "name": "DEQAQደቃቅ ጥብስ",
+    "type": "menu",
+    "description": "",
+    "createdAt": "2026-03-08T16:00:34.116Z",
+    "updatedAt": "2026-03-26T16:00:19.923Z"
+  },
+  {
+    "id": "69ad9d38065bcfd7df20b930",
+    "name": "fasting foods/የፆም ምግብ",
+    "type": "menu",
+    "description": "",
+    "createdAt": "2026-03-08T16:00:56.389Z",
+    "updatedAt": "2026-03-26T10:27:43.983Z"
+  },
+  {
+    "id": "69ad9d56065bcfd7df20b937",
+    "name": "LOWS/ልውስ",
+    "type": "menu",
+    "description": "",
+    "createdAt": "2026-03-08T16:01:26.119Z",
+    "updatedAt": "2026-03-26T15:56:35.173Z"
+  },
+  {
+    "id": "69ad9d6c065bcfd7df20b93a",
+    "name": "KITFO/ክትፎ",
+    "type": "menu",
+    "description": "",
+    "createdAt": "2026-03-08T16:01:48.782Z",
+    "updatedAt": "2026-03-26T15:59:00.240Z"
+  },
+  {
+    "id": "69ada9ba5f09e072120def2c",
+    "name": "BEER/ቢራ",
+    "type": "menu",
+    "description": "",
+    "createdAt": "2026-03-08T16:54:18.207Z",
+    "updatedAt": "2026-03-26T15:57:48.374Z"
+  },
+  {
+    "id": "69adab911909c94013fe8708",
+    "name": "WATER/ውሃ",
+    "type": "menu",
+    "description": "",
+    "createdAt": "2026-03-08T17:02:09.610Z",
+    "updatedAt": "2026-03-26T15:59:30.937Z"
+  },
+  {
+    "id": "69adbac645435438d9856f62",
+    "name": "DRAFT/ድራፍት",
+    "type": "menu",
+    "description": "",
+    "createdAt": "2026-03-08T18:07:02.927Z",
+    "updatedAt": "2026-03-26T16:00:56.261Z"
+  },
+  {
+    "id": "69c257840fe0f5cbf2d70a26",
+    "name": "FURNITURE",
+    "type": "fixed-asset",
+    "description": "",
+    "createdAt": "2026-03-24T09:21:08.635Z",
+    "updatedAt": "2026-03-24T09:21:08.635Z"
+  },
+  {
+    "id": "69c257f0de3c3a50f238e9eb",
+    "name": "OTHER",
+    "type": "fixed-asset",
+    "description": "",
+    "createdAt": "2026-03-24T09:22:56.848Z",
+    "updatedAt": "2026-03-24T09:22:56.848Z"
+  },
+  {
+    "id": "69ad9c4b8c067844dc60198b",
+    "name": "TRE/ቁርጥ",
+    "type": "menu",
+    "description": "",
+    "createdAt": "2026-03-08T15:56:59.894Z",
+    "updatedAt": "2026-03-26T15:57:29.841Z"
+  },
+  {
+    "id": "69ad9c9eb6500d0deaed8070",
+    "name": "DEREQ/ደረቅ ጥብስ",
+    "type": "menu",
+    "description": "",
+    "createdAt": "2026-03-08T15:58:22.029Z",
+    "updatedAt": "2026-03-26T16:00:02.236Z"
+  },
+  {
+    "id": "69ada795b572190fea7cf384",
+    "name": "DULET/ዱለት",
+    "type": "menu",
+    "description": "",
+    "createdAt": "2026-03-08T16:45:09.914Z",
+    "updatedAt": "2026-03-26T16:00:39.970Z"
+  },
+  {
+    "id": "69ada902d661b3f94ac7308b",
+    "name": "Coffee & Tea",
+    "type": "stock",
+    "description": "Coffee beans, tea leaves, and sugar",
+    "createdAt": "2026-03-08T16:51:10.260Z",
+    "updatedAt": "2026-03-08T16:51:10.260Z"
+  },
+  {
+    "id": "69ada9c65f09e072120def2f",
+    "name": "LESLASA/ለስላሳ",
+    "type": "menu",
+    "description": "",
+    "createdAt": "2026-03-08T16:54:30.583Z",
+    "updatedAt": "2026-03-26T15:56:04.477Z"
+  },
+  {
+    "id": "69adad026ded5d000be3574d",
+    "name": "HOT DRINKS/ትኩስ መጠጥ",
+    "type": "menu",
+    "description": "",
+    "createdAt": "2026-03-08T17:08:18.786Z",
+    "updatedAt": "2026-03-26T15:58:20.113Z"
+  },
+  {
+    "id": "69ae27be6e71ca673087d09e",
+    "name": "GODEN/ጎድን ጥብስ",
+    "type": "menu",
+    "description": "",
+    "createdAt": "2026-03-09T01:51:58.308Z",
+    "updatedAt": "2026-03-26T16:01:22.402Z"
+  },
+  {
+    "id": "69c50420cab647c064822746",
+    "name": "NATIONAL BREAKFAST",
+    "type": "menu",
+    "description": "",
+    "createdAt": "2026-03-26T10:02:08.910Z",
+    "updatedAt": "2026-03-26T10:02:08.910Z"
+  },
+  {
+    "id": "69c50430cab647c064822749",
+    "name": "SOUP",
+    "type": "menu",
+    "description": "",
+    "createdAt": "2026-03-26T10:02:24.524Z",
+    "updatedAt": "2026-03-26T10:02:24.524Z"
+  },
+  {
+    "id": "69c5044ccab647c06482274c",
+    "name": "MAIN DISH",
+    "type": "menu",
+    "description": "",
+    "createdAt": "2026-03-26T10:02:52.693Z",
+    "updatedAt": "2026-03-26T10:02:52.693Z"
+  },
+  {
+    "id": "69c50467cab647c06482274f",
+    "name": "CHICKEN MAIN DISH",
+    "type": "menu",
+    "description": "",
+    "createdAt": "2026-03-26T10:03:19.624Z",
+    "updatedAt": "2026-03-26T10:04:07.628Z"
+  },
+  {
+    "id": "69c504c9cab647c06482275a",
+    "name": "NATIONAL DISH",
+    "type": "menu",
+    "description": "",
+    "createdAt": "2026-03-26T10:04:57.200Z",
+    "updatedAt": "2026-03-26T10:04:57.200Z"
+  },
+  {
+    "id": "69c556f8b976c99c2e96daa7",
+    "name": "VODKA",
+    "type": "menu",
+    "description": "",
+    "createdAt": "2026-03-26T15:55:36.198Z",
+    "updatedAt": "2026-03-26T15:55:36.198Z"
+  },
+  {
+    "id": "69c5592348ecd121d11d671d",
+    "name": "CREAM LIQUEUR",
+    "type": "menu",
+    "description": "",
+    "createdAt": "2026-03-26T16:04:51.834Z",
+    "updatedAt": "2026-03-26T16:04:51.834Z"
+  },
+  {
+    "id": "69c6c2c5012351a3bde6debb",
+    "name": "YEFYEL TIBS",
+    "type": "menu",
+    "description": "",
+    "createdAt": "2026-03-27T17:47:49.531Z",
+    "updatedAt": "2026-03-27T17:47:49.531Z"
+  },
+  {
+    "id": "69c8cfac921fbe18a3963502",
+    "name": "SPECIAL",
+    "type": "menu",
+    "description": "",
+    "createdAt": "2026-03-29T07:07:24.400Z",
+    "updatedAt": "2026-03-29T07:07:24.400Z"
+  },
+  {
+    "id": "69c8d2b6b8014177e843edc8",
+    "name": "KITCHIN EQUPMENT",
+    "type": "fixed-asset",
+    "description": "",
+    "createdAt": "2026-03-29T07:20:22.828Z",
+    "updatedAt": "2026-03-29T07:20:22.828Z"
+  },
+  {
+    "id": "69c9011c558cc489dcf07bcf",
+    "name": "VIP",
+    "type": "room",
+    "description": "",
+    "createdAt": "2026-03-29T10:38:20.684Z",
+    "updatedAt": "2026-03-29T10:38:20.684Z"
+  },
+  {
+    "id": "69c95803558cc489dcf09e0d",
+    "name": "AYIB/አይብ",
+    "type": "vip1-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:49:07.295Z",
+    "updatedAt": "2026-03-29T16:49:07.295Z"
+  },
+  {
+    "id": "69c95813558cc489dcf09e14",
+    "name": "Alcoholic(አልኮል መጠጥ)",
+    "type": "vip1-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:49:23.688Z",
+    "updatedAt": "2026-03-29T16:49:23.688Z"
+  },
+  {
+    "id": "69c95819558cc489dcf09e1a",
+    "name": "BEER/ቢራ",
+    "type": "vip1-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:49:29.986Z",
+    "updatedAt": "2026-03-29T16:49:29.986Z"
+  },
+  {
+    "id": "69c9581f558cc489dcf09e1f",
+    "name": "CHICKEN MAIN DISH",
+    "type": "vip1-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:49:35.914Z",
+    "updatedAt": "2026-03-29T16:49:35.914Z"
+  },
+  {
+    "id": "69c95827558cc489dcf09e24",
+    "name": "CHIMARI/ጭማሪ",
+    "type": "vip1-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:49:43.117Z",
+    "updatedAt": "2026-03-29T16:49:43.117Z"
+  },
+  {
+    "id": "69c95830558cc489dcf09e2a",
+    "name": "CREAM LIQUEUR",
+    "type": "vip1-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:49:52.779Z",
+    "updatedAt": "2026-03-29T16:49:52.779Z"
+  },
+  {
+    "id": "69c95837558cc489dcf09e2f",
+    "name": "DEREQ/ደረቅ ጥብስ",
+    "type": "vip1-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:49:59.365Z",
+    "updatedAt": "2026-03-29T16:49:59.365Z"
+  },
+  {
+    "id": "69c9583d558cc489dcf09e35",
+    "name": "DRAFT/ድራፍት",
+    "type": "vip1-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:50:05.508Z",
+    "updatedAt": "2026-03-29T16:50:05.508Z"
+  },
+  {
+    "id": "69c95843558cc489dcf09e3a",
+    "name": "DULET/ዱለት",
+    "type": "vip1-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:50:11.003Z",
+    "updatedAt": "2026-03-29T16:50:11.003Z"
+  },
+  {
+    "id": "69c95848558cc489dcf09e3f",
+    "name": "GODEN/ጎድን ጥብስ",
+    "type": "vip1-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:50:16.481Z",
+    "updatedAt": "2026-03-29T16:50:16.481Z"
+  },
+  {
+    "id": "69c9584e558cc489dcf09e44",
+    "name": "HOT DRINKS/ትኩስ መጠጥ",
+    "type": "vip1-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:50:22.437Z",
+    "updatedAt": "2026-03-29T16:50:22.437Z"
+  },
+  {
+    "id": "69c95854558cc489dcf09e49",
+    "name": "KITFO/ክትፎ",
+    "type": "vip1-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:50:28.223Z",
+    "updatedAt": "2026-03-29T16:50:28.223Z"
+  },
+  {
+    "id": "69c9585a558cc489dcf09e4e",
+    "name": "LESLASA/ለስላሳ",
+    "type": "vip1-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:50:34.253Z",
+    "updatedAt": "2026-03-29T16:50:34.253Z"
+  },
+  {
+    "id": "69c95862558cc489dcf09e54",
+    "name": "LOWS/ልውስ",
+    "type": "vip1-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:50:42.176Z",
+    "updatedAt": "2026-03-29T16:50:42.176Z"
+  },
+  {
+    "id": "69c95867558cc489dcf09e59",
+    "name": "MAIN DISH",
+    "type": "vip1-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:50:47.073Z",
+    "updatedAt": "2026-03-29T16:50:47.073Z"
+  },
+  {
+    "id": "69c9586c558cc489dcf09e5e",
+    "name": "NATIONAL BREAKFAST",
+    "type": "vip1-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:50:52.847Z",
+    "updatedAt": "2026-03-29T16:50:52.847Z"
+  },
+  {
+    "id": "69c95872558cc489dcf09e63",
+    "name": "NATIONAL DISH",
+    "type": "vip1-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:50:58.001Z",
+    "updatedAt": "2026-03-29T16:50:58.001Z"
+  },
+  {
+    "id": "69c95879558cc489dcf09e69",
+    "name": "Nonalcoholic (ከአልኮል ነፃ መጠጦች)",
+    "type": "vip1-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:51:05.171Z",
+    "updatedAt": "2026-03-29T16:51:05.171Z"
+  },
+  {
+    "id": "69c9587e558cc489dcf09e6e",
+    "name": "SOUP",
+    "type": "vip1-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:51:10.555Z",
+    "updatedAt": "2026-03-29T16:51:10.555Z"
+  },
+  {
+    "id": "69c95883558cc489dcf09e73",
+    "name": "SPECIAL",
+    "type": "vip1-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:51:15.733Z",
+    "updatedAt": "2026-03-29T16:51:15.733Z"
+  },
+  {
+    "id": "69c9588a558cc489dcf09e78",
+    "name": "TIBS/ስላሽ ጥብስ",
+    "type": "vip1-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:51:22.765Z",
+    "updatedAt": "2026-03-29T16:51:22.765Z"
+  },
+  {
+    "id": "69c9588f558cc489dcf09e7d",
+    "name": "TRE/ቁርጥ",
+    "type": "vip1-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:51:27.890Z",
+    "updatedAt": "2026-03-29T16:51:27.890Z"
+  },
+  {
+    "id": "69c95896558cc489dcf09e82",
+    "name": "VODKA",
+    "type": "vip1-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:51:34.329Z",
+    "updatedAt": "2026-03-29T16:51:34.329Z"
+  },
+  {
+    "id": "69c9589c558cc489dcf09e88",
+    "name": "WATER/ውሃ",
+    "type": "vip1-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:51:40.161Z",
+    "updatedAt": "2026-03-29T16:51:40.161Z"
+  },
+  {
+    "id": "69c958a2558cc489dcf09e8d",
+    "name": "WHISKY/ዊስኪ",
+    "type": "vip1-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:51:46.018Z",
+    "updatedAt": "2026-03-29T16:51:46.018Z"
+  },
+  {
+    "id": "69c958a8558cc489dcf09e92",
+    "name": "WINE/ዋይን",
+    "type": "vip1-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:51:52.395Z",
+    "updatedAt": "2026-03-29T16:51:52.395Z"
+  },
+  {
+    "id": "69c958ae558cc489dcf09e98",
+    "name": "YEFYEL TIBS",
+    "type": "vip1-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:51:58.561Z",
+    "updatedAt": "2026-03-29T16:51:58.561Z"
+  },
+  {
+    "id": "69c958bc558cc489dcf09e9f",
+    "name": "fasting foods/የፆም ምግብ",
+    "type": "vip1-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:52:12.297Z",
+    "updatedAt": "2026-03-29T16:52:12.297Z"
+  },
+  {
+    "id": "69c958c3558cc489dcf09ea4",
+    "name": "hollando/ሆላንዶ/ትቢት",
+    "type": "vip1-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:52:19.253Z",
+    "updatedAt": "2026-03-29T16:52:19.253Z"
+  },
+  {
+    "id": "69c958fc558cc489dcf09ed4",
+    "name": "AYIB/አይብ",
+    "type": "vip2-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:53:16.317Z",
+    "updatedAt": "2026-03-29T16:53:16.317Z"
+  },
+  {
+    "id": "69c95905558cc489dcf09eda",
+    "name": "Alcoholic(አልኮል መጠጥ)",
+    "type": "vip2-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:53:25.638Z",
+    "updatedAt": "2026-03-29T16:53:25.638Z"
+  },
+  {
+    "id": "69c9590f558cc489dcf09ee0",
+    "name": "BEER/ቢራ",
+    "type": "vip2-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:53:35.138Z",
+    "updatedAt": "2026-03-29T16:53:35.138Z"
+  },
+  {
+    "id": "69c95917558cc489dcf09ee5",
+    "name": "CHICKEN MAIN DISH",
+    "type": "vip2-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:53:43.150Z",
+    "updatedAt": "2026-03-29T16:53:43.150Z"
+  },
+  {
+    "id": "69c9591f558cc489dcf09eec",
+    "name": "CHIMARI/ጭማሪ",
+    "type": "vip2-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:53:51.317Z",
+    "updatedAt": "2026-03-29T16:53:51.317Z"
+  },
+  {
+    "id": "69c9592d558cc489dcf09ef4",
+    "name": "CREAM LIQUEUR",
+    "type": "vip2-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:54:05.004Z",
+    "updatedAt": "2026-03-29T16:54:05.004Z"
+  },
+  {
+    "id": "69c95935558cc489dcf09efb",
+    "name": "DEREQ/ደረቅ ጥብስ",
+    "type": "vip2-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:54:13.945Z",
+    "updatedAt": "2026-03-29T16:54:13.945Z"
+  },
+  {
+    "id": "69c95940558cc489dcf09f02",
+    "name": "DRAFT/ድራፍት",
+    "type": "vip2-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:54:24.981Z",
+    "updatedAt": "2026-03-29T16:54:24.981Z"
+  },
+  {
+    "id": "69c95949558cc489dcf09f07",
+    "name": "DULET/ዱለት",
+    "type": "vip2-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:54:33.184Z",
+    "updatedAt": "2026-03-29T16:54:33.184Z"
+  },
+  {
+    "id": "69c95951558cc489dcf09f0d",
+    "name": "GODEN/ጎድን ጥብስ",
+    "type": "vip2-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:54:41.910Z",
+    "updatedAt": "2026-03-29T16:54:41.910Z"
+  },
+  {
+    "id": "69c9595a558cc489dcf09f13",
+    "name": "HOT DRINKS/ትኩስ መጠጥ",
+    "type": "vip2-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:54:50.401Z",
+    "updatedAt": "2026-03-29T16:54:50.401Z"
+  },
+  {
+    "id": "69c95963558cc489dcf09f18",
+    "name": "KITFO/ክትፎ",
+    "type": "vip2-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:54:59.546Z",
+    "updatedAt": "2026-03-29T16:54:59.546Z"
+  },
+  {
+    "id": "69c9596b558cc489dcf09f1e",
+    "name": "LESLASA/ለስላሳ",
+    "type": "vip2-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:55:07.364Z",
+    "updatedAt": "2026-03-29T16:55:07.364Z"
+  },
+  {
+    "id": "69c95976558cc489dcf09f24",
+    "name": "LOWS/ልውስ",
+    "type": "vip2-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:55:18.025Z",
+    "updatedAt": "2026-03-29T16:55:18.025Z"
+  },
+  {
+    "id": "69c9597e558cc489dcf09f2a",
+    "name": "MAIN DISH",
+    "type": "vip2-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:55:26.656Z",
+    "updatedAt": "2026-03-29T16:55:26.656Z"
+  },
+  {
+    "id": "69c95986558cc489dcf09f2f",
+    "name": "NATIONAL BREAKFAST",
+    "type": "vip2-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:55:34.706Z",
+    "updatedAt": "2026-03-29T16:55:34.706Z"
+  },
+  {
+    "id": "69c9598f558cc489dcf09f35",
+    "name": "NATIONAL DISH",
+    "type": "vip2-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:55:43.021Z",
+    "updatedAt": "2026-03-29T16:55:43.021Z"
+  },
+  {
+    "id": "69c95997558cc489dcf09f3b",
+    "name": "Nonalcoholic (ከአልኮል ነፃ መጠጦች)",
+    "type": "vip2-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:55:51.919Z",
+    "updatedAt": "2026-03-29T16:55:51.919Z"
+  },
+  {
+    "id": "69c959a0558cc489dcf09f41",
+    "name": "SOUP",
+    "type": "vip2-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:56:00.921Z",
+    "updatedAt": "2026-03-29T16:56:00.921Z"
+  },
+  {
+    "id": "69c959af558cc489dcf09f48",
+    "name": "SPECIAL",
+    "type": "vip2-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:56:15.251Z",
+    "updatedAt": "2026-03-29T16:56:15.251Z"
+  },
+  {
+    "id": "69c959b7558cc489dcf09f4d",
+    "name": "TIBS/ስላሽ ጥብስ",
+    "type": "vip2-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:56:23.646Z",
+    "updatedAt": "2026-03-29T16:56:23.646Z"
+  },
+  {
+    "id": "69c959c0558cc489dcf09f53",
+    "name": "TRE/ቁርጥ",
+    "type": "vip2-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:56:32.256Z",
+    "updatedAt": "2026-03-29T16:56:32.256Z"
+  },
+  {
+    "id": "69c959ca558cc489dcf09f59",
+    "name": "VODKA",
+    "type": "vip2-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:56:42.643Z",
+    "updatedAt": "2026-03-29T16:56:42.643Z"
+  },
+  {
+    "id": "69c959d2558cc489dcf09f5f",
+    "name": "WATER/ውሃ",
+    "type": "vip2-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:56:50.835Z",
+    "updatedAt": "2026-03-29T16:56:50.835Z"
+  },
+  {
+    "id": "69c959df558cc489dcf09f66",
+    "name": "WHISKY/ዊስኪ",
+    "type": "vip2-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:57:03.680Z",
+    "updatedAt": "2026-03-29T16:57:03.680Z"
+  },
+  {
+    "id": "69c959ed558cc489dcf09f6d",
+    "name": "WINE/ዋይን",
+    "type": "vip2-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:57:17.016Z",
+    "updatedAt": "2026-03-29T16:57:17.016Z"
+  },
+  {
+    "id": "69c959f6558cc489dcf09f73",
+    "name": "YEFYEL TIBS",
+    "type": "vip2-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:57:26.640Z",
+    "updatedAt": "2026-03-29T16:57:26.640Z"
+  },
+  {
+    "id": "69c95a00558cc489dcf09f79",
+    "name": "fasting foods/የፆም ምግብ",
+    "type": "vip2-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:57:36.190Z",
+    "updatedAt": "2026-03-29T16:57:36.190Z"
+  },
+  {
+    "id": "69c95a09558cc489dcf09f7f",
+    "name": "hollando/ሆላንዶ/ትቢት",
+    "type": "vip2-menu",
+    "description": "",
+    "createdAt": "2026-03-29T16:57:45.076Z",
+    "updatedAt": "2026-03-29T16:57:45.076Z"
+  },
+  {
+    "id": "69cba5b640400243cb842fbb",
+    "name": "pakage food",
+    "type": "menu",
+    "description": "",
+    "createdAt": "2026-03-31T10:45:10.777Z",
+    "updatedAt": "2026-03-31T10:45:10.777Z"
+  },
+  {
+    "id": "69cbbb1b3a2884d91ebd468d",
+    "name": "dekake tibs",
+    "type": "vip1-menu",
+    "description": "",
+    "createdAt": "2026-03-31T12:16:27.386Z",
+    "updatedAt": "2026-03-31T12:16:27.386Z"
+  },
+  {
+    "id": "69cbbb609908e058400d789e",
+    "name": "DEKAKE TIBS",
+    "type": "vip1-menu",
+    "description": "",
+    "createdAt": "2026-03-31T12:17:36.994Z",
+    "updatedAt": "2026-03-31T12:17:36.994Z"
+  },
+  {
+    "id": "69cbc6649997672abf5b5b6c",
+    "name": "DEKAKE TIBS",
+    "type": "vip2-menu",
+    "description": "",
+    "createdAt": "2026-03-31T13:04:36.074Z",
+    "updatedAt": "2026-03-31T13:04:36.074Z"
+  },
+  {
+    "id": "69cfc9b2d2977aba72a9baa7",
+    "name": "out order",
+    "type": "menu",
+    "description": "",
+    "createdAt": "2026-04-03T14:07:46.174Z",
+    "updatedAt": "2026-04-03T14:07:46.174Z"
+  },
+  {
+    "id": "69df8cf37f532cb5b82869ae",
+    "name": "ገባ ወጣ",
+    "type": "distribution",
+    "description": "",
+    "createdAt": "2026-04-15T13:04:51.734Z",
+    "updatedAt": "2026-04-15T13:04:51.734Z"
+  },
+  {
+    "id": "69df8d007f532cb5b82869bc",
+    "name": "ለብለብ",
+    "type": "distribution",
+    "description": "",
+    "createdAt": "2026-04-15T13:05:04.290Z",
+    "updatedAt": "2026-04-15T13:05:04.290Z"
+  },
+  {
+    "id": "69df8d057f532cb5b82869bf",
+    "name": "ቀይ",
+    "type": "distribution",
+    "description": "",
+    "createdAt": "2026-04-15T13:05:09.151Z",
+    "updatedAt": "2026-04-15T13:05:09.151Z"
+  },
+  {
+    "id": "69e254bb189e8464b8ed0412",
+    "name": "ስላሽ",
+    "type": "distribution",
+    "description": "",
+    "createdAt": "2026-04-17T15:41:47.675Z",
+    "updatedAt": "2026-04-17T15:41:47.675Z"
+  },
+  {
+    "id": "69e254d5583797ce6e6e0b92",
+    "name": "በመረቅ",
+    "type": "distribution",
+    "description": "",
+    "createdAt": "2026-04-17T15:42:13.982Z",
+    "updatedAt": "2026-04-17T15:42:13.982Z"
+  },
+  {
+    "id": "69e254eb583797ce6e6e0b99",
+    "name": "በሽፍንፍን",
+    "type": "distribution",
+    "description": "",
+    "createdAt": "2026-04-17T15:42:35.003Z",
+    "updatedAt": "2026-04-17T15:42:35.003Z"
+  },
+  {
+    "id": "69e254f8189e8464b8ed0421",
+    "name": "ኮሌክሽን",
+    "type": "distribution",
+    "description": "",
+    "createdAt": "2026-04-17T15:42:48.321Z",
+    "updatedAt": "2026-04-17T15:42:48.321Z"
+  },
+  {
+    "id": "69e25504189e8464b8ed0427",
+    "name": "ዝልዝል",
+    "type": "distribution",
+    "description": "",
+    "createdAt": "2026-04-17T15:43:00.630Z",
+    "updatedAt": "2026-04-17T15:43:00.630Z"
+  },
+  {
+    "id": "69e2550e583797ce6e6e0b9f",
+    "name": "የበሰለ",
+    "type": "distribution",
+    "description": "",
+    "createdAt": "2026-04-17T15:43:10.640Z",
+    "updatedAt": "2026-04-17T15:43:10.640Z"
+  },
+  {
+    "id": "69e25522583797ce6e6e0ba5",
+    "name": "የደረበ",
+    "type": "distribution",
+    "description": "",
+    "createdAt": "2026-04-17T15:43:30.392Z",
+    "updatedAt": "2026-04-17T15:43:30.392Z"
+  },
+  {
+    "id": "69e26887f2820ba42eaab110",
+    "name": "WISKI",
+    "type": "stock",
+    "description": "",
+    "createdAt": "2026-04-17T17:06:15.990Z",
+    "updatedAt": "2026-04-17T17:06:15.990Z"
+  }
+]
