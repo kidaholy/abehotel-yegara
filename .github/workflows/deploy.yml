@@ -32,7 +32,6 @@ jobs:
       - name: Prepare Standalone Folder
         run: |
           cp -r public .next/standalone/
-          cp -r data .next/standalone/
           cp -r scripts .next/standalone/
           cp app.js .next/standalone/
           mkdir -p .next/standalone/.next
