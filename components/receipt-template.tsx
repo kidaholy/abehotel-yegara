@@ -177,6 +177,24 @@ export const getReceiptHTML = ({
   `
 }
 
+/** Opens the browser print dialog for pre-built receipt HTML (hidden iframe, same as POS checkout). */
+export function printReceiptFromHTML(html: string): void {
+  const iframe = document.createElement("iframe")
+  Object.assign(iframe.style, { position: "fixed", right: "0", bottom: "0", width: "0", height: "0", border: "0" })
+  document.body.appendChild(iframe)
+  const doc = iframe.contentWindow?.document
+  if (doc) {
+    doc.open()
+    doc.write(html)
+    doc.close()
+    setTimeout(() => {
+      iframe.contentWindow?.focus()
+      iframe.contentWindow?.print()
+      setTimeout(() => document.body.removeChild(iframe), 500)
+    }, 300)
+  }
+}
+
 // Keep the component for backward compatibility if needed, 
 // but we will primarily use the HTML string for iframe printing.
 export const ReceiptTemplate = ({ orderNumber, tableNumber, items, subtotal, tax, total, paperWidth = 80 }: any) => {

@@ -4,7 +4,9 @@ import { useState, useEffect } from "react"
 import { ProtectedRoute } from "@/components/protected-route"
 import { BentoNavbar } from "@/components/bento-navbar"
 import { useAuth } from "@/context/auth-context"
+import { useSettings } from "@/context/settings-context"
 import { useConfirmation } from "@/hooks/use-confirmation"
+import { getReceiptHTML, printReceiptFromHTML } from "@/components/receipt-template"
 import { NotificationCard } from "@/components/confirmation-card"
 import { ConciergeBell, Check, X, Clock, AlertCircle } from "lucide-react"
 import { useRef } from "react"
@@ -13,8 +15,53 @@ export default function RoomOrdersPage() {
   const [orders, setOrders] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const { token } = useAuth()
+  const { settings } = useSettings()
   const { notify, notificationState, closeNotification } = useConfirmation()
   const prevCount = useRef(0)
+
+  const printRoomApprovalReceipt = (order: any) => {
+    if (settings.enable_cashier_printing === "false") return
+    const vatRate = parseFloat(settings.vat_rate || "0.08")
+    const total = Number(order.totalAmount ?? 0)
+    const subtotal =
+      order.subtotal != null && order.subtotal !== ""
+        ? Number(order.subtotal)
+        : total / (1 + vatRate)
+    const tax =
+      order.tax != null && order.tax !== "" ? Number(order.tax) : total - subtotal
+    const floorName = order.floorNumber ? `Floor #${order.floorNumber}` : ""
+    const tableLabel = order.tableNumber || order.customerName || "Room"
+
+    const printCopy = (copyType: "KITCHEN" | "CUSTOMER") => {
+      printReceiptFromHTML(
+        getReceiptHTML({
+          orderNumber: String(order.orderNumber ?? ""),
+          tableNumber: tableLabel,
+          batchNumber: order.batchNumber || undefined,
+          distributions: order.distributions || [],
+          items: (order.items || []).map((item: any) => ({
+            menuId: item.menuId,
+            name: item.name,
+            quantity: Number(item.quantity ?? 1),
+            price: Number(item.price ?? 0),
+          })),
+          subtotal,
+          tax,
+          total,
+          date: new Date(order.createdAt),
+          paperWidth: 80,
+          appName: settings.app_name,
+          appTagline: settings.app_tagline,
+          vatRate: settings.vat_rate,
+          floorName,
+          copyType,
+        }),
+      )
+    }
+
+    printCopy("KITCHEN")
+    setTimeout(() => printCopy("CUSTOMER"), 1000)
+  }
 
   const fetchOrders = async () => {
     if (!token) return
@@ -48,8 +95,9 @@ export default function RoomOrdersPage() {
     return () => clearInterval(interval)
   }, [token])
 
-  const handleAction = async (orderId: string, action: 'approve' | 'deny') => {
+  const handleAction = async (order: any, action: "approve" | "deny") => {
     if (!token) return
+    const orderId = order._id || order.id
     try {
       const newStatus = action === 'approve' ? 'pending' : 'cancelled'
       const res = await fetch(`/api/orders/${orderId}`, {
@@ -67,6 +115,9 @@ export default function RoomOrdersPage() {
           message: `Order successfully ${action === 'approve' ? 'approved to kitchen' : 'denied'}.`,
           type: "success"
         })
+        if (action === "approve") {
+          setTimeout(() => printRoomApprovalReceipt(order), 400)
+        }
         fetchOrders()
       } else {
         const err = await res.json()
@@ -166,13 +217,13 @@ export default function RoomOrdersPage() {
 
                     <div className="p-4 bg-[#0f1110] border-t border-white/5 grid grid-cols-2 gap-3 shrink-0">
                       <button 
-                        onClick={() => handleAction(order._id, 'deny')}
+                        onClick={() => handleAction(order, 'deny')}
                         className="flex items-center justify-center gap-2 bg-red-950/20 hover:bg-red-900/40 text-red-400 border border-red-900/30 rounded-xl py-3 font-bold text-[10px] uppercase tracking-widest transition-colors"
                       >
                         <X size={14} /> Deny
                       </button>
                       <button 
-                        onClick={() => handleAction(order._id, 'approve')}
+                        onClick={() => handleAction(order, 'approve')}
                         className="flex items-center justify-center gap-2 bg-emerald-950/20 hover:bg-emerald-900/40 text-emerald-400 border border-emerald-900/30 rounded-xl py-3 font-bold text-[10px] uppercase tracking-widest transition-colors"
                       >
                         <Check size={14} /> Approve
