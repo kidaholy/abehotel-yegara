@@ -50,10 +50,9 @@ export default function LoginPage() {
     <div className="min-h-screen bg-[#0f1110] flex items-center justify-center p-4 relative overflow-hidden">
       
       {/* Background Image & Overlay */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-cover bg-center opacity-30 transition-opacity duration-1000" style={{ backgroundImage: "url('/menu-items-variety.jpg')" }} />
-        <GoldMeshBackdrop variant="login" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0f1110]/40 to-[#0f1110]/95" />
+      <div className="absolute inset-0 z-0 bg-[#0f1110]">
+        <div className="absolute inset-0 bg-cover bg-center opacity-30 transition-opacity duration-1000 mix-blend-luminosity" style={{ backgroundImage: "url('/menu-items-variety.jpg')" }} />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0f1110]/90 via-[#0f1110]/50 to-[#0f1110]" />
       </div>
 
       {/* Language Switcher - Top Right */}
