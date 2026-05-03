@@ -22,7 +22,7 @@ const SettingsContext = createContext<SettingsContextType | undefined>(undefined
 
 export function SettingsProvider({ children }: { children: ReactNode }) {
   const [settings, setSettings] = useState<AppSettings>({
-    logo_url: "/logo.jpg",
+    logo_url: "",
     favicon_url: "",
     app_name: "ABE HOTEL",
     app_tagline: "Quiet Luxury Redefined",

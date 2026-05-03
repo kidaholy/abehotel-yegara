@@ -5,8 +5,8 @@ import { useAuth } from "@/context/auth-context"
 import { useSettings } from "@/context/settings-context"
 import { Logo } from "@/components/logo"
 import Link from "next/link"
-import Image from "next/image"
 import type React from "react"
+import { GoldMeshBackdrop } from "@/components/gold-mesh-backdrop"
 
 import { useLanguage } from "@/context/language-context"
 import { LanguageSwitcher } from "@/components/language-switcher"
@@ -51,14 +51,8 @@ export default function LoginPage() {
       
       {/* Background Image & Overlay */}
       <div className="absolute inset-0 z-0">
-        <Image 
-            src="/bed-plate-bg.png" 
-            alt="Abe Hotel Background" 
-            fill
-            className="object-cover opacity-20 scale-105"
-            priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0f1110]/80 to-[#0f1110]"></div>
+        <GoldMeshBackdrop variant="login" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0f1110]/80 to-[#0f1110]" />
       </div>
 
       {/* Language Switcher - Top Right */}

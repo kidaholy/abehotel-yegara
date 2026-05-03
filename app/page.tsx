@@ -1,9 +1,8 @@
 "use client"
 
 import Link from "next/link"
-import Image from "next/image"
-import { ShoppingCart, ArrowRight, Star, TrendingUp, Clock, ChevronRight } from "lucide-react"
 import { Logo } from "@/components/logo"
+import { GoldMeshBackdrop } from "@/components/gold-mesh-backdrop"
 import { useSettings } from "@/context/settings-context"
 import { useLanguage } from "@/context/language-context"
 import { LanguageSwitcher } from "@/components/language-switcher"
@@ -33,14 +32,8 @@ export default function WelcomePage() {
             {/* Hero Section */}
             <header className="relative h-[95vh] flex items-center justify-center overflow-hidden">
                 <div className="absolute inset-0 z-0">
-                    <Image 
-                        src="/bed-plate-bg.png" 
-                        alt="Abe Hotel Suite and Cuisine" 
-                        fill
-                        className="object-cover opacity-50 scale-105 animate-[float_20s_ease-in-out_infinite]"
-                        priority
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0f1110]/40 to-[#0f1110]"></div>
+                    <GoldMeshBackdrop variant="landing" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0f1110]/40 to-[#0f1110]" />
                 </div>
 
                 <div className="relative z-10 text-center px-6 max-w-4xl pt-10">
