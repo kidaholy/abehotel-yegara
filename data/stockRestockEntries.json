@@ -1,0 +1,13 @@
+[
+  {
+    "id": "xhkvly94gfvrdc5f47nx",
+    "createdAt": "2026-05-02T16:50:15.345Z",
+    "updatedAt": "2026-05-02T16:50:15.345Z",
+    "stockId": "69ada903d661b3f94ac7308e",
+    "quantityAdded": 100,
+    "totalPurchaseCost": 499,
+    "unitCostAtTime": 0,
+    "notes": "Restocked 100 pcs for total cost 499 Br",
+    "restockedById": "69c45a78ba1175fcacd0abd3"
+  }
+]
