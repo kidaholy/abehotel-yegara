@@ -32,7 +32,7 @@ export default function WelcomePage() {
             {/* Hero Section */}
             <header className="relative h-[95vh] flex items-center justify-center overflow-hidden">
                 <div className="absolute inset-0 z-0">
-                    <div className="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 opacity-60" style={{ backgroundImage: "url('/bed-plate-bg.png')" }} />
+                    <div className="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 opacity-60" style={{ backgroundImage: "url('/menu-items-variety.jpg')" }} />
                     <GoldMeshBackdrop variant="landing" />
                     <div className="absolute inset-0 bg-gradient-to-b from-[#0f1110]/30 via-transparent to-[#0f1110]" />
                 </div>
