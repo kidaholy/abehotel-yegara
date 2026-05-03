@@ -1,3 +1,0 @@
-module.exports=[85162,e=>{"use strict";var t=e.i(64328);let r=new t.Schema({floorNumber:{type:String,required:!0,trim:!0,unique:!0},description:{type:String},order:{type:Number,default:0},isActive:{type:Boolean,default:!0},isVIP:{type:Boolean,default:!1},type:{type:String,enum:["standard","vip"],default:"standard"},status:{type:String,default:"active"},roomServiceCashierId:{type:t.Schema.Types.ObjectId,ref:"User"},roomServiceMenuTier:{type:String,enum:["standard","vip1","vip2"],default:"standard"}},{timestamps:!0});t.default.models.Floor&&delete t.default.models.Floor;let d=t.default.model("Floor",r);e.s(["default",0,d])}];
-
-//# sourceMappingURL=lib_models_floor_ts_81d03db7._.js.map

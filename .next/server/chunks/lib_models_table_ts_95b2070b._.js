@@ -1,3 +1,0 @@
-module.exports=[84815,e=>{"use strict";var t=e.i(64328);let a=new t.Schema({tableNumber:{type:String,required:!0,unique:!0},name:{type:String},floorId:{type:t.Schema.Types.ObjectId,ref:"Floor"},isVIP:{type:Boolean,default:!1},status:{type:String,enum:["active","inactive","maintenance"],default:"active"},capacity:{type:Number}},{timestamps:!0});t.default.models.Table&&delete t.default.models.Table;let l=t.default.model("Table",a);e.s(["default",0,l])}];
-
-//# sourceMappingURL=lib_models_table_ts_95b2070b._.js.map

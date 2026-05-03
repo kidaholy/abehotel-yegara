@@ -1,12 +1,20 @@
-// This file is the entry point for Phusion Passenger on Yegara/cPanel.
-// It loads the standalone Next.js server.
+// Passenger entry point for cPanel/Yegara hosting
+// This file is required by Phusion Passenger to serve the Next.js app
 
-const path = require('path');
+const { createServer } = require('http');
+const { parse } = require('url');
+const next = require('next');
 
-// Set the port to what Passenger expects (it usually passes it via an environment variable or a socket)
-process.env.PORT = process.env.PORT || 3000;
-process.env.NODE_ENV = 'production';
+const port = parseInt(process.env.PORT || '3000', 10);
+const dev = process.env.NODE_ENV !== 'production';
+const app = next({ dev });
+const handle = app.getRequestHandler();
 
-// Import the standalone server
-// In the standalone build, server.js is the main entry point
-require('./server.js');
+app.prepare().then(() => {
+    createServer((req, res) => {
+        const parsedUrl = parse(req.url, true);
+        handle(req, res, parsedUrl);
+    }).listen(port, () => {
+        console.log(`> AbeHotel ready on port ${port} [${dev ? 'development' : 'production'}]`);
+    });
+});

@@ -294,30 +294,6 @@
       "namedRegex": "^/api/admin/menu(?:/)?$"
     },
     {
-      "page": "/api/admin/menu/deep-fix",
-      "regex": "^/api/admin/menu/deep\\-fix(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/api/admin/menu/deep\\-fix(?:/)?$"
-    },
-    {
-      "page": "/api/admin/menu/diagnostics",
-      "regex": "^/api/admin/menu/diagnostics(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/api/admin/menu/diagnostics(?:/)?$"
-    },
-    {
-      "page": "/api/admin/menu/normalize",
-      "regex": "^/api/admin/menu/normalize(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/api/admin/menu/normalize(?:/)?$"
-    },
-    {
-      "page": "/api/admin/menu/swap",
-      "regex": "^/api/admin/menu/swap(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/api/admin/menu/swap(?:/)?$"
-    },
-    {
       "page": "/api/admin/rooms",
       "regex": "^/api/admin/rooms(?:/)?$",
       "routeKeys": {},
@@ -348,34 +324,10 @@
       "namedRegex": "^/api/admin/vip1\\-menu(?:/)?$"
     },
     {
-      "page": "/api/admin/vip1-menu/fix-mismatch",
-      "regex": "^/api/admin/vip1\\-menu/fix\\-mismatch(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/api/admin/vip1\\-menu/fix\\-mismatch(?:/)?$"
-    },
-    {
-      "page": "/api/admin/vip1-menu/normalize",
-      "regex": "^/api/admin/vip1\\-menu/normalize(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/api/admin/vip1\\-menu/normalize(?:/)?$"
-    },
-    {
       "page": "/api/admin/vip2-menu",
       "regex": "^/api/admin/vip2\\-menu(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/api/admin/vip2\\-menu(?:/)?$"
-    },
-    {
-      "page": "/api/admin/vip2-menu/fix-mismatch",
-      "regex": "^/api/admin/vip2\\-menu/fix\\-mismatch(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/api/admin/vip2\\-menu/fix\\-mismatch(?:/)?$"
-    },
-    {
-      "page": "/api/admin/vip2-menu/normalize",
-      "regex": "^/api/admin/vip2\\-menu/normalize(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/api/admin/vip2\\-menu/normalize(?:/)?$"
     },
     {
       "page": "/api/analytics/business-intelligence",
@@ -430,12 +382,6 @@
       "regex": "^/api/categories(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/api/categories(?:/)?$"
-    },
-    {
-      "page": "/api/create-admin",
-      "regex": "^/api/create\\-admin(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/api/create\\-admin(?:/)?$"
     },
     {
       "page": "/api/debug-data",
