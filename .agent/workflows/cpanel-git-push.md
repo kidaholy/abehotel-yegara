@@ -4,97 +4,75 @@ description: Full guide to set up Git Version Control and Node.js App in cPanel 
 
 # cPanel Full Setup: Git Version Control + Node.js App
 
-Use this guide whenever you need to set up the project from scratch in cPanel.
+This is the **proven working setup** for Yegara cPanel using the GitHub `deploy` branch + Phusion Passenger.
 
 ---
 
-## PART 1 — Set Up Git Version Control
+## HOW IT WORKS
 
-### Step 1: Open Git™ Version Control
-1. Log in to cPanel.
-2. Under **Files**, click **Git™ Version Control**.
-3. Click **Create** (blue button, top right).
+```
+Local Code  →  git push main  →  GitHub Actions builds it  →  pushes to deploy branch  →  cPanel pulls deploy branch
+```
 
-### Step 2: Configure the Repository
-Fill in the form:
+- You push to `main` as normal.
+- GitHub Actions automatically builds the app and puts the compiled output in the `deploy` branch.
+- cPanel **only** pulls the `deploy` branch — no building needed on the server.
+- Startup file is `app.js` (Passenger entry point).
+
+---
+
+## PART 1 — Set Up Git Version Control in cPanel
+
+1. Log in to cPanel → Open **Git™ Version Control**
+2. Click **Create**
+3. Fill in:
 
 | Field | Value |
 |-------|-------|
 | **Clone URL** | `https://github.com/kidaholy/abehotel-yegara.git` |
-| **Repository Path** | e.g. `abehotel-yegara` (a new folder inside your home dir) |
-| **Repository Name** | `abehotel-yegara` |
+| **Repository Path** | `abehotel-deploy` ← **do NOT use public_html directly** |
+| **Repository Name** | `AbeHotel` |
 
-> **Note:** If GitHub asks for credentials, use a GitHub **Personal Access Token** as the password (not your regular password).
-
-4. Click **Create** to clone the repo. Wait for it to finish.
+4. Click **Create** and wait for clone to finish.
+5. Click **Manage** on the repo → Go to **Pull or Deploy** tab
+6. **Change the branch** from `main` to `deploy`
+7. Click **Update from Remote** — this pulls the pre-built files.
 
 ---
 
-## PART 2 — Set Up Node.js App
+## PART 2 — Set Up Node.js App in cPanel
 
-### Step 3: Open Setup Node.js App
-1. In cPanel, under **Software**, click **Setup Node.js App**.
-2. Click **Create Application**.
-
-### Step 4: Configure the Application
-Fill in the form:
+1. Go to **Setup Node.js App** → Click **Create Application**
+2. Fill in:
 
 | Field | Value |
 |-------|-------|
-| **Node.js version** | `18.x` or `20.x` (whichever is available) |
+| **Node.js version** | `20.x` |
 | **Application mode** | `Production` |
-| **Application root** | The same path as your Git repo (e.g. `/home/yourusername/abehotel-yegara`) |
-| **Application URL** | Your domain (e.g. `yourdomain.com` or a subdomain) |
-| **Application startup file** | `server.js` |
+| **Application root** | `abehotel-deploy` ← same as Git repo path |
+| **Application URL** | Your domain (e.g. `yegara.com`) |
+| **Application startup file** | `app.js` |
 
-> **Note:** The startup file is `server.js` — this is the compiled output. See Part 3 for how to build it.
-
-5. Click **Create**.
-
----
-
-## PART 3 — Install Dependencies & Build
-
-### Step 5: Open the Terminal (SSH or cPanel Terminal)
-Click the **Terminal** icon in cPanel, or use SSH.
-
-Navigate to your app folder:
-```bash
-cd ~/abehotel-yegara
-```
-
-### Step 6: Install dependencies
-```bash
-npm install
-```
-
-### Step 7: Build the Next.js app
-```bash
-npm run build
-```
-
-### Step 8: Set environment variables
-In the **Setup Node.js App** section, click **Edit** on your app. Scroll down to **Environment Variables** and add:
+3. Add **Environment Variables**:
 
 | Key | Value |
 |-----|-------|
 | `JWT_SECRET` | `your-secret-key-change-this-in-production` |
-| `PORT` | `5000` |
+| `PORT` | `3000` |
 | `FRONTEND_URL` | `https://yourdomain.com` |
 | `NODE_ENV` | `production` |
 
----
-
-## PART 4 — Start & Verify
-
-### Step 9: Start the App
-Back in **Setup Node.js App**, click **Run NPM Install** (if shown), then click **Start** or **Restart**.
-
-### Step 10: Verify
-Open your domain in a browser. The login page should appear.
+4. Click **Run NPM Install** → then click **Start** (or Restart).
 
 ---
 
 ## FUTURE DEPLOYMENTS
 
-For future code updates, just use the `/cpanel-git-push` workflow — you won't need to redo this setup.
+For all future code updates, just use `/cpanel-git-push`:
+
+1. `git add -A`
+2. `git commit -m "your message"`
+3. `git push origin main`
+4. Wait ~2 mins for GitHub Actions to finish building.
+5. In cPanel → Git Version Control → Manage → Pull or Deploy → **Update from Remote**
+6. In cPanel → Setup Node.js App → **Restart**
