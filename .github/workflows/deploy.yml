@@ -44,6 +44,8 @@ jobs:
           # CloudLinux / cPanel Node.js Selector: application root must NOT contain a real
           # node_modules tree — the panel provides node_modules as a symlink into nodevenv.
           # After pull, use "Run NPM Install" in Setup Node.js App so deps install into the venv.
+          cp package.json .next/standalone/
+          cp package-lock.json .next/standalone/
           rm -rf .next/standalone/node_modules
 
       - name: Deploy to Deploy Branch
