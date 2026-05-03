@@ -64,6 +64,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 import { LanguageProvider } from "@/context/language-context"
+import { FaviconUpdater } from "@/components/favicon-updater"
 
 export default function RootLayout({
   children,
@@ -89,6 +90,7 @@ export default function RootLayout({
         <LanguageProvider>
           <ThemeProvider>
             <SettingsProvider>
+              <FaviconUpdater />
               <AuthProvider>
                 <NotificationProvider>
                   {children}
