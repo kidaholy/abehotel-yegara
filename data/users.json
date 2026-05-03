@@ -7,9 +7,9 @@
     "role": "admin",
     "isActive": true,
     "createdAt": "2026-03-25T21:58:16.817Z",
-    "updatedAt": "2026-05-03T16:53:25.835Z",
+    "updatedAt": "2026-05-03T18:40:47.733Z",
     "lastLoginAt": "2026-05-03T16:53:25.835Z",
-    "lastLogoutAt": "2026-05-03T09:31:33.518Z",
+    "lastLogoutAt": "2026-05-03T18:40:47.732Z",
     "assignedCategories": [],
     "floorId": null,
     "permissions": {
