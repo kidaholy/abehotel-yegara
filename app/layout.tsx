@@ -16,44 +16,57 @@ export const revalidate = 0
 
 import { prisma } from "@/lib/prisma"
 
-export async function generateMetadata(): Promise<Metadata> {
-  const settingsObj: Record<string, string> = {}
-
-  try {
-    const settings = await prisma.settings.findMany({
-      where: { key: { in: ["logo_url", "favicon_url", "app_name", "app_tagline"] } }
-    })
-
-    settings.forEach((s) => {
-      settingsObj[s.key] = s.value
-    })
-  } catch (err) {
-    console.error("Failed to fetch settings for metadata:", err)
-    // Fallback settings will be handled below
+/** Data URLs and very long strings in metadata icons break Next.js head generation (500s in production). */
+function iconUrlForMetadata(raw: string | undefined, timestamp: number): string {
+  if (!raw || raw.startsWith("data:") || raw.length > 2048) {
+    return "/icon.svg"
   }
+  const sep = raw.includes("?") ? "&" : "?"
+  return `${raw}${sep}v=${timestamp}`
+}
 
-  // Add cache-busting timestamp
-  const timestamp = Date.now()
-  const iconSource = settingsObj.favicon_url || settingsObj.logo_url
-  const logoUrl = iconSource
-    ? (iconSource.startsWith('data:') ? iconSource : `${iconSource}${iconSource.includes('?') ? '&' : '?'}v=${timestamp}`)
-    : "/icon.svg"
+export async function generateMetadata(): Promise<Metadata> {
+  try {
+    const settingsObj: Record<string, string> = {}
 
-  const appName = settingsObj.app_name || "Prime Addis"
+    try {
+      const settings = await prisma.settings.findMany({
+        where: { key: { in: ["logo_url", "favicon_url", "app_name", "app_tagline"] } }
+      })
 
-  return {
-    title: `${appName} - Management System`,
-    description: settingsObj.app_tagline || "Coffee Shop Management System",
-    icons: {
-      icon: [
-        { url: logoUrl, sizes: 'any' },
-        { url: logoUrl, type: 'image/png' },
-      ],
-      shortcut: [logoUrl],
-      apple: [
-        { url: logoUrl },
-      ],
-    },
+      settings.forEach((s) => {
+        settingsObj[s.key] = s.value
+      })
+    } catch (err) {
+      console.error("Failed to fetch settings for metadata:", err)
+    }
+
+    const timestamp = Date.now()
+    const iconSource = settingsObj.favicon_url || settingsObj.logo_url
+    const logoUrl = iconUrlForMetadata(iconSource, timestamp)
+
+    const appName = settingsObj.app_name || "Prime Addis"
+
+    return {
+      title: `${appName} - Management System`,
+      description: settingsObj.app_tagline || "Coffee Shop Management System",
+      icons: {
+        icon: [{ url: logoUrl, sizes: "any" }],
+        shortcut: [logoUrl],
+        apple: [{ url: logoUrl }],
+      },
+    }
+  } catch (err) {
+    console.error("generateMetadata failed:", err)
+    return {
+      title: "Abe Hotel - Management System",
+      description: "Hotel Management System",
+      icons: {
+        icon: [{ url: "/icon.svg", sizes: "any" }],
+        shortcut: ["/icon.svg"],
+        apple: [{ url: "/icon.svg" }],
+      },
+    }
   }
 }
 
