@@ -41,6 +41,11 @@ jobs:
           # Fix Passenger Unix Socket PORT Bug in standalone Next.js
           sed -i 's/parseInt(process.env.PORT, 10)/process.env.PORT/g' .next/standalone/server.js
 
+          # CloudLinux / cPanel Node.js Selector: application root must NOT contain a real
+          # node_modules tree — the panel provides node_modules as a symlink into nodevenv.
+          # After pull, use "Run NPM Install" in Setup Node.js App so deps install into the venv.
+          rm -rf .next/standalone/node_modules
+
       - name: Deploy to Deploy Branch
         uses: JamesIves/github-pages-deploy-action@v4
         with:
