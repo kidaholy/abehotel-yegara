@@ -2103,7 +2103,7 @@
     "name": "7 up",
     "category": "Drinks",
     "quantity": 10,
-    "storeQuantity": 20,
+    "storeQuantity": 30,
     "unit": "pcs",
     "unitType": "count",
     "minLimit": 5,
@@ -2115,7 +2115,7 @@
     "status": "active",
     "totalPurchased": 154,
     "totalConsumed": 6,
-    "totalInvestment": 500,
+    "totalInvestment": 150,
     "sellUnitEquivalent": 1,
     "isVIP": false,
     "vipLevel": 1,
@@ -2158,7 +2158,7 @@
       }
     ],
     "createdAt": "2026-03-08T16:51:10.743Z",
-    "updatedAt": "2026-05-02T17:18:30.470Z",
+    "updatedAt": "2026-05-03T18:35:03.948Z",
     "isDeleted": false
   },
   {
