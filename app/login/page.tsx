@@ -51,9 +51,9 @@ export default function LoginPage() {
       
       {/* Background Image & Overlay */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-cover bg-center opacity-40 transition-opacity duration-1000" style={{ backgroundImage: "url('/bed-plate-bg.png')" }} />
+        <div className="absolute inset-0 bg-cover bg-center opacity-30 transition-opacity duration-1000" style={{ backgroundImage: "url('/bed-plate-bg.png')" }} />
         <GoldMeshBackdrop variant="login" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0f1110]/90 to-[#0f1110]/70" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0f1110]/40 to-[#0f1110]/95" />
       </div>
 
       {/* Language Switcher - Top Right */}
