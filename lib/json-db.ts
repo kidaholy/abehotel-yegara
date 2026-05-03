@@ -3,8 +3,12 @@ import path from 'path';
 
 const DATA_DIR = path.join(process.cwd(), 'data');
 
-if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
+try {
+    if (!fs.existsSync(DATA_DIR)) {
+        fs.mkdirSync(DATA_DIR, { recursive: true });
+    }
+} catch (err) {
+    console.error('[json-db] Could not ensure data directory:', DATA_DIR, err);
 }
 
 export class JsonDB {
@@ -318,34 +322,35 @@ export class JsonDB {
     }
 }
 
-export const db = {
-    user: new JsonDB('users'),
-    floor: new JsonDB('floors'),
-    table: new JsonDB('tables'),
-    menuItem: new JsonDB('menuItems'),
-    recipeIngredient: new JsonDB('recipeIngredients'),
-    order: new JsonDB('orders'),
-    orderItem: new JsonDB('orderItems'),
-    stock: new JsonDB('stocks'),
-    stockRestockEntry: new JsonDB('stockRestockEntries'),
-    category: new JsonDB('categories'),
-    settings: new JsonDB('settings'),
-    fixedAsset: new JsonDB('fixedAssets'),
-    fixedAssetDismissal: new JsonDB('fixedAssetDismissals'),
-    operationalExpense: new JsonDB('operationalExpenses'),
-    room: new JsonDB('rooms'),
-    service: new JsonDB('services'),
-    receptionRequest: new JsonDB('receptionRequests'),
-    transferRequest: new JsonDB('transferRequests'),
-    storeLog: new JsonDB('storeLogs'),
-    dailyExpense: new JsonDB('dailyExpenses'),
-    auditLog: new JsonDB('auditLogs'),
-    $transaction: async (input: any) => {
-        // Support both function and array styles of transactions
+function buildDb() {
+    const d: any = {
+        user: new JsonDB('users'),
+        floor: new JsonDB('floors'),
+        table: new JsonDB('tables'),
+        menuItem: new JsonDB('menuItems'),
+        recipeIngredient: new JsonDB('recipeIngredients'),
+        order: new JsonDB('orders'),
+        orderItem: new JsonDB('orderItems'),
+        stock: new JsonDB('stocks'),
+        stockRestockEntry: new JsonDB('stockRestockEntries'),
+        category: new JsonDB('categories'),
+        settings: new JsonDB('settings'),
+        fixedAsset: new JsonDB('fixedAssets'),
+        fixedAssetDismissal: new JsonDB('fixedAssetDismissals'),
+        operationalExpense: new JsonDB('operationalExpenses'),
+        room: new JsonDB('rooms'),
+        service: new JsonDB('services'),
+        receptionRequest: new JsonDB('receptionRequests'),
+        transferRequest: new JsonDB('transferRequests'),
+        storeLog: new JsonDB('storeLogs'),
+        dailyExpense: new JsonDB('dailyExpenses'),
+        auditLog: new JsonDB('auditLogs'),
+    };
+    d.$transaction = async (input: any) => {
         if (typeof input === 'function') {
-            return await input(db);
-        } else if (Array.isArray(input)) {
-            // Must run sequentially to avoid JSON file write race conditions
+            return await input(d);
+        }
+        if (Array.isArray(input)) {
             const results = [];
             for (const promise of input) {
                 results.push(await promise);
@@ -353,5 +358,20 @@ export const db = {
             return results;
         }
         return input;
-    }
-};
+    };
+    return d;
+}
+
+let dbSingleton: ReturnType<typeof buildDb> | null = null;
+
+export function getDb() {
+    if (!dbSingleton) dbSingleton = buildDb();
+    return dbSingleton;
+}
+
+/** Lazily initializes table handles on first access (avoids heavy fs sync when only importing the module). */
+export const db = new Proxy({} as Record<string, unknown>, {
+    get(_target, prop) {
+        return Reflect.get(getDb(), prop);
+    },
+});

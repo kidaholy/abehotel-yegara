@@ -1,8 +1,8 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { Inter, Playfair_Display } from "next/font/google"
-import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
+import { VercelAnalytics } from "@/components/vercel-analytics"
 import { AuthProvider } from "@/context/auth-context"
 import { ThemeProvider } from "@/context/theme-context"
 import { SettingsProvider } from "@/context/settings-context"
@@ -14,7 +14,7 @@ const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfa
 export const dynamic = "force-dynamic"
 export const revalidate = 0
 
-import { prisma } from "@/lib/prisma"
+import { readSettingsForMetadata } from "@/lib/read-settings-metadata"
 
 /** Data URLs and very long strings in metadata icons break Next.js head generation (500s in production). */
 function iconUrlForMetadata(raw: string | undefined, timestamp: number): string {
@@ -27,19 +27,12 @@ function iconUrlForMetadata(raw: string | undefined, timestamp: number): string 
 
 export async function generateMetadata(): Promise<Metadata> {
   try {
-    const settingsObj: Record<string, string> = {}
-
-    try {
-      const settings = await prisma.settings.findMany({
-        where: { key: { in: ["logo_url", "favicon_url", "app_name", "app_tagline"] } }
-      })
-
-      settings.forEach((s) => {
-        settingsObj[s.key] = s.value
-      })
-    } catch (err) {
-      console.error("Failed to fetch settings for metadata:", err)
-    }
+    const settingsObj = await readSettingsForMetadata([
+      "logo_url",
+      "favicon_url",
+      "app_name",
+      "app_tagline",
+    ])
 
     const timestamp = Date.now()
     const iconSource = settingsObj.favicon_url || settingsObj.logo_url
@@ -104,7 +97,7 @@ export default function RootLayout({
             </SettingsProvider>
           </ThemeProvider>
         </LanguageProvider>
-        <Analytics />
+        <VercelAnalytics />
       </body>
     </html>
   )
