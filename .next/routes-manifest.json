@@ -17,7 +17,13 @@
   "headers": [],
   "rewrites": {
     "beforeFiles": [],
-    "afterFiles": [],
+    "afterFiles": [
+      {
+        "source": "/favicon.ico",
+        "destination": "/icon.svg",
+        "regex": "^/favicon\\.ico(?:/)?$"
+      }
+    ],
     "fallback": []
   },
   "dynamicRoutes": [

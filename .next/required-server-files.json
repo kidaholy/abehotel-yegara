@@ -305,7 +305,17 @@
     "turbopack": {
       "root": "/home/runner/work/abehotel-yegara/abehotel-yegara"
     },
-    "distDirRoot": ".next"
+    "distDirRoot": ".next",
+    "_originalRewrites": {
+      "beforeFiles": [],
+      "afterFiles": [
+        {
+          "source": "/favicon.ico",
+          "destination": "/icon.svg"
+        }
+      ],
+      "fallback": []
+    }
   },
   "appDir": "/home/runner/work/abehotel-yegara/abehotel-yegara",
   "relativeAppDir": "",
