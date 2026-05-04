@@ -21,7 +21,7 @@
       "js"
     ],
     "poweredByHeader": true,
-    "compress": false,
+    "compress": true,
     "images": {
       "deviceSizes": [
         640,
