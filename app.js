@@ -53,7 +53,7 @@ try {
       const target = path.join(standaloneModules, pkg);
       const link = path.join(nodeModules, pkg);
       if (fs.existsSync(target) && !fs.existsSync(link)) {
-        fs.symlinkSync(target, link, 'junction');
+        fs.symlinkSync(target, link, 'dir');
         console.log(`[abehotel] Linked node_modules/${pkg} -> standalone_modules/${pkg}`);
       }
     }
