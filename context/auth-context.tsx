@@ -39,26 +39,37 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const storedUser = localStorage.getItem("user")
 
     if (storedToken && storedUser) {
-      setToken(storedToken)
-      setUser(JSON.parse(storedUser))
+      let shouldRunHealthCheck = false
+      try {
+        const parsedUser = JSON.parse(storedUser)
+        setToken(storedToken)
+        setUser(parsedUser)
+        shouldRunHealthCheck = true
+      } catch (error) {
+        console.warn("Invalid persisted auth state found. Clearing local session.", error)
+        localStorage.removeItem("token")
+        localStorage.removeItem("user")
+      }
 
       // Initial health check: Verify if the user is still active
-      fetch("/api/system-check", {
-        headers: { Authorization: `Bearer ${storedToken}` }
-      }).then(async res => {
-        if (res.status === 401) {
-          try {
-            const data = await res.json()
-            // Only log out on explicit deactivation, not transient 401s
-            if (data?.checks?.auth?.details?.includes("deactivated")) {
-              console.warn("🚫 Initial check failed: Account deactivated. Logging out.")
-              logout()
+      if (shouldRunHealthCheck) {
+        fetch("/api/system-check", {
+          headers: { Authorization: `Bearer ${storedToken}` }
+        }).then(async res => {
+          if (res.status === 401) {
+            try {
+              const data = await res.json()
+              // Only log out on explicit deactivation, not transient 401s
+              if (data?.checks?.auth?.details?.includes("deactivated")) {
+                console.warn("🚫 Initial check failed: Account deactivated. Logging out.")
+                logout()
+              }
+            } catch {
+              // Ignore JSON parse errors — don't logout
             }
-          } catch {
-            // Ignore JSON parse errors — don't logout
           }
-        }
-      }).catch(err => console.error("Health check failed:", err))
+        }).catch(err => console.error("Health check failed:", err))
+      }
     }
     setLoading(false)
 
