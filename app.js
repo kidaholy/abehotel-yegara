@@ -65,5 +65,41 @@ try {
   console.error('[abehotel] FAILED restoring .next/static:', err.message);
 }
 
+// 5. Legacy layout repair:
+// If host/deploy produced ".next/chunks" and ".next/media" directly at root,
+// mirror them into ".next/static/*" where Next expects them.
+try {
+  const nextStaticDir = path.join(nextDir, 'static');
+  const legacyChunksDir = path.join(nextDir, 'chunks');
+  const legacyMediaDir = path.join(nextDir, 'media');
+  const legacyChunkFilesDir = path.join(nextDir, 'chunk-files');
+
+  const hasLegacyLayout =
+    fs.existsSync(legacyChunksDir) ||
+    fs.existsSync(legacyMediaDir) ||
+    fs.existsSync(legacyChunkFilesDir);
+
+  if (hasLegacyLayout) {
+    fs.mkdirSync(nextStaticDir, { recursive: true });
+
+    if (fs.existsSync(legacyChunksDir) && !fs.existsSync(path.join(nextStaticDir, 'chunks'))) {
+      fs.cpSync(legacyChunksDir, path.join(nextStaticDir, 'chunks'), { recursive: true });
+      console.log('[abehotel] Mirrored legacy .next/chunks -> .next/static/chunks');
+    }
+
+    if (fs.existsSync(legacyMediaDir) && !fs.existsSync(path.join(nextStaticDir, 'media'))) {
+      fs.cpSync(legacyMediaDir, path.join(nextStaticDir, 'media'), { recursive: true });
+      console.log('[abehotel] Mirrored legacy .next/media -> .next/static/media');
+    }
+
+    if (fs.existsSync(legacyChunkFilesDir) && !fs.existsSync(path.join(nextStaticDir, 'chunk-files'))) {
+      fs.cpSync(legacyChunkFilesDir, path.join(nextStaticDir, 'chunk-files'), { recursive: true });
+      console.log('[abehotel] Mirrored legacy .next/chunk-files -> .next/static/chunk-files');
+    }
+  }
+} catch (err) {
+  console.error('[abehotel] FAILED legacy static layout repair:', err.message);
+}
+
 require('./server.js');
 
