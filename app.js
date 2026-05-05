@@ -5,7 +5,10 @@ const path = require('path');
 process.env.NODE_ENV = process.env.NODE_ENV || 'production';
 process.env.PORT = process.env.PORT || '3000';
 
-const cwd = process.cwd();
+// Passenger can launch Node with a different cwd than the app root.
+// Next standalone resolves static assets from process.cwd(), so force it.
+process.chdir(__dirname);
+const cwd = __dirname;
 const need = ['server.js', 'package.json', 'data', '.next'];
 const present = Object.fromEntries(
   need.map((n) => [n, fs.existsSync(path.join(cwd, n))])
