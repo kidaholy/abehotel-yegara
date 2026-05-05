@@ -29,25 +29,36 @@ jobs:
         env:
           NEXT_PRIVATE_STANDALONE: true
 
-      - name: Prepare Standalone Folder
+      - name: Prepare Deploy Runtime
         run: |
-          cp -r public .next/standalone/
-          cp -r scripts .next/standalone/
-          cp app.js .next/standalone/
-          mkdir -p .next/standalone/.next
-          cp -r .next/static .next/standalone/.next/static || true
-          
+          rm -rf deploy_out
+          mkdir -p deploy_out
+
+          # Copy full Next standalone runtime to deployment folder
+          cp -r .next/standalone/* deploy_out/
+          cp -r public deploy_out/public
+          cp -r scripts deploy_out/scripts
+          cp app.js deploy_out/app.js
+
+          # Ensure static assets are present at runtime (/_next/static/*)
+          mkdir -p deploy_out/.next
+          cp -r .next/static deploy_out/.next/static
+
           # Fix Passenger Unix Socket PORT Bug in standalone Next.js
-          sed -i 's/parseInt(process.env.PORT, 10)/process.env.PORT/g' .next/standalone/server.js
+          sed -i 's/parseInt(process.env.PORT, 10)/process.env.PORT/g' deploy_out/server.js
 
           # We bundle the standalone modules directly to bypass cPanel's flakey NPM install
           # and the symlink constraint. We rename it so cPanel doesn't delete it or complain.
-          mv .next/standalone/node_modules .next/standalone/standalone_modules
+          mv deploy_out/node_modules deploy_out/standalone_modules
+
+          # Quick sanity check in CI logs
+          ls -la deploy_out
+          ls -la deploy_out/.next
 
       - name: Deploy to Deploy Branch
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: .next/standalone
+          folder: deploy_out
           branch: deploy
           clean: true
           token: ${{ secrets.GITHUB_TOKEN }}
