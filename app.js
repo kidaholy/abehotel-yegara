@@ -18,6 +18,8 @@ console.log('Starting AbeHotel standalone server...');
 
 const standaloneModules = path.join(cwd, 'standalone_modules');
 const nodeModules = path.join(cwd, 'node_modules');
+const nextDir = path.join(cwd, '.next');
+const nextAssetsDir = path.join(cwd, 'next_assets');
 
 // 💡 ROBUST MODULE LOADING (cPanel Fix)
 // 1. Create a symlink from node_modules -> standalone_modules if it doesn't exist
@@ -44,6 +46,23 @@ try {
   console.log('[abehotel] Next.js found at:', nextPath);
 } catch (err) {
   console.warn('[abehotel] WARNING: "next" module still not found by require.resolve!');
+}
+
+// 4. cPanel-safe fallback for static assets.
+// Some deploy pipelines or hosts can drop dot-prefixed folders.
+// If ".next/static" is missing but "next_assets/static" exists, recreate it before boot.
+try {
+  const hasNextStatic = fs.existsSync(path.join(nextDir, 'static'));
+  const hasFallbackStatic = fs.existsSync(path.join(nextAssetsDir, 'static'));
+
+  if (!hasNextStatic && hasFallbackStatic) {
+    console.log('[abehotel] Restoring .next/static from next_assets/static...');
+    fs.mkdirSync(nextDir, { recursive: true });
+    fs.cpSync(path.join(nextAssetsDir, 'static'), path.join(nextDir, 'static'), { recursive: true });
+    console.log('[abehotel] Restored .next/static successfully');
+  }
+} catch (err) {
+  console.error('[abehotel] FAILED restoring .next/static:', err.message);
 }
 
 require('./server.js');
