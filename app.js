@@ -43,6 +43,44 @@ if (fs.existsSync(standaloneModules)) {
   console.log('[abehotel] Injected standalone_modules into NODE_PATH');
 }
 
+// 2b. If node_modules exists but is partial, force-link critical packages.
+// This avoids "Cannot find module 'next'" when cPanel leaves an incomplete node_modules.
+try {
+  const criticalPackages = ['next', 'react', 'react-dom'];
+  if (fs.existsSync(standaloneModules)) {
+    fs.mkdirSync(nodeModules, { recursive: true });
+    for (const pkg of criticalPackages) {
+      const target = path.join(standaloneModules, pkg);
+      const link = path.join(nodeModules, pkg);
+      if (fs.existsSync(target) && !fs.existsSync(link)) {
+        fs.symlinkSync(target, link, 'junction');
+        console.log(`[abehotel] Linked node_modules/${pkg} -> standalone_modules/${pkg}`);
+      }
+    }
+  }
+} catch (err) {
+  console.error('[abehotel] FAILED linking critical modules:', err.message);
+}
+
+// 2b. If node_modules exists but is partial, force-link critical packages.
+// This avoids "Cannot find module 'next'" when cPanel leaves an incomplete node_modules.
+try {
+  const criticalPackages = ['next', 'react', 'react-dom'];
+  if (fs.existsSync(standaloneModules)) {
+    fs.mkdirSync(nodeModules, { recursive: true });
+    for (const pkg of criticalPackages) {
+      const target = path.join(standaloneModules, pkg);
+      const link = path.join(nodeModules, pkg);
+      if (fs.existsSync(target) && !fs.existsSync(link)) {
+        fs.symlinkSync(target, link, 'junction');
+        console.log(`[abehotel] Linked node_modules/${pkg} -> standalone_modules/${pkg}`);
+      }
+    }
+  }
+} catch (err) {
+  console.error('[abehotel] FAILED linking critical modules:', err.message);
+}
+
 // 3. Final check: can we actually see next?
 try {
   const nextPath = require.resolve('next');
