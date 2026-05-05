@@ -1,3 +1,0 @@
-module.exports=[94012,a=>{"use strict";var b=a.i(87924),c=a.i(72131),d=a.i(50944);function e(){let a=(0,d.useRouter)();return(0,c.useEffect)(()=>{a.replace("/admin/reports/stock-usage")},[a]),(0,b.jsx)("div",{className:"min-h-screen bg-[#151716] p-8 flex items-center justify-center",children:(0,b.jsxs)("div",{className:"text-center",children:[(0,b.jsx)("div",{className:"w-10 h-10 border-4 border-[#8B4513] border-t-transparent rounded-full animate-spin mx-auto mb-4"}),(0,b.jsx)("p",{className:"font-bold text-gray-400",children:"Redirecting to Enhanced Stock Usage Report..."})]})})}a.s(["default",()=>e])}];
-
-//# sourceMappingURL=app_admin_reports_stock_page_tsx_5031d44b._.js.map
