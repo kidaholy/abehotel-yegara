@@ -91,19 +91,32 @@ try {
 
 // 4. cPanel-safe fallback for static assets.
 // Some deploy pipelines or hosts can drop dot-prefixed folders.
-// If ".next/static" is missing but "next_assets/static" exists, recreate it before boot.
+// Since cPanel 'git pull' won't delete old ignored .next folder contents,
+// we ALWAYS force-sync the latest static assets from next_assets on boot
+// to ensure Next.js serves the correct hashes instead of stale ones (fixes 500 errors).
 try {
-  const hasNextStatic = fs.existsSync(path.join(nextDir, 'static'));
-  const hasFallbackStatic = fs.existsSync(path.join(nextAssetsDir, 'static'));
+  const lowercaseFallback = path.join(cwd, 'next_assets', 'static');
+  const uppercaseFallback = path.join(cwd, 'Next_assets', 'static');
+  const targetDir = path.join(nextDir, 'static');
 
-  if (!hasNextStatic && hasFallbackStatic) {
-    console.log('[abehotel] Restoring .next/static from next_assets/static...');
+  let activeFallback = null;
+  if (fs.existsSync(lowercaseFallback)) {
+    activeFallback = lowercaseFallback;
+  } else if (fs.existsSync(uppercaseFallback)) {
+    activeFallback = uppercaseFallback;
+  }
+
+  if (activeFallback) {
+    console.log(`[abehotel] Syncing fresh static assets from ${activeFallback} to .next/static...`);
+    if (fs.existsSync(targetDir)) {
+      fs.rmSync(targetDir, { recursive: true, force: true });
+    }
     fs.mkdirSync(nextDir, { recursive: true });
-    fs.cpSync(path.join(nextAssetsDir, 'static'), path.join(nextDir, 'static'), { recursive: true });
-    console.log('[abehotel] Restored .next/static successfully');
+    fs.cpSync(activeFallback, targetDir, { recursive: true });
+    console.log('[abehotel] Synced .next/static successfully');
   }
 } catch (err) {
-  console.error('[abehotel] FAILED restoring .next/static:', err.message);
+  console.error('[abehotel] FAILED syncing .next/static:', err.message);
 }
 
 // 5. Legacy layout repair:
