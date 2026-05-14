@@ -333,8 +333,8 @@ export default function ReportsPage() {
                     const qty = Number(item.quantity) || 0
                     const price = Number(item.price) || 0
                     flattenedData.push({
-                        "Date": new Date(order.createdAt).toLocaleDateString(),
-                        "Time": new Date(order.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                        "Date": order.createdAt && !isNaN(new Date(order.createdAt).getTime()) ? new Date(order.createdAt).toLocaleDateString() : "N/A",
+                        "Time": order.createdAt && !isNaN(new Date(order.createdAt).getTime()) ? new Date(order.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "N/A",
                         "Order#": (order.orderNumber || order._id.slice(-6)),
                         "Table": order.tableNumber || "-",
                         "Item": item.name,
@@ -374,8 +374,8 @@ export default function ReportsPage() {
                 const qty = Number(item.quantity) || 0
                 const price = Number(item.price) || 0
                 flattenedData.push({
-                    "Date": new Date(order.createdAt).toLocaleDateString(),
-                    "Time": new Date(order.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                    "Date": order.createdAt && !isNaN(new Date(order.createdAt).getTime()) ? new Date(order.createdAt).toLocaleDateString() : "N/A",
+                    "Time": order.createdAt && !isNaN(new Date(order.createdAt).getTime()) ? new Date(order.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "N/A",
                     "Order#": (order.orderNumber || order._id.slice(-6)),
                     "Table": order.tableNumber || "-",
                     "Item": item.name,
@@ -911,7 +911,7 @@ export default function ReportsPage() {
                                                                 <div className="flex justify-between items-start mb-2 border-b border-white/5 pb-2">
                                                                     <div className="flex flex-col">
                                                                         <span className="font-playfair italic font-bold text-white line-clamp-1">{itemNames}</span>
-                                                                        <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mt-1">#{order._id.slice(-6)} · {new Date(order.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                                                                        <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mt-1">#{order._id.slice(-6)} · {order.createdAt && !isNaN(new Date(order.createdAt).getTime()) ? new Date(order.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "N/A"}</span>
                                                                     </div>
                                                                     <span className={`px-2 py-0.5 border rounded-md text-[9px] font-black uppercase tracking-widest ${order.status === 'completed' ? 'bg-[#1a2e20] text-[#4ade80] border-[#4ade80]/30' : 'bg-[#b38822]/10 text-[#f3cf7a] border-[#d4af37]/30'}`}>{order.status}</span>
                                                                 </div>

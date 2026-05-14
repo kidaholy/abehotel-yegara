@@ -387,7 +387,7 @@ export default function AdminOrdersPage() {
     const isCompleted = o.status === 'served' || o.status === 'completed' || o.status === 'cancelled' || !!o.isDeleted
     const isReady = o.status === 'ready'
     const threshold = o.thresholdMinutes || 20
-    const start = new Date(o.createdAt).getTime()
+    const start = o.createdAt && !isNaN(new Date(o.createdAt).getTime()) ? new Date(o.createdAt).getTime() : Date.now()
 
     // For completed orders, prioritize stored snapshots to "stop the count" accurately
     if (isCompleted) {
@@ -891,7 +891,7 @@ export default function AdminOrdersPage() {
                             </div>
                             <div className="flex items-center gap-2 mt-2">
                               <p className="text-[10px] font-light text-gray-500 uppercase tracking-widest">
-                                {new Date(order.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                {order.createdAt && !isNaN(new Date(order.createdAt).getTime()) ? new Date(order.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "N/A"}
                               </p>
                               <span className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest ${status.color}`}>
                                 <span>{status.icon}</span>

@@ -269,7 +269,7 @@ export default function CashierOrdersPage() {
                             <div className="flex flex-col">
                               <span className="text-sm font-black text-white">#{order.orderNumber}</span>
                               <span className="text-[10px] text-gray-400 font-bold">
-                                {new Date(order.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                {order.createdAt && !isNaN(new Date(order.createdAt).getTime()) ? new Date(order.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "N/A"}
                               </span>
                             </div>
                           </td>
