@@ -214,15 +214,17 @@ export class JsonDB {
         if (!where) return true;
         
         // Handle OR
-        if (where.OR) {
-            return where.OR.some((subWhere: any) => this.matchCriteria(item, subWhere));
+        if (where.OR !== undefined) {
+            if (!where.OR.some((subWhere: any) => this.matchCriteria(item, subWhere))) return false;
         }
         // Handle AND
-        if (where.AND) {
-            return where.AND.every((subWhere: any) => this.matchCriteria(item, subWhere));
+        if (where.AND !== undefined) {
+            if (!where.AND.every((subWhere: any) => this.matchCriteria(item, subWhere))) return false;
         }
 
         return Object.entries(where).every(([key, val]: [string, any]) => {
+            if (key === 'OR' || key === 'AND') return true; // Already handled above
+
             if (val === undefined || val === null) return true;
             
             const itemVal = item[key];

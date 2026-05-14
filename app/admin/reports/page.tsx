@@ -80,8 +80,8 @@ export default function ReportsPage() {
         try {
             let salesUrl = `/api/reports/sales?period=${timeRange}`
             let ordersUrl = getOrdersUrl(timeRange)
-
             let bedroomUrl = `/api/reports/bedroom-revenue?period=${timeRange}`
+            let stockUsageUrl = `/api/reports/stock-usage?period=${timeRange}`
 
             if (timeRange === 'custom' && selectedDate) {
                 const d = new Date(selectedDate)
@@ -90,6 +90,7 @@ export default function ReportsPage() {
                 salesUrl  += `&startDate=${startDateStr}&endDate=${endDateStr}`
                 ordersUrl  = `/api/orders?startDate=${startDateStr}&endDate=${endDateStr}&includeDeleted=true&limit=1000`
                 bedroomUrl += `&startDate=${startDateStr}&endDate=${endDateStr}`
+                stockUsageUrl += `&startDate=${startDateStr}&endDate=${endDateStr}`
             }
 
             // Fetch critical data first (financial + orders + reception revenue), then secondary
@@ -122,9 +123,10 @@ export default function ReportsPage() {
             setLoadingSlide(false)
 
             // Secondary data in background — don't block render
+            stockUsageUrl += (stockUsageUrl.includes('?') ? '&' : '?') + cacheBuster
             const [stockRes, usageRes, menuRes] = await Promise.all([
                 fetch(`/api/stock`,                                    { headers: { Authorization: `Bearer ${token}` } }),
-                fetch(`/api/reports/stock-usage?period=${timeRange}`,  { headers: { Authorization: `Bearer ${token}` } }),
+                fetch(stockUsageUrl,                                   { headers: { Authorization: `Bearer ${token}` }, cache: 'no-store' }),
                 fetch(`/api/menu?all=true`,                            { headers: { Authorization: `Bearer ${token}` } }),
             ])
             if (stockRes.ok) setStockItems(await stockRes.json())
