@@ -19,15 +19,17 @@ export async function GET(request: Request) {
     const decoded = await validateSession(request)
     await connectDB()
 
-    const where: any = includeDeleted ? {} : { isDeleted: { not: true } }
+    const baseWhere: any = includeDeleted ? {} : { isDeleted: { not: true } }
 
     if (period === "today") {
-      where.createdAt = { gte: getStartOfTodayUTC3() }
+      baseWhere.createdAt = { gte: getStartOfTodayUTC3() }
     } else if (startDate || endDate) {
-      where.createdAt = {}
-      if (startDate) where.createdAt.gte = new Date(startDate)
-      if (endDate) where.createdAt.lte = new Date(endDate)
+      baseWhere.createdAt = {}
+      if (startDate) baseWhere.createdAt.gte = new Date(startDate)
+      if (endDate) baseWhere.createdAt.lte = new Date(endDate)
     }
+
+    const where: any = { AND: [baseWhere] }
 
     if (decoded.role === "cashier") {
       const assignedFloors = await prisma.floor.findMany({
@@ -35,10 +37,12 @@ export async function GET(request: Request) {
         select: { id: true }
       })
       const floorIds = assignedFloors.map(f => f.id)
-      where.OR = [
-        { createdById: decoded.id },
-        { floorId: { in: floorIds } }
-      ]
+      where.AND.push({
+        OR: [
+          { createdById: decoded.id },
+          { floorId: { in: floorIds } }
+        ]
+      })
     } else if (decoded.role === "display") {
       if (!decoded.floorId) return NextResponse.json([])
       const floorTables = await prisma.table.findMany({
@@ -46,7 +50,9 @@ export async function GET(request: Request) {
         select: { tableNumber: true },
       })
       const tableNumbers = floorTables.map((t) => t.tableNumber)
-      where.OR = [{ floorId: decoded.floorId }, { tableNumber: { in: tableNumbers } }]
+      where.AND.push({
+        OR: [{ floorId: decoded.floorId }, { tableNumber: { in: tableNumbers } }]
+      })
     }
 
     if (decoded.role === "chef") {
@@ -56,12 +62,15 @@ export async function GET(request: Request) {
       })
       const assignedCategories = user?.assignedCategories || []
       if (assignedCategories.length === 0) return NextResponse.json([])
-      where.items = { some: { category: { in: assignedCategories } } }
+      where.AND.push({
+        items: { some: { category: { in: assignedCategories } } }
+      })
     }
 
     if (mainCategory) {
-      where.items = where.items || {}
-      where.items.some = { ...(where.items.some || {}), mainCategory }
+      where.AND.push({
+        items: { some: { mainCategory } }
+      })
     }
 
     const orders = await prisma.order.findMany({

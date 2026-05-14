@@ -1,35 +1,37 @@
 import { NextResponse } from "next/server"
-import { prisma } from "@/lib/prisma"
+import { prisma } from "@/lib/db"
+import { getStartOfTodayUTC3 } from "@/lib/time-sync"
 
 export async function GET(request: Request) {
-    try {
-        const floors = await prisma.floor.findMany()
-        const tables = await prisma.table.findMany()
-        const users = await prisma.user.findMany({ where: { role: "cashier" } })
+  try {
+    const todayStart = getStartOfTodayUTC3()
+    const rawOrders = await prisma.order.findMany({
+      where: {
+        createdAt: { gte: todayStart }
+      },
+      orderBy: { createdAt: "desc" }
+    })
+    
+    const explicitAndOrders = await prisma.order.findMany({
+      where: {
+        AND: [
+          { createdAt: { gte: todayStart } },
+          { OR: [
+            { status: "completed" },
+            { status: "preparing" },
+            { status: "served" }
+          ] }
+        ]
+      },
+      orderBy: { createdAt: "desc" }
+    })
 
-        return NextResponse.json({
-            floors: floors.map(b => ({
-                _id: b.id,
-                floorNumber: b.floorNumber,
-                isActive: b.isActive,
-                idType: typeof b.id
-            })),
-            tables: tables.map(t => ({
-                _id: t.id,
-                tableNumber: t.tableNumber,
-                floorId: t.floorId,
-                floorIdType: typeof t.floorId,
-                status: t.status
-            })),
-            cashiers: users.map(u => ({
-                _id: u.id,
-                name: u.name,
-                email: u.email,
-                floorId: u.floorId,
-                floorIdType: typeof u.floorId
-            }))
-        })
-    } catch (error: any) {
-        return NextResponse.json({ error: error.message }, { status: 500 })
-    }
+    return NextResponse.json({
+      todayStart,
+      rawOrdersCount: rawOrders.length,
+      explicitAndCount: explicitAndOrders.length
+    })
+  } catch(e: any) {
+    return NextResponse.json({ error: e.message })
+  }
 }

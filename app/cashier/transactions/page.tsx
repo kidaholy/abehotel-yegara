@@ -31,8 +31,9 @@ export default function TransactionsPage() {
 
   const fetchOrders = async () => {
     try {
-      const response = await fetch("/api/orders", {
+      const response = await fetch(`/api/orders?_t=${Date.now()}`, {
         headers: { Authorization: `Bearer ${token}` },
+        cache: 'no-store'
       })
       if (response.ok) {
         setOrders(await response.json())
