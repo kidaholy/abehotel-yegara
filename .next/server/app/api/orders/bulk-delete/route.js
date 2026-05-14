@@ -1,5 +1,5 @@
 var R=require("../../../../chunks/[turbopack]_runtime.js")("server/app/api/orders/bulk-delete/route.js")
-R.c("server/chunks/[root-of-the-server]__787ded14._.js")
+R.c("server/chunks/[root-of-the-server]__3c9487b7._.js")
 R.c("server/chunks/[root-of-the-server]__f408c708._.js")
 R.c("server/chunks/[root-of-the-server]__5ad18402._.js")
 R.c("server/chunks/_next-internal_server_app_api_orders_bulk-delete_route_actions_1527106d.js")
