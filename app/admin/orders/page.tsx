@@ -362,10 +362,7 @@ export default function AdminOrdersPage() {
     return matchesFilter && matchesSearch && matchesCategory
   })
 
-  // Dynamic Cashier List from Orders
-  const cashierList = Array.from(new Set(orders.map(o => {
-    return o.createdBy?.name || "Unknown";
-  }))).sort();
+  // Cashier list moved to useMemo below
 
   const getStatusConfig = (status: string) => {
     switch (status) {
@@ -418,64 +415,91 @@ export default function AdminOrdersPage() {
     return { totalTaken, delay, threshold, isCompleted, isReady }
   }
 
-  const preparingOrders = orders.filter(o => !o.isDeleted && o.status !== 'cancelled' && ((o.status as string) === 'preparing' || (o.status as string) === 'pending'))
-  const readyOrders = orders.filter(o => !o.isDeleted && o.status !== 'cancelled' && o.status === 'ready')
-  const servedOrders = orders.filter(o => !o.isDeleted && o.status !== 'cancelled' && (o.status === 'served' || o.status === 'completed'))
-  const deletedHistory = orders.filter(o => !!o.isDeleted || o.status === 'cancelled')
-  const getCashierRevenueOrders = (cashierName: string) =>
-    orders.filter(o => o.status !== "cancelled" && (o.createdBy?.name || "Unknown") === cashierName)
+  const { preparingOrders, readyOrders, servedOrders, deletedHistory, cashierList, stats } = React.useMemo(() => {
+    const preparing: any[] = [];
+    const ready: any[] = [];
+    const served: any[] = [];
+    const deleted: any[] = [];
+    const cashierSet = new Set<string>();
 
-  const stats = {
-    all: {
-      count: orders.length,
-      time: orders.length > 0 ? Math.floor(orders.reduce((acc, o) => acc + getOrderMetrics(o).totalTaken, 0) / orders.length) : 0,
-      delay: orders.length > 0 ? Math.floor(orders.reduce((acc, o) => acc + getOrderMetrics(o).delay, 0) / orders.length) : 0,
-      foodRevenue: orders.filter(o => !o.isDeleted && o.status !== 'cancelled').reduce((sum, o) => sum + o.items.filter(i => (i as any).mainCategory === 'Food').reduce((s, it) => s + (it.price * it.quantity), 0), 0),
-      drinkRevenue: orders.filter(o => !o.isDeleted && o.status !== 'cancelled').reduce((sum, o) => sum + o.items.filter(i => (i as any).mainCategory === 'Drinks').reduce((s, it) => s + (it.price * it.quantity), 0), 0)
-    },
-    preparing: {
-      count: preparingOrders.length,
-      time: preparingOrders.length > 0
-        ? Math.floor(preparingOrders.reduce((acc, o) => acc + getOrderMetrics(o).totalTaken, 0) / preparingOrders.length)
-        : 0,
-      delay: preparingOrders.length > 0
-        ? Math.floor(preparingOrders.reduce((acc, o) => acc + getOrderMetrics(o).delay, 0) / preparingOrders.length)
-        : 0,
-      foodRevenue: preparingOrders.reduce((sum, o) => sum + o.items.filter(i => (i as any).mainCategory === 'Food').reduce((s, it) => s + (it.price * it.quantity), 0), 0),
-      drinkRevenue: preparingOrders.reduce((sum, o) => sum + o.items.filter(i => (i as any).mainCategory === 'Drinks').reduce((s, it) => s + (it.price * it.quantity), 0), 0)
-    },
-    ready: {
-      count: readyOrders.length,
-      time: readyOrders.length > 0
-        ? Math.floor(readyOrders.reduce((acc, o) => acc + getOrderMetrics(o).totalTaken, 0) / readyOrders.length)
-        : 0,
-      delay: readyOrders.length > 0
-        ? Math.floor(readyOrders.reduce((acc, o) => acc + getOrderMetrics(o).delay, 0) / readyOrders.length)
-        : 0,
-      foodRevenue: readyOrders.reduce((sum, o) => sum + o.items.filter(i => (i as any).mainCategory === 'Food').reduce((s, it) => s + (it.price * it.quantity), 0), 0),
-      drinkRevenue: readyOrders.reduce((sum, o) => sum + o.items.filter(i => (i as any).mainCategory === 'Drinks').reduce((s, it) => s + (it.price * it.quantity), 0), 0)
-    },
-    served: {
-      count: servedOrders.length,
-      time: servedOrders.length > 0
-        ? Math.floor(servedOrders.reduce((acc, o) => acc + getOrderMetrics(o).totalTaken, 0) / servedOrders.length)
-        : 0,
-      delay: servedOrders.length > 0
-        ? Math.floor(servedOrders.reduce((acc, o) => acc + getOrderMetrics(o).delay, 0) / servedOrders.length)
-        : 0,
-      foodRevenue: servedOrders.reduce((sum, o) => sum + o.items.filter(i => (i as any).mainCategory === 'Food').reduce((s, it) => s + (it.price * it.quantity), 0), 0),
-      drinkRevenue: servedOrders.reduce((sum, o) => sum + o.items.filter(i => (i as any).mainCategory === 'Drinks').reduce((s, it) => s + (it.price * it.quantity), 0), 0)
-    },
-    deleted: {
-      count: deletedHistory.length,
-      time: deletedHistory.length > 0
-        ? Math.floor(deletedHistory.reduce((acc, o) => acc + getOrderMetrics(o).totalTaken, 0) / deletedHistory.length)
-        : 0,
-      delay: deletedHistory.length > 0
-        ? Math.floor(deletedHistory.reduce((acc, o) => acc + getOrderMetrics(o).delay, 0) / deletedHistory.length)
-        : 0
-    }
-  }
+    const safeOrders = Array.isArray(orders) ? orders : [];
+    
+    const st = {
+      all: { count: 0, timeSum: 0, delaySum: 0, foodRevenue: 0, drinkRevenue: 0 },
+      preparing: { count: 0, timeSum: 0, delaySum: 0, foodRevenue: 0, drinkRevenue: 0 },
+      ready: { count: 0, timeSum: 0, delaySum: 0, foodRevenue: 0, drinkRevenue: 0 },
+      served: { count: 0, timeSum: 0, delaySum: 0, foodRevenue: 0, drinkRevenue: 0 },
+      deleted: { count: 0, timeSum: 0, delaySum: 0 }
+    };
+
+    safeOrders.forEach(o => {
+      cashierSet.add(o.createdBy?.name || "Unknown");
+      const isDeletedOrCancelled = !!o.isDeleted || o.status === 'cancelled';
+      const m = getOrderMetrics(o);
+
+      if (isDeletedOrCancelled) {
+        deleted.push(o);
+        st.deleted.count++;
+        st.deleted.timeSum += m.totalTaken;
+        st.deleted.delaySum += m.delay;
+      } else {
+        st.all.count++;
+        st.all.timeSum += m.totalTaken;
+        st.all.delaySum += m.delay;
+        
+        let foodRev = 0, drinkRev = 0;
+        (o.items || []).forEach((it: any) => {
+           if (it.mainCategory === 'Food') foodRev += (it.price * it.quantity);
+           if (it.mainCategory === 'Drinks') drinkRev += (it.price * it.quantity);
+        });
+        st.all.foodRevenue += foodRev;
+        st.all.drinkRevenue += drinkRev;
+
+        if (o.status === 'preparing' || o.status === 'pending') {
+           preparing.push(o);
+           st.preparing.count++;
+           st.preparing.timeSum += m.totalTaken;
+           st.preparing.delaySum += m.delay;
+           st.preparing.foodRevenue += foodRev;
+           st.preparing.drinkRevenue += drinkRev;
+        } else if (o.status === 'ready') {
+           ready.push(o);
+           st.ready.count++;
+           st.ready.timeSum += m.totalTaken;
+           st.ready.delaySum += m.delay;
+           st.ready.foodRevenue += foodRev;
+           st.ready.drinkRevenue += drinkRev;
+        } else if (o.status === 'served' || o.status === 'completed') {
+           served.push(o);
+           st.served.count++;
+           st.served.timeSum += m.totalTaken;
+           st.served.delaySum += m.delay;
+           st.served.foodRevenue += foodRev;
+           st.served.drinkRevenue += drinkRev;
+        }
+      }
+    });
+
+    const calcTime = (sum: number, cnt: number) => cnt > 0 ? Math.floor(sum / cnt) : 0;
+
+    return {
+      preparingOrders: preparing,
+      readyOrders: ready,
+      servedOrders: served,
+      deletedHistory: deleted,
+      cashierList: Array.from(cashierSet).sort(),
+      stats: {
+        all: { count: st.all.count, time: calcTime(st.all.timeSum, st.all.count), delay: calcTime(st.all.delaySum, st.all.count), foodRevenue: st.all.foodRevenue, drinkRevenue: st.all.drinkRevenue },
+        preparing: { count: st.preparing.count, time: calcTime(st.preparing.timeSum, st.preparing.count), delay: calcTime(st.preparing.delaySum, st.preparing.count), foodRevenue: st.preparing.foodRevenue, drinkRevenue: st.preparing.drinkRevenue },
+        ready: { count: st.ready.count, time: calcTime(st.ready.timeSum, st.ready.count), delay: calcTime(st.ready.delaySum, st.ready.count), foodRevenue: st.ready.foodRevenue, drinkRevenue: st.ready.drinkRevenue },
+        served: { count: st.served.count, time: calcTime(st.served.timeSum, st.served.count), delay: calcTime(st.served.delaySum, st.served.count), foodRevenue: st.served.foodRevenue, drinkRevenue: st.served.drinkRevenue },
+        deleted: { count: st.deleted.count, time: calcTime(st.deleted.timeSum, st.deleted.count), delay: calcTime(st.deleted.delaySum, st.deleted.count) }
+      }
+    };
+  }, [orders]);
+
+  const getCashierRevenueOrders = (cashierName: string) =>
+    (Array.isArray(orders) ? orders : []).filter(o => o.status !== "cancelled" && (o.createdBy?.name || "Unknown") === cashierName)
 
   return (
     <ProtectedRoute requiredRoles={["admin"]} requiredPermissions={["overview:view", "orders:view", "cashier:access"]}>

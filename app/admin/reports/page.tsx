@@ -204,82 +204,67 @@ export default function ReportsPage() {
     const periodInvestment = (salesSummary.periodStockInvestment || 0) + (salesSummary.totalOtherExpenses || 0)
     const periodProfit = salesSummary.periodNetProfit || 0
     const totalOperationalExpenses = salesSummary.totalOperationalExpenses || 0
-    const filteredOrders = [...orders].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-
-    const foodRevenue = filteredOrders
-        .filter(o => o.status !== "cancelled" && !o.isDeleted)
-        .reduce((sum, o) => sum + o.items
-            .filter((i: any) => i.mainCategory === 'Food')
-            .reduce((s: number, it: any) => s + ((it.price || 0) * (it.quantity || 0)), 0), 0)
-
-    const drinksRevenue = filteredOrders
-        .filter(o => o.status !== "cancelled" && !o.isDeleted)
-        .reduce((sum, o) => sum + o.items
-            .filter((i: any) => i.mainCategory === 'Drinks')
-            .reduce((s: number, it: any) => s + ((it.price || 0) * (it.quantity || 0)), 0), 0)
-
-    const cashierRevenueMap = filteredOrders
-        .filter(o => o.status !== "cancelled" && !o.isDeleted)
-        .reduce((acc, o) => {
-            // Group by cashier name (staff member), not by management group
-            const cashierName = o.createdBy?.name || "Unknown Cashier";
-            
-            if (!acc[cashierName]) {
-                acc[cashierName] = { 
-                    total: 0, 
-                    breakdowns: {} as Record<string, number>,
-                    floors: new Set<string>()
-                };
-            }
-            
-            acc[cashierName].total += (o.totalAmount || 0);
-            
-            const floorLabel = o.floorNumber || "Other";
-            acc[cashierName].breakdowns[floorLabel] = (acc[cashierName].breakdowns[floorLabel] || 0) + (o.totalAmount || 0);
-            acc[cashierName].floors.add(floorLabel);
-            
-            return acc;
-        }, {} as Record<string, { total: number, breakdowns: Record<string, number>, floors: Set<string> }>);
-
-    const cashierRevenue = Object.entries(cashierRevenueMap)
-        .map(([cashierName, data]: [string, any]) => {
-            const floorsList = Array.from(data.floors).join(", ");
-            // Show cashier name with floors they worked in
-            return { 
-                name: cashierName, 
-                amount: data.total, 
-                breakdowns: data.breakdowns,
-                floors: floorsList
-            }
-        })
-        .sort((a, b) => b.amount - a.amount);
-
-    const menuItemSalesMap = filteredOrders.reduce((acc, order) => {
-        if (order.status === 'cancelled' || order.isDeleted) return acc;
+    const { filteredOrders, foodRevenue, drinksRevenue, cashierRevenue, menuItemSales } = React.useMemo(() => {
+        const safeOrders = Array.isArray(orders) ? orders : [];
+        const sortedOrders = [...safeOrders].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
         
-        // Use cashier name instead of management group
-        const cashierName = order.createdBy?.name || "Unknown Cashier";
+        let foodRev = 0;
+        let drinksRev = 0;
+        const cashierRevMap: Record<string, { total: number, breakdowns: Record<string, number>, floors: Set<string> }> = {};
+        const menuSalesMap: Record<string, any> = {};
 
-        order.items.forEach((item: any) => {
-            const name = item.name;
-            const key = `${name} | ${cashierName}`;
-            if (!acc[key]) {
-                acc[key] = { 
-                    name: name, 
-                    cashier: cashierName,
-                    category: item.category || 'N/A', 
-                    mainCategory: item.mainCategory || 'Food', 
-                    quantity: 0, 
-                    revenue: 0 
-                };
+        sortedOrders.forEach(order => {
+            if (order.status === 'cancelled' || !!order.isDeleted) return;
+
+            const cashierName = order.createdBy?.name || "Unknown Cashier";
+            
+            if (!cashierRevMap[cashierName]) {
+                cashierRevMap[cashierName] = { total: 0, breakdowns: {}, floors: new Set() };
             }
-            acc[key].quantity += (item.quantity || 0);
-            acc[key].revenue += (item.quantity || 0) * (item.price || 0);
-        });
-        return acc;
-    }, {} as Record<string, any>);
+            cashierRevMap[cashierName].total += (order.totalAmount || 0);
+            const floorLabel = order.floorNumber || "Other";
+            cashierRevMap[cashierName].breakdowns[floorLabel] = (cashierRevMap[cashierName].breakdowns[floorLabel] || 0) + (order.totalAmount || 0);
+            cashierRevMap[cashierName].floors.add(floorLabel);
 
-    const menuItemSales: any[] = Object.values(menuItemSalesMap).sort((a: any, b: any) => (b.quantity || 0) - (a.quantity || 0));
+            (order.items || []).forEach((item: any) => {
+                const price = item.price || 0;
+                const qty = item.quantity || 0;
+                const rev = price * qty;
+                
+                if (item.mainCategory === 'Food') foodRev += rev;
+                if (item.mainCategory === 'Drinks') drinksRev += rev;
+
+                const itemName = item.name || 'Unknown';
+                const key = `${itemName} | ${cashierName}`;
+                if (!menuSalesMap[key]) {
+                    menuSalesMap[key] = { 
+                        name: itemName, 
+                        cashier: cashierName,
+                        category: item.category || 'N/A', 
+                        mainCategory: item.mainCategory || 'Food', 
+                        quantity: 0, 
+                        revenue: 0 
+                    };
+                }
+                menuSalesMap[key].quantity += qty;
+                menuSalesMap[key].revenue += rev;
+            });
+        });
+
+        const cashierRevArr = Object.entries(cashierRevMap)
+            .map(([name, data]) => ({ name, amount: data.total, breakdowns: data.breakdowns, floors: Array.from(data.floors).join(", ") }))
+            .sort((a, b) => b.amount - a.amount);
+
+        const menuSalesArr = Object.values(menuSalesMap).sort((a: any, b: any) => (b.quantity || 0) - (a.quantity || 0));
+
+        return { 
+            filteredOrders: sortedOrders, 
+            foodRevenue: foodRev, 
+            drinksRevenue: drinksRev, 
+            cashierRevenue: cashierRevArr, 
+            menuItemSales: menuSalesArr 
+        };
+    }, [orders]);
 
     // Export functions
     const exportFinancialReport = () => {
