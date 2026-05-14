@@ -23,20 +23,17 @@ console.log('[abehotel] NODE_ENV=', process.env.NODE_ENV, 'PORT=', process.env.P
 try {
   const nextDir = path.join(cwd, '.next');
   const nextAssetsDir = path.join(cwd, 'next_assets');
-  const targetDir = path.join(nextDir, 'static');
-  const sourceDir = path.join(nextAssetsDir, 'static');
 
-  if (fs.existsSync(sourceDir)) {
-    console.log('[abehotel] Syncing fresh static assets from next_assets/static...');
-    if (fs.existsSync(targetDir)) {
-      fs.rmSync(targetDir, { recursive: true, force: true });
+  if (fs.existsSync(nextAssetsDir)) {
+    console.log('[abehotel] Syncing fresh build artifacts from next_assets to .next...');
+    if (fs.existsSync(nextDir)) {
+      fs.rmSync(nextDir, { recursive: true, force: true });
     }
-    fs.mkdirSync(nextDir, { recursive: true });
-    fs.cpSync(sourceDir, targetDir, { recursive: true });
-    console.log('[abehotel] Synced .next/static successfully');
+    fs.cpSync(nextAssetsDir, nextDir, { recursive: true });
+    console.log('[abehotel] Synced .next successfully');
   }
 } catch (err) {
-  console.error('[abehotel] FAILED syncing .next/static:', err.message);
+  console.error('[abehotel] FAILED syncing .next:', err.message);
 }
 
 console.log('Starting AbeHotel standalone server...');
