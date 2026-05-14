@@ -138,7 +138,7 @@ export default function AdminOrdersPage() {
       })
       if (res.ok) {
         const data = await res.json()
-        setOrders(data)
+        setOrders(Array.isArray(data) ? data.map((o: any) => ({ ...o, items: o.items || [] })) : [])
       }
     } catch (error) {
       console.error("Failed to fetch orders:", error)

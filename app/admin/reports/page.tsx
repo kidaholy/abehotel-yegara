@@ -105,7 +105,10 @@ export default function ReportsPage() {
                 fetch(bedroomUrl, { headers: { Authorization: `Bearer ${token}` }, cache: 'no-store' }),
             ])
             if (salesRes.ok)  setPeriodData(await salesRes.json())
-            if (ordersRes.ok) setOrders(await ordersRes.json())
+            if (ordersRes.ok) {
+                const oData = await ordersRes.json()
+                setOrders(Array.isArray(oData) ? oData.map((o: any) => ({ ...o, items: o.items || [] })) : [])
+            } else setOrders([])
             if (bedroomRes.ok) {
                 const bd = await bedroomRes.json()
                 setReceptionRevenue(bd.totalRevenue || 0)
@@ -129,9 +132,15 @@ export default function ReportsPage() {
                 fetch(stockUsageUrl,                                   { headers: { Authorization: `Bearer ${token}` }, cache: 'no-store' }),
                 fetch(`/api/menu?all=true`,                            { headers: { Authorization: `Bearer ${token}` } }),
             ])
-            if (stockRes.ok) setStockItems(await stockRes.json())
+            if (stockRes.ok) {
+                const sData = await stockRes.json()
+                setStockItems(Array.isArray(sData) ? sData : [])
+            } else setStockItems([])
             if (usageRes.ok) setStockUsageData(await usageRes.json())
-            if (menuRes.ok)  setMenuItems(await menuRes.json())
+            if (menuRes.ok) {
+                const mData = await menuRes.json()
+                setMenuItems(Array.isArray(mData) ? mData : [])
+            } else setMenuItems([])
         } catch (error) {
             console.error("Failed to load report data:", error)
             setInitialized(true)
@@ -549,7 +558,10 @@ export default function ReportsPage() {
                                                         fetch(`/api/reports/bedroom-revenue?period=custom&startDate=${startDateStr}&endDate=${endDateStr}&${cb}`, { headers: { Authorization: `Bearer ${token}` }, cache: 'no-store' }),
                                                     ]).then(async ([sRes, oRes, bRes]) => {
                                                         if (sRes.ok) setPeriodData(await sRes.json())
-                                                        if (oRes.ok) setOrders(await oRes.json())
+                                                        if (oRes.ok) {
+                                                            const oData = await oRes.json()
+                                                            setOrders(Array.isArray(oData) ? oData.map((o: any) => ({ ...o, items: o.items || [] })) : [])
+                                                        } else setOrders([])
                                                         if (bRes.ok) {
                                                             const bd = await bRes.json()
                                                             setReceptionRevenue(bd.totalRevenue || 0)
