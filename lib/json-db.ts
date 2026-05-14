@@ -228,21 +228,23 @@ export class JsonDB {
             const itemVal = item[key];
 
             if (val && typeof val === 'object') {
-                if ('equals' in val) return itemVal === val.equals;
-                if ('in' in val) return val.in.includes(itemVal);
-                if ('notIn' in val) return !val.notIn.includes(itemVal);
-                if ('gte' in val) return new Date(itemVal) >= new Date(val.gte);
-                if ('lte' in val) return new Date(itemVal) <= new Date(val.lte);
-                if ('gt' in val) return new Date(itemVal) > new Date(val.gt);
-                if ('lt' in val) return new Date(itemVal) < new Date(val.lt);
-                if ('contains' in val) return String(itemVal).toLowerCase().includes(val.contains.toLowerCase());
-                if ('not' in val) return itemVal !== val.not;
+                if ('equals' in val && itemVal !== val.equals) return false;
+                if ('in' in val && !val.in.includes(itemVal)) return false;
+                if ('notIn' in val && val.notIn.includes(itemVal)) return false;
+                if ('gte' in val && new Date(itemVal) < new Date(val.gte)) return false;
+                if ('lte' in val && new Date(itemVal) > new Date(val.lte)) return false;
+                if ('gt' in val && new Date(itemVal) <= new Date(val.gt)) return false;
+                if ('lt' in val && new Date(itemVal) >= new Date(val.lt)) return false;
+                if ('contains' in val && !String(itemVal).toLowerCase().includes(val.contains.toLowerCase())) return false;
+                if ('not' in val && itemVal === val.not) return false;
                 
                 // Handle 'some' for relations
                 if ('some' in val) {
                     const relatedItems = item[key] || [];
-                    return Array.isArray(relatedItems) && relatedItems.some((rel: any) => this.matchCriteria(rel, val.some));
+                    if (!Array.isArray(relatedItems) || !relatedItems.some((rel: any) => this.matchCriteria(rel, val.some))) return false;
                 }
+                
+                return true;
             }
 
             return itemVal === val;

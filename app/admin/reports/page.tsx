@@ -93,10 +93,15 @@ export default function ReportsPage() {
             }
 
             // Fetch critical data first (financial + orders + reception revenue), then secondary
+            const cacheBuster = `_t=${Date.now()}`
+            salesUrl += (salesUrl.includes('?') ? '&' : '?') + cacheBuster
+            ordersUrl += (ordersUrl.includes('?') ? '&' : '?') + cacheBuster
+            bedroomUrl += (bedroomUrl.includes('?') ? '&' : '?') + cacheBuster
+
             const [salesRes, ordersRes, bedroomRes] = await Promise.all([
-                fetch(salesUrl,  { headers: { Authorization: `Bearer ${token}` } }),
-                fetch(ordersUrl, { headers: { Authorization: `Bearer ${token}` } }),
-                fetch(bedroomUrl, { headers: { Authorization: `Bearer ${token}` } }),
+                fetch(salesUrl,  { headers: { Authorization: `Bearer ${token}` }, cache: 'no-store' }),
+                fetch(ordersUrl, { headers: { Authorization: `Bearer ${token}` }, cache: 'no-store' }),
+                fetch(bedroomUrl, { headers: { Authorization: `Bearer ${token}` }, cache: 'no-store' }),
             ])
             if (salesRes.ok)  setPeriodData(await salesRes.json())
             if (ordersRes.ok) setOrders(await ordersRes.json())
@@ -535,10 +540,11 @@ export default function ReportsPage() {
                                                     const startDateStr = new Date(new Date(d).setHours(0,0,0,0)).toISOString()
                                                     const endDateStr   = new Date(new Date(d).setHours(23,59,59,999)).toISOString()
                                                     setLoadingSlide(true)
+                                                    const cb = `_t=${Date.now()}`
                                                     Promise.all([
-                                                        fetch(`/api/reports/sales?period=custom&startDate=${startDateStr}&endDate=${endDateStr}`, { headers: { Authorization: `Bearer ${token}` } }),
-                                                        fetch(`/api/orders?startDate=${startDateStr}&endDate=${endDateStr}&includeDeleted=true&limit=1000`, { headers: { Authorization: `Bearer ${token}` } }),
-                                                        fetch(`/api/reports/bedroom-revenue?period=custom&startDate=${startDateStr}&endDate=${endDateStr}`, { headers: { Authorization: `Bearer ${token}` } }),
+                                                        fetch(`/api/reports/sales?period=custom&startDate=${startDateStr}&endDate=${endDateStr}&${cb}`, { headers: { Authorization: `Bearer ${token}` }, cache: 'no-store' }),
+                                                        fetch(`/api/orders?startDate=${startDateStr}&endDate=${endDateStr}&includeDeleted=true&limit=1000&${cb}`, { headers: { Authorization: `Bearer ${token}` }, cache: 'no-store' }),
+                                                        fetch(`/api/reports/bedroom-revenue?period=custom&startDate=${startDateStr}&endDate=${endDateStr}&${cb}`, { headers: { Authorization: `Bearer ${token}` }, cache: 'no-store' }),
                                                     ]).then(async ([sRes, oRes, bRes]) => {
                                                         if (sRes.ok) setPeriodData(await sRes.json())
                                                         if (oRes.ok) setOrders(await oRes.json())
