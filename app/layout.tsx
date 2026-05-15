@@ -11,8 +11,8 @@ import { NotificationProvider } from "@/context/notification-context"
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair" })
 
-export const dynamic = "force-dynamic"
-export const revalidate = 0
+export const dynamic = "auto"
+export const revalidate = 300 // Revalidate layout every 5 minutes (for metadata)
 
 import { readSettingsForMetadata } from "@/lib/read-settings-metadata"
 
