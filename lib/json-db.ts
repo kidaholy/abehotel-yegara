@@ -51,6 +51,24 @@ export class JsonDB {
         fs.renameSync(tmpPath, this.filePath);
     }
 
+    private getRelationMap(): Record<string, { table: string, fk: string, multiple: boolean }> {
+        return {
+            'items': { table: 'orderItems', fk: 'orderId', multiple: true },
+            'createdBy': { table: 'users', fk: 'createdById', multiple: false },
+            'floor': { table: 'floors', fk: 'floorId', multiple: false },
+            'table': { table: 'tables', fk: 'tableId', multiple: false },
+            'menuItem': { table: 'menuItems', fk: 'menuItemId', multiple: false },
+            'stockItem': { table: 'stocks', fk: 'stockItemId', multiple: false },
+            'restockHistory': { table: 'stockRestockEntries', fk: 'stockId', multiple: true },
+            'recipes': { table: 'recipeIngredients', fk: 'menuItemId', multiple: true },
+            'recipe': { table: 'recipeIngredients', fk: 'menuItemId', multiple: true },
+            'dismissals': { table: 'fixedAssetDismissals', fk: 'fixedAssetId', multiple: true },
+            'rooms': { table: 'rooms', fk: 'floorId', multiple: true },
+            'stock': { table: 'stocks', fk: 'stockId', multiple: false },
+            'user': { table: 'users', fk: 'userId', multiple: false }
+        };
+    }
+
     async findMany(args?: any): Promise<any[]> {
         let data = [...this.read()]; // Shallow copy to prevent cache contamination
 
@@ -65,8 +83,10 @@ export class JsonDB {
             for (const order of orderByArr) {
                 const [key, direction] = Object.entries(order)[0] as [string, 'asc' | 'desc'];
                 data.sort((a, b) => {
-                    if (a[key] < b[key]) return direction === 'asc' ? -1 : 1;
-                    if (a[key] > b[key]) return direction === 'asc' ? 1 : -1;
+                    const valA = a[key];
+                    const valB = b[key];
+                    if (valA < valB) return direction === 'asc' ? -1 : 1;
+                    if (valA > valB) return direction === 'asc' ? 1 : -1;
                     return 0;
                 });
             }
@@ -77,33 +97,28 @@ export class JsonDB {
             data = data.slice(0, args.take);
         }
 
-        // 5. Include (Joins) - Optimized bulk join after filtering
-        if (args?.include && data.length > 0) {
-            await this.applyIncludesBulk(data, args.include);
+        // 5. Include (Joins) - Support both include and select-based joins
+        const jointInclude = { ...(args?.include || {}) };
+        if (args?.select) {
+            const relMap = this.getRelationMap();
+            Object.entries(args.select).forEach(([key, val]) => {
+                if (relMap[key] && (val === true || typeof val === 'object')) {
+                    jointInclude[key] = val;
+                }
+            });
+        }
+
+        if (Object.keys(jointInclude).length > 0 && data.length > 0) {
+            await this.applyIncludesBulk(data, jointInclude);
         }
 
         return data;
     }
 
     private async applyIncludesBulk(items: any[], include: any) {
+        const relationMap = this.getRelationMap();
         for (const [key, options] of Object.entries(include)) {
             if (!options) continue;
-
-            const relationMap: any = {
-                'items': { table: 'orderItems', fk: 'orderId', multiple: true },
-                'createdBy': { table: 'users', fk: 'createdById', multiple: false },
-                'floor': { table: 'floors', fk: 'floorId', multiple: false },
-                'table': { table: 'tables', fk: 'tableId', multiple: false },
-                'menuItem': { table: 'menuItems', fk: 'menuItemId', multiple: false },
-                'stockItem': { table: 'stocks', fk: 'stockItemId', multiple: false },
-                'restockHistory': { table: 'stockRestockEntries', fk: 'stockId', multiple: true },
-                'recipes': { table: 'recipeIngredients', fk: 'menuItemId', multiple: true },
-                'recipe': { table: 'recipeIngredients', fk: 'menuItemId', multiple: true },
-                'dismissals': { table: 'fixedAssetDismissals', fk: 'fixedAssetId', multiple: true },
-                'rooms': { table: 'rooms', fk: 'floorId', multiple: true },
-                'stock': { table: 'stocks', fk: 'stockId', multiple: false },
-                'user': { table: 'users', fk: 'userId', multiple: false }
-            };
 
             const rel = relationMap[key];
             if (!rel) continue;
@@ -129,10 +144,23 @@ export class JsonDB {
                 }
             }
 
-            if (typeof options === 'object' && (options as any).include) {
-                const nextItems = items.flatMap(i => i[key]).filter(Boolean);
-                if (nextItems.length > 0) {
-                    await dbRef.applyIncludesBulk(nextItems, (options as any).include);
+            // Handle nested includes OR selects
+            if (typeof options === 'object') {
+                const nestedInclude = { ...((options as any).include || {}) };
+                if ((options as any).select) {
+                    const relMap = dbRef.getRelationMap();
+                    Object.entries((options as any).select).forEach(([k, v]) => {
+                        if (relMap[k] && (v === true || typeof v === 'object')) {
+                            nestedInclude[k] = v;
+                        }
+                    });
+                }
+
+                if (Object.keys(nestedInclude).length > 0) {
+                    const nextItems = items.flatMap(i => i[key]).filter(Boolean);
+                    if (nextItems.length > 0) {
+                        await dbRef.applyIncludesBulk(nextItems, nestedInclude);
+                    }
                 }
             }
         }
