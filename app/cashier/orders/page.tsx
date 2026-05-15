@@ -7,7 +7,10 @@ import { useAuth } from "@/context/auth-context"
 import { useLanguage } from "@/context/language-context"
 import { useSettings } from "@/context/settings-context"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { ShoppingBag, RefreshCw, DollarSign, Wine } from 'lucide-react'
+import { ShoppingBag, RefreshCw, DollarSign, Wine, Calendar as CalendarIcon, Clock } from 'lucide-react'
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover"
+import { Calendar } from "@/components/ui/calendar"
+import { format } from "date-fns"
 
 interface OrderItem {
   menuItemId: string
@@ -44,13 +47,20 @@ export default function CashierOrdersPage() {
   const [loading, setLoading] = useState(true)
   const [filterStatus, setFilterStatus] = useState<"all" | "preparing" | "completed">("all")
   const [mainCategoryFilter, setMainCategoryFilter] = useState<"all" | "Food" | "Drinks">("all")
+  const [timeRange, setTimeRange] = useState<string>("today")
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date())
   const { token, user } = useAuth()
   const { t } = useLanguage()
   const { settings } = useSettings()
 
   useEffect(() => {
-    fetchOrders()
-    const interval = setInterval(fetchOrders, 5000)
+    if (token) fetchOrders()
+    const interval = setInterval(fetchOrders, timeRange === 'today' ? 5000 : 30000)
+    
+    const timeout = setTimeout(() => {
+      if (loading) setLoading(false)
+    }, 10000)
+
     const handleRefresh = () => fetchOrders()
     window.addEventListener('focus', handleRefresh)
     const handleStorage = (e: StorageEvent) => {
@@ -59,18 +69,41 @@ export default function CashierOrdersPage() {
     window.addEventListener('storage', handleStorage)
     return () => {
       clearInterval(interval)
+      clearTimeout(timeout)
       window.removeEventListener('focus', handleRefresh)
       window.removeEventListener('storage', handleStorage)
     }
-  }, [token, settings.enable_cashier_today_revenue])
+  }, [token, settings.enable_cashier_today_revenue, timeRange, selectedDate])
+
+  const getOrdersUrl = (range: string) => {
+    let url = "/api/orders"
+    if (range === 'today') {
+      url += "?period=today"
+    } else if (range === 'custom' && selectedDate) {
+      const d = new Date(selectedDate)
+      const start = new Date(d.setHours(0,0,0,0)).toISOString()
+      const end = new Date(d.setHours(23,59,59,999)).toISOString()
+      url += `?startDate=${start}&endDate=${end}`
+    }
+    return url
+  }
 
   const fetchOrders = async () => {
     try {
-      const response = await fetch(`/api/orders?period=today&_t=${Date.now()}`, {
+      setLoading(true)
+      const url = getOrdersUrl(timeRange)
+      const response = await fetch(`${url}${url.includes('?') ? '&' : '?'}_t=${Date.now()}`, {
         headers: { Authorization: `Bearer ${token}` },
         cache: 'no-store'
       })
-      if (response.ok) setOrders(await response.json())
+      if (response.ok) {
+        const data = await response.json()
+        setOrders(Array.isArray(data) ? data.map((o: any) => ({
+            ...o,
+            items: o.items || [],
+            orderNumber: o.orderNumber || "000"
+        })) : [])
+      }
 
       if (settings.enable_cashier_today_revenue === "true") {
         const revenueResponse = await fetch("/api/cashier/today-revenue", {
@@ -137,13 +170,49 @@ export default function CashierOrdersPage() {
                   </p>
                 </div>
               </div>
-              <div className="flex items-center gap-4">
+              <div className="flex flex-wrap items-center gap-3">
+                <div className="flex bg-[#0f1110] border border-white/10 p-1 rounded-xl">
+                  {["today", "custom"].map((r) => (
+                    <button
+                      key={r}
+                      onClick={() => setTimeRange(r)}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-black uppercase transition-all whitespace-nowrap ${timeRange === r ? "bg-[#d4af37] text-[#0f1110] shadow-sm" : "text-gray-500 hover:text-white"}`}
+                    >
+                      {r === 'today' ? 'Today' : 'History'}
+                    </button>
+                  ))}
+                  
+                  {timeRange === 'custom' && (
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <button className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-[10px] font-bold text-[#f3cf7a] uppercase tracking-wider">
+                          <CalendarIcon size={12} />
+                          {selectedDate ? format(selectedDate, "MMM dd") : "Select Date"}
+                        </button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0 bg-[#0f1110] border-2 border-white/10 shadow-2xl rounded-2xl z-50 text-white" align="end">
+                        <Calendar
+                          mode="single"
+                          selected={selectedDate}
+                          onSelect={(date) => {
+                            setSelectedDate(date)
+                            setTimeRange('custom')
+                            if (date) fetchOrders()
+                          }}
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  )}
+                </div>
+
+                <div className="w-px h-6 bg-white/10 hidden md:block" />
 
                 <button
                   onClick={fetchOrders}
-                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  className="p-3 bg-[#0f1110] border border-white/10 rounded-xl hover:bg-[#1a1c1b] transition-all text-[#f3cf7a]"
                 >
-                  <RefreshCw className="h-5 w-5 text-gray-600" />
+                  <RefreshCw className={`h-5 w-5 ${loading ? 'animate-spin' : ''}`} />
                 </button>
               </div>
             </div>
@@ -240,12 +309,12 @@ export default function CashierOrdersPage() {
               </div>
             </CardHeader>
             <CardContent>
-              {loading ? (
-                <div className="flex flex-col items-center justify-center py-20">
-                  <RefreshCw className="h-12 w-12 animate-spin text-gray-400 mb-4" />
-                  <p className="text-gray-600">Loading orders...</p>
+              {loading && orders.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-20 opacity-30">
+                  <Clock className="h-10 w-10 animate-spin text-[#f3cf7a] mb-2" />
+                  <p className="text-[10px] font-black uppercase tracking-widest text-[#f3cf7a]">Syncing Live Orders...</p>
                 </div>
-              ) : filteredOrders.length === 0 ? (
+              ) : orders.length === 0 ? (
                 <div className="text-center py-20">
                   <ShoppingBag className="h-16 w-16 text-gray-300 mx-auto mb-4" />
                   <p className="text-gray-500 font-medium">No orders found</p>

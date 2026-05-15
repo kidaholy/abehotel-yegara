@@ -22,11 +22,22 @@ export async function GET(request: Request) {
     const baseWhere: any = includeDeleted ? {} : { isDeleted: { not: true } }
 
     if (period === "today") {
-      baseWhere.createdAt = { gte: getStartOfTodayUTC3() }
+      const start = getStartOfTodayUTC3()
+      const end = new Date(start.getTime() + 24 * 3600 * 1000 - 1)
+      baseWhere.createdAt = { gte: start, lte: end }
     } else if (startDate || endDate) {
       baseWhere.createdAt = {}
-      if (startDate) baseWhere.createdAt.gte = new Date(startDate)
-      if (endDate) baseWhere.createdAt.lte = new Date(endDate)
+      try {
+        if (startDate) baseWhere.createdAt.gte = new Date(startDate)
+        if (endDate) baseWhere.createdAt.lte = new Date(endDate)
+        
+        // Final validation to prevent 500 on invalid Prisma date strings
+        if (baseWhere.createdAt.gte && isNaN(baseWhere.createdAt.gte.getTime())) delete baseWhere.createdAt.gte
+        if (baseWhere.createdAt.lte && isNaN(baseWhere.createdAt.lte.getTime())) delete baseWhere.createdAt.lte
+        if (Object.keys(baseWhere.createdAt).length === 0) delete baseWhere.createdAt
+      } catch (e) {
+        delete baseWhere.createdAt
+      }
     }
 
     const where: any = { AND: [baseWhere] }

@@ -72,7 +72,13 @@ export default function ReportsPage() {
 
     useEffect(() => {
         if (token) fetchAllData()
-    }, [token, timeRange]) // removed selectedDate — custom date triggers separately
+        
+        const timeout = setTimeout(() => {
+          if (loadingSlide) setLoadingSlide(false)
+        }, 10000)
+
+        return () => clearTimeout(timeout)
+    }, [token, timeRange])
 
     const fetchAllData = async () => {
         setLoadingSlide(true)
@@ -104,14 +110,30 @@ export default function ReportsPage() {
                 fetch(ordersUrl, { headers: { Authorization: `Bearer ${token}` }, cache: 'no-store' }),
                 fetch(bedroomUrl, { headers: { Authorization: `Bearer ${token}` }, cache: 'no-store' }),
             ])
-            if (salesRes.ok)  setPeriodData(await salesRes.json())
+            if (salesRes.ok) {
+                const sData = await salesRes.json()
+                setPeriodData(sData || {
+                    totalRevenue: 0,
+                    grossProfit: 0,
+                    ordersCount: 0,
+                    averageOrderValue: 0,
+                    foodRevenue: 0,
+                    drinksRevenue: 0,
+                    topItems: [],
+                    dailyStats: []
+                })
+            }
             if (ordersRes.ok) {
                 const oData = await ordersRes.json()
-                setOrders(Array.isArray(oData) ? oData.map((o: any) => ({ ...o, items: o.items || [] })) : [])
+                setOrders(Array.isArray(oData) ? oData.map((o: any) => ({ 
+                    ...o, 
+                    items: o.items || [],
+                    orderNumber: o.orderNumber || "000"
+                })) : [])
             } else setOrders([])
             if (bedroomRes.ok) {
                 const bd = await bedroomRes.json()
-                setReceptionRevenue(bd.totalRevenue || 0)
+                setReceptionRevenue(bd?.totalRevenue || 0)
             }
 
             setInitialized(true)
