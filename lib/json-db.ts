@@ -52,14 +52,7 @@ export class JsonDB {
     }
 
     async findMany(args?: any): Promise<any[]> {
-        let data = this.read();
-
-        // 1. Include (Joins) - CRITICAL: Must happen before filtering if filters depend on relations
-        if (args?.include) {
-            for (const item of data) {
-                await this.applyIncludes(item, args.include);
-            }
-        }
+        let data = [...this.read()]; // Shallow copy to prevent cache contamination
 
         // 2. Where Filtering
         if (args?.where) {
@@ -84,7 +77,65 @@ export class JsonDB {
             data = data.slice(0, args.take);
         }
 
+        // 5. Include (Joins) - Optimized bulk join after filtering
+        if (args?.include && data.length > 0) {
+            await this.applyIncludesBulk(data, args.include);
+        }
+
         return data;
+    }
+
+    private async applyIncludesBulk(items: any[], include: any) {
+        for (const [key, options] of Object.entries(include)) {
+            if (!options) continue;
+
+            const relationMap: any = {
+                'items': { table: 'orderItems', fk: 'orderId', multiple: true },
+                'createdBy': { table: 'users', fk: 'createdById', multiple: false },
+                'floor': { table: 'floors', fk: 'floorId', multiple: false },
+                'table': { table: 'tables', fk: 'tableId', multiple: false },
+                'menuItem': { table: 'menuItems', fk: 'menuItemId', multiple: false },
+                'stockItem': { table: 'stocks', fk: 'stockItemId', multiple: false },
+                'restockHistory': { table: 'stockRestockEntries', fk: 'stockId', multiple: true },
+                'recipes': { table: 'recipeIngredients', fk: 'menuItemId', multiple: true },
+                'recipe': { table: 'recipeIngredients', fk: 'menuItemId', multiple: true },
+                'dismissals': { table: 'fixedAssetDismissals', fk: 'fixedAssetId', multiple: true },
+                'rooms': { table: 'rooms', fk: 'floorId', multiple: true },
+                'stock': { table: 'stocks', fk: 'stockId', multiple: false },
+                'user': { table: 'users', fk: 'userId', multiple: false }
+            };
+
+            const rel = relationMap[key];
+            if (!rel) continue;
+
+            const dbRef = new JsonDB(rel.table);
+            const allRelated = dbRef.read();
+
+            if (rel.multiple) {
+                const map = new Map();
+                for (const r of allRelated) {
+                    const fkVal = r[rel.fk];
+                    if (!map.has(fkVal)) map.set(fkVal, []);
+                    map.get(fkVal).push(r);
+                }
+                for (const item of items) {
+                    item[key] = [...(map.get(item.id) || [])];
+                }
+            } else {
+                const map = new Map(allRelated.map((r: any) => [r.id, r]));
+                for (const item of items) {
+                    const fkVal = item[rel.fk];
+                    item[key] = map.get(fkVal) || null;
+                }
+            }
+
+            if (typeof options === 'object' && (options as any).include) {
+                const nextItems = items.flatMap(i => i[key]).filter(Boolean);
+                if (nextItems.length > 0) {
+                    await dbRef.applyIncludesBulk(nextItems, (options as any).include);
+                }
+            }
+        }
     }
 
     async findUnique(args: any): Promise<any | null> {
@@ -237,7 +288,7 @@ export class JsonDB {
         }
 
         return Object.entries(where).every(([key, val]: [string, any]) => {
-            if (key === 'OR' || key === 'AND') return true; // Already handled above
+            if (key === 'OR' || key === 'AND') return true;
 
             if (val === undefined || val === null) return true;
             
@@ -247,10 +298,15 @@ export class JsonDB {
                 if ('equals' in val && itemVal !== val.equals) return false;
                 if ('in' in val && !val.in.includes(itemVal)) return false;
                 if ('notIn' in val && val.notIn.includes(itemVal)) return false;
-                if ('gte' in val && new Date(itemVal) < new Date(val.gte)) return false;
-                if ('lte' in val && new Date(itemVal) > new Date(val.lte)) return false;
-                if ('gt' in val && new Date(itemVal) <= new Date(val.gt)) return false;
-                if ('lt' in val && new Date(itemVal) >= new Date(val.lt)) return false;
+                
+                // Cache Date objects for comparison to avoid repeated parsing
+                const itemDate = (itemVal && (key === 'createdAt' || key === 'updatedAt' || String(itemVal).includes('T'))) ? new Date(itemVal).getTime() : null;
+
+                if ('gte' in val && itemDate && itemDate < new Date(val.gte).getTime()) return false;
+                if ('lte' in val && itemDate && itemDate > new Date(val.lte).getTime()) return false;
+                if ('gt' in val && itemDate && itemDate <= new Date(val.gt).getTime()) return false;
+                if ('lt' in val && itemDate && itemDate >= new Date(val.lt).getTime()) return false;
+                
                 if ('contains' in val && !String(itemVal).toLowerCase().includes(val.contains.toLowerCase())) return false;
                 if ('not' in val && itemVal === val.not) return false;
                 
@@ -268,71 +324,8 @@ export class JsonDB {
     }
 
     private async applyIncludes(item: any, include: any) {
-        for (const [key, options] of Object.entries(include)) {
-            if (!options) continue;
-
-            const relationMap: any = {
-                'items': 'orderItems',
-                'createdBy': 'users',
-                'floor': 'floors',
-                'table': 'tables',
-                'menuItem': 'menuItems',
-                'stockItem': 'stocks',
-                'restockHistory': 'stockRestockEntries',
-                'recipe': 'recipeIngredients',
-                'recipes': 'recipeIngredients',
-                'dismissals': 'fixedAssetDismissals',
-                'rooms': 'rooms',
-                'stock': 'stocks',
-                'user': 'users'
-            };
-            
-            const tableName = relationMap[key] || key;
-            const dbRef = new JsonDB(tableName);
-            const allRelated = dbRef.read();
-
-            let matches = [];
-            if (key === 'items' || key === 'restockHistory' || key === 'recipes' || key === 'recipe' || key === 'dismissals' || key === 'rooms') {
-                // One-to-many
-                const foreignKeyMap: any = {
-                    'items': 'orderId',
-                    'restockHistory': 'stockId',
-                    'recipe': 'menuItemId',
-                    'recipes': 'menuItemId',
-                    'dismissals': 'fixedAssetId',
-                    'rooms': 'floorId'
-                };
-                const fk = foreignKeyMap[key];
-                matches = allRelated.filter((r: any) => r[fk] === item.id);
-                item[key] = matches;
-            } else {
-                // One-to-one / Many-to-one
-                const foreignKeyMap: any = {
-                    'createdBy': 'createdById',
-                    'floor': 'floorId',
-                    'table': 'tableId',
-                    'menuItem': 'menuItemId',
-                    'stockItem': 'stockItemId',
-                    'stock': 'stockId',
-                    'user': 'userId'
-                };
-                const fk = foreignKeyMap[key];
-                const found = allRelated.find((r: any) => r.id === item[fk]);
-                if (found) {
-                    matches = [found];
-                    item[key] = found;
-                } else {
-                    item[key] = null;
-                }
-            }
-
-            // Recursive include if options is an object with its own 'include'
-            if (typeof options === 'object' && (options as any).include) {
-                for (const match of matches) {
-                    await dbRef.applyIncludes(match, (options as any).include);
-                }
-            }
-        }
+        // Redirect to bulk logic to avoid N+1 scans for single lookups
+        await this.applyIncludesBulk([item], include);
     }
 
     private generateCuid() {

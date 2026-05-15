@@ -81,8 +81,27 @@ export async function GET(request: Request) {
       where,
       orderBy: { createdAt: "desc" },
       take: safeLimit,
-      include: {
-        items: true,
+      select: {
+        id: true,
+        orderNumber: true,
+        status: true,
+        totalAmount: true,
+        createdAt: true,
+        tableNumber: true,
+        isDeleted: true,
+        distributions: true,
+        batchNumber: true,
+        items: {
+          select: {
+            name: true,
+            quantity: true,
+            price: true,
+            mainCategory: true,
+            category: true,
+            menuTier: true,
+            preparationTime: true
+          }
+        },
         createdBy: { select: { name: true } },
         floor: { select: { floorNumber: true } },
       },
@@ -97,16 +116,16 @@ export async function GET(request: Request) {
       normalizedAssigned = (user?.assignedCategories || []).map((c) => c.trim().normalize("NFC").toLowerCase())
     }
 
-    const populated = orders.map((o) => {
-      let items = (o.items || []).sort((a: any, b: any) => (a.menuId || "").localeCompare(b.menuId || "", undefined, { numeric: true, sensitivity: "base" }))
+    const populated = orders.map((o: any) => {
+      let filteredItems = o.items || []
       if (decoded.role === "chef") {
-        items = items.filter((i: any) => i.category && normalizedAssigned.includes(i.category.trim().normalize("NFC").toLowerCase()))
+        filteredItems = filteredItems.filter((i: any) => i.category && normalizedAssigned.includes(i.category.trim().normalize("NFC").toLowerCase()))
       }
       return {
         ...o,
         _id: o.id,
         floorNumber: o.floorNumber || o.floor?.floorNumber || "",
-        items,
+        items: filteredItems,
       }
     })
 
