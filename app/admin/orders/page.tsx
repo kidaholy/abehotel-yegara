@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useMemo } from "react"
 import { ProtectedRoute } from "@/components/protected-route"
 import { BentoNavbar } from "@/components/bento-navbar"
 import { useAuth } from "@/context/auth-context"
@@ -415,7 +415,7 @@ export default function AdminOrdersPage() {
     return { totalTaken, delay, threshold, isCompleted, isReady }
   }
 
-  const { preparingOrders, readyOrders, servedOrders, deletedHistory, cashierList, stats } = React.useMemo(() => {
+  const { preparingOrders, readyOrders, servedOrders, deletedHistory, cashierList, stats } = useMemo(() => {
     const preparing: any[] = [];
     const ready: any[] = [];
     const served: any[] = [];
