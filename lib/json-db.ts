@@ -13,6 +13,7 @@ try {
 
 export class JsonDB {
     private filePath: string;
+    private static tableCache: Record<string, { data: any[], mtime: number }> = {};
 
     constructor(public table: string) {
         this.filePath = path.join(DATA_DIR, `${table}.json`);
@@ -24,8 +25,21 @@ export class JsonDB {
     private read(): any[] {
         try {
             if (!fs.existsSync(this.filePath)) return [];
+            
+            // Optimization: Only read from disk if the file has changed
+            const stats = fs.statSync(this.filePath);
+            const mtime = stats.mtimeMs;
+            
+            if (JsonDB.tableCache[this.table] && JsonDB.tableCache[this.table].mtime === mtime) {
+                return JsonDB.tableCache[this.table].data;
+            }
+
             const content = fs.readFileSync(this.filePath, 'utf-8');
-            return JSON.parse(content);
+            const data = JSON.parse(content);
+            
+            // Store in static cache
+            JsonDB.tableCache[this.table] = { data, mtime };
+            return data;
         } catch (error) {
             return [];
         }

@@ -73,10 +73,14 @@ export async function GET(request: Request) {
       })
     }
 
+    // Protect shared host memory by capping the result set
+    const requestedLimit = limit ? Number(limit) : 500;
+    const safeLimit = Math.min(requestedLimit, 1000);
+
     const orders = await prisma.order.findMany({
       where,
       orderBy: { createdAt: "desc" },
-      take: limit ? Number(limit) : undefined,
+      take: safeLimit,
       include: {
         items: true,
         createdBy: { select: { name: true } },
