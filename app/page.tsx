@@ -1,7 +1,6 @@
 "use client"
 
 import Link from "next/link"
-import Image from "next/image"
 import { Logo } from "@/components/logo"
 import { GoldMeshBackdrop } from "@/components/gold-mesh-backdrop"
 import { useSettings } from "@/context/settings-context"
@@ -33,13 +32,7 @@ export default function WelcomePage() {
             {/* Hero Section */}
             <header className="relative h-[95vh] flex items-center justify-center overflow-hidden">
                 <div className="absolute inset-0 z-0 bg-[#0f1110]">
-                    <Image 
-                        src="/menu-items-variety.jpg" 
-                        alt="Background" 
-                        fill 
-                        className="object-cover opacity-40 mix-blend-luminosity transition-opacity duration-1000"
-                        priority
-                    />
+                    <div className="absolute inset-0 bg-cover bg-center opacity-40 transition-opacity duration-1000 mix-blend-luminosity" style={{ backgroundImage: "url('/menu-items-variety.jpg')" }} />
                     <div className="absolute inset-0 bg-gradient-to-b from-[#0f1110]/80 via-transparent to-[#0f1110]" />
                 </div>
 
