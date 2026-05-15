@@ -61,7 +61,7 @@ export async function GET(request: Request) {
         // Get all orders (including cancelled) for reporting
         const allOrders = await prisma.order.findMany({
             where: { createdAt: { gte: startDate, lte: endDate } },
-            include: { items: true },
+            include: { items: true, createdBy: true },
             orderBy: { createdAt: "desc" }
         })
         // Get revenue-generating orders (excluding cancelled)
@@ -70,7 +70,7 @@ export async function GET(request: Request) {
                 createdAt: { gte: startDate, lte: endDate },
                 status: { not: "cancelled" }
             },
-            include: { items: true }
+            include: { items: true, createdBy: true }
         })
 
         // Aggregation for revenue (excluding cancelled orders)
