@@ -6,6 +6,6 @@ module.exports=[22734,(a,b,c)=>{b.exports=a.x("fs",()=>require("fs"))},21290,a=>
                   }
                 });
               }
-            `}}),(0,b.jsx)(o.LanguageProvider,{children:(0,b.jsx)(i.ThemeProvider,{children:(0,b.jsxs)(j.SettingsProvider,{children:[(0,b.jsx)(p.FaviconUpdater,{}),(0,b.jsx)(h.AuthProvider,{children:(0,b.jsx)(k.NotificationProvider,{children:a})})]})})}),(0,b.jsx)(g.VercelAnalytics,{})]})})}a.s(["default",()=>r,"dynamic",0,"force-dynamic","generateMetadata",()=>q,"revalidate",0,0],33290)}];
+            `}}),(0,b.jsx)(o.LanguageProvider,{children:(0,b.jsx)(i.ThemeProvider,{children:(0,b.jsxs)(j.SettingsProvider,{children:[(0,b.jsx)(p.FaviconUpdater,{}),(0,b.jsx)(h.AuthProvider,{children:(0,b.jsx)(k.NotificationProvider,{children:a})})]})})}),(0,b.jsx)(g.VercelAnalytics,{})]})})}a.s(["default",()=>r,"dynamic",0,"auto","generateMetadata",()=>q,"revalidate",0,300],33290)}];
 
 //# sourceMappingURL=%5Broot-of-the-server%5D__28dfc036._.js.map
