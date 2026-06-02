@@ -7,7 +7,7 @@ import { useAuth } from "@/context/auth-context"
 import { useLanguage } from "@/context/language-context"
 import { ConfirmationCard, NotificationCard } from "@/components/confirmation-card"
 import { useConfirmation } from "@/hooks/use-confirmation"
-import { Clock, Trash2, Calendar as CalendarIcon, CheckCheck, Users, User, ChevronRight, TrendingUp } from "lucide-react"
+import { Clock, Trash2, Calendar as CalendarIcon, CheckCheck, Users, User, ChevronRight, TrendingUp, Download } from "lucide-react"
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover"
 import { Calendar } from "@/components/ui/calendar"
 import { format } from "date-fns"
@@ -498,6 +498,70 @@ export default function AdminOrdersPage() {
     };
   }, [orders]);
 
+  const handleExportCSV = () => {
+    if (filteredOrders.length === 0) {
+      notify({ title: "No Data", message: "There are no orders to export.", type: "info" })
+      return
+    }
+
+    const headers = [
+      "Order Number",
+      "Date",
+      "Time",
+      "Table/Room",
+      "Floor",
+      "Customer",
+      "Items",
+      "Total Amount (Br)",
+      "Status",
+      "Cashier",
+      "Prep Time (m)",
+      "Delay (m)",
+      "Target (m)"
+    ]
+
+    const rows = filteredOrders.map(order => {
+      const date = order.createdAt && !isNaN(new Date(order.createdAt).getTime()) ? format(new Date(order.createdAt), "yyyy-MM-dd") : "N/A"
+      const time = order.createdAt && !isNaN(new Date(order.createdAt).getTime()) ? format(new Date(order.createdAt), "HH:mm") : "N/A"
+      const { totalTaken, delay, threshold } = getOrderMetrics(order)
+      const itemsString = (order.items || []).map(i => `${i.quantity}x ${i.name}`).join(" | ")
+      
+      return [
+        `#${order.orderNumber}`,
+        date,
+        time,
+        order.tableNumber || "N/A",
+        order.floorNumber || "N/A",
+        order.customerName || "N/A",
+        `"${itemsString.replace(/"/g, '""')}"`,
+        order.totalAmount,
+        order.status,
+        order.createdBy?.name || "Unknown",
+        totalTaken,
+        delay,
+        threshold
+      ]
+    })
+
+    const csvContent = [
+      headers.join(","),
+      ...rows.map(row => row.join(","))
+    ].join("\n")
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement("a")
+    link.setAttribute("href", url)
+    const fileName = `Orders_Export_${format(new Date(), "yyyy-MM-dd_HH-mm")}.csv`
+    link.setAttribute("download", fileName)
+    link.style.visibility = "hidden"
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    
+    notify({ title: "Export Successful", message: `Exported ${filteredOrders.length} orders to CSV.`, type: "success" })
+  }
+
   const getCashierRevenueOrders = (cashierName: string) =>
     (Array.isArray(orders) ? orders : []).filter(o => o.status !== "cancelled" && (o.createdBy?.name || "Unknown") === cashierName)
 
@@ -740,6 +804,13 @@ export default function AdminOrdersPage() {
                     )}
                     {filter !== 'cashier' && orders.length > 0 && (
                       <div className="flex items-center gap-2">
+                        <button
+                          onClick={handleExportCSV}
+                          className="w-full sm:w-auto bg-[#1a1c1b] border border-white/10 hover:border-[#d4af37]/30 text-gray-400 hover:text-white px-6 py-3 rounded-xl font-bold transition-all shadow-lg transform hover:scale-105 flex items-center justify-center gap-2 whitespace-nowrap"
+                        >
+                          <Download size={16} />
+                          <span className="text-[10px] tracking-widest uppercase">Export CSV</span>
+                        </button>
                         <button
                           onClick={handleBulkServeOrders}
                           disabled={bulkServing || bulkDeleting}

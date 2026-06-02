@@ -7,9 +7,9 @@
     "role": "admin",
     "isActive": true,
     "createdAt": "2026-03-25T21:58:16.817Z",
-    "updatedAt": "2026-05-14T18:15:04.798Z",
-    "lastLoginAt": "2026-05-14T18:15:04.798Z",
-    "lastLogoutAt": "2026-05-14T07:08:00.992Z",
+    "updatedAt": "2026-05-17T04:38:17.670Z",
+    "lastLoginAt": "2026-05-17T04:38:17.668Z",
+    "lastLogoutAt": "2026-05-15T11:06:11.215Z",
     "assignedCategories": [],
     "floorId": null,
     "permissions": {
@@ -56,7 +56,8 @@
         "read": false
       }
     },
-    "id": "69c45a78ba1175fcacd0abd3"
+    "id": "69c45a78ba1175fcacd0abd3",
+    "floor": null
   },
   {
     "name": "GENERAL MANAGER",
@@ -67,10 +68,10 @@
     "isActive": true,
     "assignedCategories": [],
     "createdAt": "2026-03-26T07:31:29.166Z",
-    "updatedAt": "2026-05-14T12:06:58.160Z",
+    "updatedAt": "2026-05-16T18:08:37.041Z",
     "batchId": null,
     "lastLogoutAt": "2026-05-14T10:02:21.762Z",
-    "lastLoginAt": "2026-05-14T12:06:58.160Z",
+    "lastLoginAt": "2026-05-16T18:08:37.041Z",
     "id": "69c4e0d1733d5342b5d8753f"
   },
   {
@@ -82,8 +83,8 @@
     "isActive": true,
     "assignedCategories": [],
     "createdAt": "2026-03-26T08:55:16.283Z",
-    "updatedAt": "2026-05-14T16:04:47.990Z",
-    "lastLoginAt": "2026-05-14T16:04:47.990Z",
+    "updatedAt": "2026-05-16T14:10:55.337Z",
+    "lastLoginAt": "2026-05-16T14:10:55.337Z",
     "lastLogoutAt": "2026-05-14T16:04:44.779Z",
     "id": "69c4f474733d5342b5d87844"
   },
@@ -97,9 +98,9 @@
     "assignedCategories": [],
     "canManageReception": true,
     "createdAt": "2026-03-26T10:12:54.419Z",
-    "updatedAt": "2026-05-14T17:46:11.322Z",
+    "updatedAt": "2026-05-15T19:01:50.521Z",
     "floorId": "69c6a7e2140cb91738d34fe3",
-    "lastLoginAt": "2026-05-14T17:46:11.322Z",
+    "lastLoginAt": "2026-05-15T19:01:50.520Z",
     "lastLogoutAt": "2026-05-14T08:24:43.780Z",
     "id": "69c506a6733d5342b5d87c57",
     "permissions": []
@@ -114,10 +115,10 @@
     "assignedCategories": [],
     "canManageReception": false,
     "createdAt": "2026-03-27T11:44:03.116Z",
-    "updatedAt": "2026-05-14T18:51:09.237Z",
+    "updatedAt": "2026-05-16T13:32:40.674Z",
     "floorId": "69c6a7f5140cb91738d34fe7",
-    "lastLoginAt": "2026-05-14T18:51:09.237Z",
-    "lastLogoutAt": "2026-05-13T08:18:27.625Z",
+    "lastLoginAt": "2026-05-16T13:32:40.674Z",
+    "lastLogoutAt": "2026-05-15T11:08:59.213Z",
     "id": "69c66d83658d6f717f557cd5",
     "permissions": []
   },
@@ -215,8 +216,8 @@
     "assignedCategories": [],
     "canManageReception": false,
     "createdAt": "2026-04-25T17:40:13.472Z",
-    "updatedAt": "2026-05-13T17:26:01.615Z",
-    "lastLoginAt": "2026-05-13T17:26:01.615Z",
+    "updatedAt": "2026-05-15T06:16:45.221Z",
+    "lastLoginAt": "2026-05-15T06:16:45.221Z",
     "floorId": null,
     "id": "69ecfc7d16653e34e1373dee"
   },
@@ -244,8 +245,8 @@
     "assignedCategories": [],
     "canManageReception": false,
     "createdAt": "2026-04-30T13:47:41.783Z",
-    "updatedAt": "2026-05-14T12:06:50.714Z",
-    "lastLoginAt": "2026-05-14T10:04:02.754Z",
+    "updatedAt": "2026-05-15T11:20:48.427Z",
+    "lastLoginAt": "2026-05-15T11:20:48.427Z",
     "lastLogoutAt": "2026-05-14T12:06:50.714Z",
     "id": "69f35d7d2122c86012af602f",
     "floorId": null

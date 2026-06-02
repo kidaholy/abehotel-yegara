@@ -429,5 +429,53 @@
     "unitCostAtTime": 150,
     "notes": "Restocked 48 pcs for total cost 28 Br",
     "restockedById": "69c4e0d1733d5342b5d8753f"
+  },
+  {
+    "id": "28zviu916rkwozhudv4woo",
+    "createdAt": "2026-05-15T16:31:59.414Z",
+    "updatedAt": "2026-05-15T16:31:59.414Z",
+    "isDeleted": false,
+    "stockId": "69c2bd9b6874788f69103f17",
+    "quantityAdded": 55,
+    "totalPurchaseCost": 120,
+    "unitCostAtTime": 90,
+    "notes": "Restocked 55 L for total cost 120 Br",
+    "restockedById": "69c4e0d1733d5342b5d8753f"
+  },
+  {
+    "id": "rcxf9sy4lsh2kwzhi7w9mn",
+    "createdAt": "2026-05-15T16:31:59.424Z",
+    "updatedAt": "2026-05-15T16:31:59.424Z",
+    "isDeleted": false,
+    "stockId": "69c2bd9b6874788f69103f17",
+    "quantityAdded": 55,
+    "totalPurchaseCost": 120,
+    "unitCostAtTime": 90,
+    "notes": "Restocked 55 L for total cost 120 Br",
+    "restockedById": "69c4e0d1733d5342b5d8753f"
+  },
+  {
+    "id": "q3jd0evycgnfp7eytlbt",
+    "createdAt": "2026-05-15T16:32:01.980Z",
+    "updatedAt": "2026-05-15T16:32:01.980Z",
+    "isDeleted": false,
+    "stockId": "69c2bd9b6874788f69103f17",
+    "quantityAdded": 55,
+    "totalPurchaseCost": 120,
+    "unitCostAtTime": 90,
+    "notes": "Restocked 55 L for total cost 120 Br",
+    "restockedById": "69c4e0d1733d5342b5d8753f"
+  },
+  {
+    "id": "fchz5mtta4vzfa3mfaa9a",
+    "createdAt": "2026-05-15T16:32:02.211Z",
+    "updatedAt": "2026-05-15T16:32:02.211Z",
+    "isDeleted": false,
+    "stockId": "69c2bd9b6874788f69103f17",
+    "quantityAdded": 55,
+    "totalPurchaseCost": 120,
+    "unitCostAtTime": 90,
+    "notes": "Restocked 55 L for total cost 120 Br",
+    "restockedById": "69c4e0d1733d5342b5d8753f"
   }
 ]
