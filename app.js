@@ -23,6 +23,7 @@ console.log('[abehotel] NODE_ENV=', process.env.NODE_ENV, 'PORT=', process.env.P
 try {
   const nextDir = path.join(cwd, '.next');
   const nextAssetsDir = path.join(cwd, 'next_assets');
+
   const targetDir = path.join(nextDir, 'static');
   const sourceDir = path.join(nextAssetsDir, 'static');
 
